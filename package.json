@@ -1,0 +1,43 @@
+{
+  "name": "methodius",
+  "version": "1.0.0",
+  "description": "A utility for analyzing text to find bigrams, trigrams, and other n-grams.",
+  "main": "dist/methodius.cjs.js",
+  "module": "dist/methodius.esm.js",
+  "browser": "dist/methodius.umd.js",
+  "scripts": {
+    "lint": "eslint -f table src/**/*.js test/**/*.js",
+    "lint:fix": "eslint --fix src/**/*.js test/**/*.js",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "pretest": "npm run build",
+    "test": "jest --config jest.config.js",
+    "prepublish": "safe-publish-latest && npm run build"
+  },
+  "keywords": [
+    "nlp",
+    "computational linguistics",
+    "linguistics",
+    "text",
+    "bigrams",
+    "trigrams",
+    "ngrams"
+  ],
+  "author": "paceaux (frank m. taylor)",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.18.9",
+    "@babel/preset-env": "^7.18.9",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "eslint": "^8.18.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-formatter-table": "^7.32.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsdoc": "^39.3.3",
+    "rollup": "^2.75.7",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "safe-publish-latest": "^2.0.0"
+  }
+}

@@ -1,0 +1,36 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2022": true,
+        "jest": true
+    },
+    "extends": ["airbnb-base", "plugin:jsdoc/recommended"],
+    "parserOptions": {
+        "sourceType": "module",
+        "babelOptions": {
+            "configFile": "./babelrc"
+        },
+        "ecmaVersion": "latest"
+    },
+    "globals": {
+        "process": true,
+        "describe": true,
+        "test" : true,
+        "expect": true,
+        "beforeAll": true,
+        "afterAll": true,
+        "it": true
+    },
+    "rules": {
+        "max-len": ["error", {"code": 150 }],
+    },
+    "plugins": [
+        "jsdoc"
+    ],
+    "settings": {
+        "jsdoc": {
+            "mode": "typescript"
+        }
+    }
+}                                          

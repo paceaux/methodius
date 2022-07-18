@@ -5,6 +5,10 @@
   "main": "dist/methodius.cjs.js",
   "module": "dist/methodius.esm.js",
   "browser": "dist/methodius.umd.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/paceaux/methodius.git"
+  },
   "scripts": {
     "lint": "eslint -f table src/**/*.js test/**/*.js",
     "lint:fix": "eslint --fix src/**/*.js test/**/*.js",

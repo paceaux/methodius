@@ -145,13 +145,13 @@ class Methodius {
   /**
    * @description filters a frequency map into only a small subset of the most frequent ones
    * @param  {Map<string, number>} frequencyMap - map of ngrams and their frequencies
-   * @param  {number} [topCount=20] - number of top ngrams to return
+   * @param  {number} [limit=20] - number of top ngrams to return
    * @returns {Map<string, number>} - map of ngrams and their frequencies
    */
-  static getTopGrams(frequencyMap, topCount = 20) {
+  static getTopGrams(frequencyMap, limit = 20) {
     const orderedGrams = [...frequencyMap].sort((entry1, entry2) => entry2[1] - entry1[1]);
 
-    const topGrams = orderedGrams.slice(0, topCount);
+    const topGrams = orderedGrams.slice(0, limit);
 
     return new Map(topGrams);
   }
@@ -295,38 +295,38 @@ class Methodius {
 
   /**
    * @description a map of the most used letters in the text
-   * @param {number} [topCount=20] - number of top letters to return
+   * @param {number} [limit=20] - number of top letters to return
    * @returns {Map<string, number>} - map of letters and their frequencies
    */
-  getTopLetters(topCount = 10) {
-    return Methodius.getTopGrams(this.letterFrequencies, topCount);
+  getTopLetters(limit = 10) {
+    return Methodius.getTopGrams(this.letterFrequencies, limit);
   }
 
   /**
    * @description a map of the most used bigrams in the text
-   * @param {number} [topCount=20] - number of top bigrams to return
+   * @param {number} [limit=20] - number of top bigrams to return
    * @returns {Map<string, number>} - map of bigrams and their frequencies
    */
-  getTopBigrams(topCount = 20) {
-    return Methodius.getTopGrams(this.bigramFrequencies, topCount);
+  getTopBigrams(limit = 20) {
+    return Methodius.getTopGrams(this.bigramFrequencies, limit);
   }
 
   /**
    * @description a map of the most used trigrams in the text
-   * @param {number} [topCount=20] - number of top trigrams to return
+   * @param {number} [limit=20] - number of top trigrams to return
    * @returns {Map<string, number>} - map of trigrams and their frequencies
    */
-  getTopTrigrams(topCount = 20) {
-    return Methodius.getTopGrams(this.trigramFrequencies, topCount);
+  getTopTrigrams(limit = 20) {
+    return Methodius.getTopGrams(this.trigramFrequencies, limit);
   }
 
   /**
    * @description a map of the most used words in the text
-   * @param {number} [topCount=20] - number of top trigrams to return
+   * @param {number} [limit=20] - number of top trigrams to return
    * @returns {Map<string, number>} - map of trigrams and their frequencies
    */
-  getTopWords(topCount = 20) {
-    return Methodius.getTopGrams(this.wordFrequencies, topCount);
+  getTopWords(limit = 20) {
+    return Methodius.getTopGrams(this.wordFrequencies, limit);
   }
 }
 

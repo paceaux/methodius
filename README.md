@@ -31,7 +31,7 @@ Global Class
 **Parameters**
 | name      | type  | Description   |
 | ---       |---    | ---           |
-| string    | text       |     raw text to be analyzed          |
+| text    | string       |     raw text to be analyzed          |
 
 ### Static Members
 #### `Punctuations`
@@ -50,6 +50,7 @@ em-dash, period, comma, semicolon, colon, bang, question mark, interrobang, Span
 ### Static Methods
 #### `hasPunctuation(string)`
  determines if string contains punctuation 
+ 
 **Parameters**
 | name      | type  | Description   |
 | ---       |---    | ---           |
@@ -60,6 +61,7 @@ em-dash, period, comma, semicolon, colon, bang, question mark, interrobang, Span
 
 #### `hasSpace(string)`
  determines if a string has a space 
+
 **Parameters**
 | name  | type  | Description   |
 | ---           |---        | ---           |
@@ -92,6 +94,7 @@ em-dash, period, comma, semicolon, colon, bang, question mark, interrobang, Span
 
 #### `getNGrams(text, gramSize)`
  gets ngrams from text 
+
 **Parameters**
 | name  | type  | Description   |
 | ---   |---    | ---           |
@@ -103,8 +106,10 @@ em-dash, period, comma, semicolon, colon, bang, question mark, interrobang, Span
 
 
 #### `getWordNGrams(text)`
-Gets 2-word pairs from text. 
- This doesn't use sentence punctuation as a boundary. Should it? 
+Gets 2-word pairs from text.
+
+Note: This doesn't use sentence punctuation as a boundary. Should it?
+
 **Parameters**
 | name  | type  | Description   |
 | ---   |---    | ---           |
@@ -115,6 +120,8 @@ Gets 2-word pairs from text.
 `Array<string>`
 
 #### `getFrequencyMap(frequencyMap)`
+ converts an array of strings into a map of those strings and number of occurences 
+
 **Parameters**
 | name  | type  | Description   |
 | ---   |---    | ---           |
@@ -124,6 +131,8 @@ Gets 2-word pairs from text.
 `Map<string, number>`
 
 #### `getPercentMap(frequencyMap)`
+ converts a frequency map into a map of percentages 
+
 **Parameters**
 | name  | type  | Description   |
 | ---   |---    | ---           |
@@ -133,7 +142,8 @@ Gets 2-word pairs from text.
 `Map<string, number>`
 
 #### `getTopGrams(frequencyMap)`
-
+ filters a frequency map into only a small subset of the most frequent ones 
+ 
 **Parameters**
 | name  | type  | Description   |
 | ---   |---    | ---           |
@@ -145,61 +155,79 @@ Gets 2-word pairs from text.
 
 ### Instance Members
 #### `sanitizedText`
-lowercased text with diacritics removed 
+lowercased text with diacritics removed
+
 `string`
 #### `letters`
- an array of letters in the text 
+ an array of letters in the text
+
 `Array<string>`
 #### `words`
  an array of words in the text
+
  `Array<string>`
 #### `bigrams`
- an array of letter bigrams in the text 
+ an array of letter bigrams in the text
+
   `Array<string>`
 #### `trigrams`
- an array of letter trigrams in the text 
+ an array of letter trigrams in the text
+
  `Array<string>`
 #### `uniqueLetters`
- an array of unique letters in the text 
+ an array of unique letters in the text
+
  `Array<string>`
 #### `uniqueBigrams`
  an array of unique bigrams in the text
+
  `Array<string>`
 #### `uniqueTrigrams`
  an array of unique trigrams in the text
+
  `Array<string>`
 #### `uniqueWords`
  an array of unique words in the text
+
   `Array<string>`
 #### `letterFrequencies`
- a map of letter frequencies in the sanitized text 
+ a map of letter frequencies in the sanitized text
+
   `Map<string, number>`
 #### `bigramFrequencies`
- a map of bigram frequencies in the sanitized text 
+ a map of bigram frequencies in the sanitized text
+
   `Map<string, number>`
 #### `trigramFrequencies`
- a map of trigram frequencies in the sanitized text 
+ a map of trigram frequencies in the sanitized text
+
   `Map<string, number>`
 #### `wordFrequencies`
- a map of word frequencies in the sanitized text 
+ a map of word frequencies in the sanitized text
+
   `Map<string, number>`
 #### `letterPercentages`
- a map of letter percentages in the sanitized text 
+ a map of letter percentages in the sanitized text
+
   `Map<string, number>`
 #### `bigramPercentages`
- a map of bigram percentages in the sanitized text 
+ a map of bigram percentages in the sanitized text
+
   `Map<string, number>`
 #### `trigramPercentages`
- a map of trigram percentages in the sanitized text 
+ a map of trigram percentages in the sanitized text
+
   `Map<string, number>`
 #### `wordPercentages`
- a map of word percentages in the sanitized text 
+ a map of word percentages in the sanitized text
+
   `Map<string, number>`
 
 ### Instance Methods
 
 #### `getTopLetters(topCount)`
- a map of the most used letters in the text 
+ a map of the most used letters in the text
+
 **Parameters**
 | name          | type  | Description   |
 | ---           |---    | ---           |
@@ -209,7 +237,8 @@ lowercased text with diacritics removed
 `Map<string, number>`
 
 #### `getTopBigrams(topCount)`
- a map of the most used bigrams in the text 
+ a map of the most used bigrams in the text
+
 **Parameters**
 | name          | type  | Description   |
 | ---           |---    | ---           |
@@ -219,7 +248,8 @@ lowercased text with diacritics removed
 `Map<string, number>`
 
 #### `getTopTrigrams(topCount)`
- a map of the most used trigrams in the text 
+ a map of the most used trigrams in the text
+
 **Parameters**
 | name          | type  | Description   |
 | ---           |---    | ---           |
@@ -229,7 +259,8 @@ lowercased text with diacritics removed
 `Map<string, number>`
 
 #### `getTopWords(topCount)`
- a map of the most used words in the text 
+ a map of the most used words in the text
+
 **Parameters**
 | name          | type  | Description   |
 | ---           |---    | ---           |

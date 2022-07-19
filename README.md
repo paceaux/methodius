@@ -148,7 +148,7 @@ Note: This doesn't use sentence punctuation as a boundary. Should it?
 | name  | type  | Description   |
 | ---   |---    | ---           |
 | frequencyMap      |   `Map<string, number>`    |               |
-| topCount      |   number   |     default=20          |
+| limit      |   number   |     default=20          |
 
 **Returns**
 `Map<string, number>`
@@ -225,46 +225,57 @@ lowercased text with diacritics removed
 
 ### Instance Methods
 
-#### `getTopLetters(topCount)`
+#### `getLetterNGrams(size)`
+gets an array of customizeable ngrams in the text
+
+**Parameters**
+| name          | type  | Description   |
+| ---           |---    | ---           |
+|    size   | `number`      | default = 2  size of the n-gram to return       |
+
+**Returns**
+`Array<string>`
+
+#### `getTopLetters(limit)`
  a map of the most used letters in the text
 
 **Parameters**
 | name          | type  | Description   |
 | ---           |---    | ---           |
-|    topCount   | `number`      | default = 20  number of top letters to return       |
+|    limit   | `number`      | default = 20  number of top letters to return       |
 
 **Returns**
 `Map<string, number>`
 
-#### `getTopBigrams(topCount)`
+#### `getTopBigrams(limit)`
  a map of the most used bigrams in the text
 
 **Parameters**
 | name          | type  | Description   |
 | ---           |---    | ---           |
-|    topCount   | `number`      | default = 20  number of top bigrams to return       |
+|    limit   | `number`      | default = 20  number of top bigrams to return       |
 
 **Returns**
 `Map<string, number>`
 
-#### `getTopTrigrams(topCount)`
+#### `getTopTrigrams(limit)`
  a map of the most used trigrams in the text
 
 **Parameters**
 | name          | type  | Description   |
 | ---           |---    | ---           |
-|    topCount   | `number`      | default = 20  number of top trigrams to return       |
+|    limit   | `number`      | default = 20  number of top trigrams to return       |
 
 **Returns**
 `Map<string, number>`
 
-#### `getTopWords(topCount)`
+#### `getTopWords(limit)`
  a map of the most used words in the text
 
 **Parameters**
 | name          | type  | Description   |
 | ---           |---    | ---           |
-|    topCount   | `number`      | default = 20  number of top words to return       |
+|    limit   | `number`      | default = 20  number of top words to return       |
 
 **Returns**
 `Map<string, number>`

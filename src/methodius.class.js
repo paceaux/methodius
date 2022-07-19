@@ -285,6 +285,15 @@ class Methodius {
   }
 
   /**
+   * @description gets an array of customizeable ngrams in the text
+   * @param {number} [size=2] - size of nGram
+   * @returns {string[]} - array of granms in text
+   */
+  getLetterNGrams(size = 2) {
+    return Methodius.getNGrams(this.sanitizedText, size);
+  }
+
+  /**
    * @description a map of the most used letters in the text
    * @param {number} [topCount=20] - number of top letters to return
    * @returns {Map<string, number>} - map of letters and their frequencies

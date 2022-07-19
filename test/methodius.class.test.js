@@ -292,5 +292,17 @@ describe('NGrammer', () => {
           ],
         ));
     });
+    it('can get an arbitrary letterNgram', () => {
+      expect(nGrammer.getLetterNGrams(2)).toEqual([
+        'he',
+        'el',
+        'll',
+        'lo',
+        'wo',
+        'or',
+        'rl',
+        'ld',
+      ]);
+    });
   });
 });

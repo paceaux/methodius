@@ -225,6 +225,17 @@ lowercased text with diacritics removed
 
 ### Instance Methods
 
+#### `getLetterNGrams(size)`
+gets an array of customizeable ngrams in the text
+
+**Parameters**
+| name          | type  | Description   |
+| ---           |---    | ---           |
+|    size   | `number`      | default = 2  size of the n-gram to return       |
+
+**Returns**
+`Array<string>`
+
 #### `getTopLetters(topCount)`
  a map of the most used letters in the text
 

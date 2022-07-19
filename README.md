@@ -24,9 +24,16 @@ const topWords = nGrams.getTopWords(10);
 # API
 
 ## `Methodius`
-**Kind** Global Class
+Global Class
 
-### Members (static)
+`new Methodius(text)`
+
+**Parameters**
+| name      | type  | Description   |
+| ---       |---    | ---           |
+| string    | text       |     raw text to be analyzed          |
+
+### Static Members
 #### `Punctuations`
 characters to ignore when analyzing text
 period, comma, semicolon, colon, bang, question mark, interrobang, Spanish bang+, parens, bracket, brace, single quote, some spaces
@@ -35,14 +42,14 @@ period, comma, semicolon, colon, bang, question mark, interrobang, Spanish bang+
 
 #### `wordSeparators`
 characters to ignore AND CONSUME when trying to find words
-em-dash, period, comman, semicolon, colon, bang, question mark, interrobang, Spanish bang+, parens, bracket, brace, single quote, space
+em-dash, period, comma, semicolon, colon, bang, question mark, interrobang, Spanish bang+, parens, bracket, brace, single quote, space
 
 `—\\.,;:!?‽¡¿⸘()\\[\\]{}<>…"\\s`
 
 
-### Methods (static)
+### Static Methods
 #### `hasPunctuation(string)`
- determins if string contains punctuation 
+ determines if string contains punctuation 
 **Parameters**
 | name      | type  | Description   |
 | ---       |---    | ---           |
@@ -136,7 +143,99 @@ Gets 2-word pairs from text.
 **Returns**
 `Map<string, number>`
 
-### Members (instance)
+### Instance Members
+#### `sanitizedText`
+lowercased text with diacritics removed 
+`string`
+#### `letters`
+ an array of letters in the text 
+`Array<string>`
+#### `words`
+ an array of words in the text
+ `Array<string>`
+#### `bigrams`
+ an array of letter bigrams in the text 
+  `Array<string>`
+#### `trigrams`
+ an array of letter trigrams in the text 
+ `Array<string>`
+#### `uniqueLetters`
+ an array of unique letters in the text 
+ `Array<string>`
+#### `uniqueBigrams`
+ an array of unique bigrams in the text
+ `Array<string>`
+#### `uniqueTrigrams`
+ an array of unique trigrams in the text
+ `Array<string>`
+#### `uniqueWords`
+ an array of unique words in the text
+  `Array<string>`
+#### `letterFrequencies`
+ a map of letter frequencies in the sanitized text 
+  `Map<string, number>`
+#### `bigramFrequencies`
+ a map of bigram frequencies in the sanitized text 
+  `Map<string, number>`
+#### `trigramFrequencies`
+ a map of trigram frequencies in the sanitized text 
+  `Map<string, number>`
+#### `wordFrequencies`
+ a map of word frequencies in the sanitized text 
+  `Map<string, number>`
+#### `letterPercentages`
+ a map of letter percentages in the sanitized text 
+  `Map<string, number>`
+#### `bigramPercentages`
+ a map of bigram percentages in the sanitized text 
+  `Map<string, number>`
+#### `trigramPercentages`
+ a map of trigram percentages in the sanitized text 
+  `Map<string, number>`
+#### `wordPercentages`
+ a map of word percentages in the sanitized text 
+  `Map<string, number>`
 
-### Methods (instance)
+### Instance Methods
+
+#### `getTopLetters(topCount)`
+ a map of the most used letters in the text 
+**Parameters**
+| name          | type  | Description   |
+| ---           |---    | ---           |
+|    topCount   | `number`      | default = 20  number of top letters to return       |
+
+**Returns**
+`Map<string, number>`
+
+#### `getTopBigrams(topCount)`
+ a map of the most used bigrams in the text 
+**Parameters**
+| name          | type  | Description   |
+| ---           |---    | ---           |
+|    topCount   | `number`      | default = 20  number of top bigrams to return       |
+
+**Returns**
+`Map<string, number>`
+
+#### `getTopTrigrams(topCount)`
+ a map of the most used trigrams in the text 
+**Parameters**
+| name          | type  | Description   |
+| ---           |---    | ---           |
+|    topCount   | `number`      | default = 20  number of top trigrams to return       |
+
+**Returns**
+`Map<string, number>`
+
+#### `getTopWords(topCount)`
+ a map of the most used words in the text 
+**Parameters**
+| name          | type  | Description   |
+| ---           |---    | ---           |
+|    topCount   | `number`      | default = 20  number of top words to return       |
+
+**Returns**
+`Map<string, number>`
+
 

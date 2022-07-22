@@ -26,7 +26,7 @@ class Methodius {
    * @returns {boolean} - true if string contains punctuation
    */
   static hasPunctuation(string) {
-    const punctuationRegEx = new RegExp(`([${Methodius.punctuations}])`, "g");
+    const punctuationRegEx = new RegExp(`([${Methodius.punctuations}])`, 'g');
 
     return punctuationRegEx.test(string);
   }
@@ -47,10 +47,10 @@ class Methodius {
    */
   static sanitizeText(string) {
     const stringWithoutDiacritics = string
-      .replace(/\u05BE/g, "-")
-      .replace(/[\u0591-\u05C7]/g, "")
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
+      .replace(/\u05BE/g, '-')
+      .replace(/[\u0591-\u05C7]/g, '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
 
     return stringWithoutDiacritics.toLowerCase();
   }
@@ -63,7 +63,7 @@ class Methodius {
   static getWords(text) {
     const wordSeparatorRegex = new RegExp(
       `[(${Methodius.wordSeparators})]`,
-      "g"
+      'g',
     );
     const wordArray = text
       .split(wordSeparatorRegex)
@@ -85,8 +85,8 @@ class Methodius {
       const substring = text.substring(i, i + gramSize);
 
       if (
-        !Methodius.hasPunctuation(substring) &&
-        !Methodius.hasSpace(substring)
+        !Methodius.hasPunctuation(substring)
+        && !Methodius.hasSpace(substring)
       ) {
         bigrams.push(substring);
       }
@@ -150,7 +150,7 @@ class Methodius {
    */
   static getTopGrams(frequencyMap, limit = 20) {
     const orderedGrams = [...frequencyMap].sort(
-      (entry1, entry2) => entry2[1] - entry1[1]
+      (entry1, entry2) => entry2[1] - entry1[1],
     );
 
     const topGrams = orderedGrams.slice(0, limit);
@@ -198,8 +198,8 @@ class Methodius {
 
   /**
    * @description returns a map containing various comparisons between two iterables
-   * @param  {Map|Array} iterable1
-   * @param  {Map|Array} iterable2
+   * @param  {Map|Array} iterable1 an array or map
+   * @param  {Map|Array} iterable2 an array or map
    * @returns {Map} A map containing various comparisons between two iterables
    */
   static getComparison(iterable1, iterable2) {

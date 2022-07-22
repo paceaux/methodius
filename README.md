@@ -323,12 +323,12 @@ gets an array of customizeable ngrams in the text
 
 
 #### `compareTo(methodius)`
- a map of the most used words in the text
+Compare this methodius instance to another
 
 **Parameters**
 | name          | type  | Description   |
 | ---           |---    | ---           |
-|    limit   | `number`      | default = 20  number of top words to return       |
+|    methodius   | `Methodius`      | another Methodius instance       |
 
 **Returns**
 `Map<string, Map>`

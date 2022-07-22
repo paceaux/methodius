@@ -26,7 +26,7 @@ class Methodius {
    * @returns {boolean} - true if string contains punctuation
    */
   static hasPunctuation(string) {
-    const punctuationRegEx = new RegExp(`([${Methodius.punctuations}])`, 'g');
+    const punctuationRegEx = new RegExp(`([${Methodius.punctuations}])`, "g");
 
     return punctuationRegEx.test(string);
   }
@@ -47,10 +47,10 @@ class Methodius {
    */
   static sanitizeText(string) {
     const stringWithoutDiacritics = string
-      .replace(/\u05BE/g, '-')
-      .replace(/[\u0591-\u05C7]/g, '')
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '');
+      .replace(/\u05BE/g, "-")
+      .replace(/[\u0591-\u05C7]/g, "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
 
     return stringWithoutDiacritics.toLowerCase();
   }
@@ -63,7 +63,7 @@ class Methodius {
   static getWords(text) {
     const wordSeparatorRegex = new RegExp(
       `[(${Methodius.wordSeparators})]`,
-      'g',
+      "g"
     );
     const wordArray = text
       .split(wordSeparatorRegex)
@@ -85,8 +85,8 @@ class Methodius {
       const substring = text.substring(i, i + gramSize);
 
       if (
-        !Methodius.hasPunctuation(substring)
-        && !Methodius.hasSpace(substring)
+        !Methodius.hasPunctuation(substring) &&
+        !Methodius.hasSpace(substring)
       ) {
         bigrams.push(substring);
       }
@@ -149,7 +149,9 @@ class Methodius {
    * @returns {Map<string, number>} - map of ngrams and their frequencies
    */
   static getTopGrams(frequencyMap, limit = 20) {
-    const orderedGrams = [...frequencyMap].sort((entry1, entry2) => entry2[1] - entry1[1]);
+    const orderedGrams = [...frequencyMap].sort(
+      (entry1, entry2) => entry2[1] - entry1[1]
+    );
 
     const topGrams = orderedGrams.slice(0, limit);
 
@@ -160,7 +162,7 @@ class Methodius {
    * @description returns an array of items that occur in both iterables
    * @param  {Map|Array} iterable1 A map or array
    * @param  {Map|Array} iterable2 A map or array
-   * @returns {Array} An array of items that occur in both iterables. It will compare the keys, if sent a map
+   * @returns {Array<string>} An array of items that occur in both iterables. It will compare the keys, if sent a map
    */
   static getIntersection(iterable1, iterable2) {
     const array1 = Array.isArray(iterable1) ? iterable1 : [...iterable1.keys()];
@@ -175,6 +177,23 @@ class Methodius {
     });
 
     return intersection;
+  }
+
+  /**
+   * @description returns an array of arrays of the unique items in either iterable
+   * @param  {Map|Array} iterable1 A map or array
+   * @param  {Map|Array} iterable2 A map or array
+   * @returns {Array<Array>} An array of arrays of the unique items. The first item is the first parameter, 2nd item second param
+   */
+  static getDisjunctiveUnion(iterable1, iterable2) {
+    const array1 = Array.isArray(iterable1) ? iterable1 : [...iterable1.keys()];
+    const array2 = Array.isArray(iterable2) ? iterable2 : [...iterable2.keys()];
+
+    const intersection = Methodius.getIntersection(array1, array2);
+    const set1 = array1.filter((entry) => !intersection.includes(entry));
+    const set2 = array2.filter((entry) => !intersection.includes(entry));
+
+    return [set1, set2];
   }
 
   /**

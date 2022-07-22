@@ -141,16 +141,16 @@ describe('NGrammer', () => {
       describe('intersection', () => {
         it('will get an intersection of two maps', () => {
           const map1 = new Map([
-            ["he", 1],
-            ["el", 1],
-            ["ll", 1],
-            ["lo", 1],
+            ['he', 1],
+            ['el', 1],
+            ['ll', 1],
+            ['lo', 1],
           ]);
           const map2 = new Map([
-            ["he", 1],
-            ["el", 1],
-            ["lp", 1],
-            ["ps", 1],
+            ['he', 1],
+            ['el', 1],
+            ['lp', 1],
+            ['ps', 1],
           ]);
 
           const intersection = Methodius.getIntersection(map1, map2);
@@ -161,16 +161,16 @@ describe('NGrammer', () => {
         });
         it('will get an intersection of two arrays', () => {
           const map1 = [
-            "he",
-            "el",
-            "ll",
-            "lo",
+            'he',
+            'el',
+            'll',
+            'lo',
           ];
           const map2 = [
-            "he",
-            "el",
-            "lp",
-            "ps",
+            'he',
+            'el',
+            'lp',
+            'ps',
           ];
 
           const intersection = Methodius.getIntersection(map1, map2);
@@ -181,18 +181,18 @@ describe('NGrammer', () => {
         });
         it('will not duplicate items', () => {
           const map1 = [
-            "he",
-            "el",
-            "ll",
-            "lo",
+            'he',
+            'el',
+            'll',
+            'lo',
             'el',
             'he',
           ];
           const map2 = [
-            "he",
-            "el",
-            "lp",
-            "ps",
+            'he',
+            'el',
+            'lp',
+            'ps',
           ];
 
           const intersection = Methodius.getIntersection(map1, map2);
@@ -200,6 +200,73 @@ describe('NGrammer', () => {
           expect(intersection.includes('el')).toEqual(true);
           expect(intersection.indexOf('he')).toEqual(intersection.lastIndexOf('he'));
           expect(intersection.indexOf('el')).toEqual(intersection.lastIndexOf('el'));
+        });
+      });
+      describe('disjunctiveUnion', () => {
+        it('will get a disjunctive union of two maps', () => {
+          const map1 = new Map([
+            ['he', 1],
+            ['el', 1],
+            ['ll', 1],
+            ['lo', 1],
+          ]);
+          const map2 = new Map([
+            ['he', 1],
+            ['el', 1],
+            ['lp', 1],
+            ['ps', 1],
+          ]);
+
+          const [set1, set2] = Methodius.getDisjunctiveUnion(map1, map2);
+          expect(set1.includes('he')).toEqual(false);
+          expect(set1.includes('el')).toEqual(false);
+          expect(set1.includes('ll')).toEqual(true);
+          expect(set1.includes('lo')).toEqual(true);
+          expect(set2.includes('he')).toEqual(false);
+          expect(set2.includes('el')).toEqual(false);
+          expect(set2.includes('lp')).toEqual(true);
+          expect(set2.includes('ps')).toEqual(true);
+        });
+        it('will get a disjunctive union of two arrays', () => {
+          const map1 = [
+            'he',
+            'el',
+            'll',
+            'lo',
+          ];
+          const map2 = [
+            'he',
+            'el',
+            'lp',
+            'ps',
+          ];
+
+          const [set1, set2] = Methodius.getDisjunctiveUnion(map1, map2);
+          expect(set1.includes('he')).toEqual(false);
+          expect(set1.includes('el')).toEqual(false);
+          expect(set1.includes('ll')).toEqual(true);
+          expect(set1.includes('lo')).toEqual(true);
+          expect(set2.includes('he')).toEqual(false);
+          expect(set2.includes('el')).toEqual(false);
+          expect(set2.includes('lp')).toEqual(true);
+          expect(set2.includes('ps')).toEqual(true);
+        });
+        it('will get identical arrays if they are totally unique', () => {
+          const map1 = [
+            'he',
+            'el',
+            'll',
+            'lo',
+          ];
+          const map2 = [
+            'wo',
+            'or',
+            'ld',
+          ];
+
+          const [set1, set2] = Methodius.getDisjunctiveUnion(map1, map2);
+          expect(set1).toEqual(map1);
+          expect(set2).toEqual(map2);
         });
       });
     });

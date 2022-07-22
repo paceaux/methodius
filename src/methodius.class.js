@@ -157,6 +157,27 @@ class Methodius {
   }
 
   /**
+   * @description returns an array of items that occur in both iterables
+   * @param  {Map|Array} iterable1 A map or array
+   * @param  {Map|Array} iterable2 A map or array
+   * @returns {Array} An array of items that occur in both iterables. It will compare the keys, if sent a map
+   */
+  static getIntersection(iterable1, iterable2) {
+    const array1 = Array.isArray(iterable1) ? iterable1 : [...iterable1.keys()];
+    const array2 = Array.isArray(iterable2) ? iterable2 : [...iterable2.keys()];
+
+    const intersection = [];
+
+    array1.forEach((entry) => {
+      if (array2.includes(entry) && !intersection.includes(entry)) {
+        intersection.push(entry);
+      }
+    });
+
+    return intersection;
+  }
+
+  /**
    * @description lowercased text with diacritics removed
    * @returns  {string} sanitizedText - text that is all lowercase and without Hebrew diacritics
    */

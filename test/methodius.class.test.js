@@ -137,6 +137,72 @@ describe('NGrammer', () => {
         expect(topGrams.get('ll')).toEqual(2);
       });
     });
+    describe('comparisons', () => {
+      describe('intersection', () => {
+        it('will get an intersection of two maps', () => {
+          const map1 = new Map([
+            ["he", 1],
+            ["el", 1],
+            ["ll", 1],
+            ["lo", 1],
+          ]);
+          const map2 = new Map([
+            ["he", 1],
+            ["el", 1],
+            ["lp", 1],
+            ["ps", 1],
+          ]);
+
+          const intersection = Methodius.getIntersection(map1, map2);
+          expect(intersection.includes('he')).toEqual(true);
+          expect(intersection.includes('el')).toEqual(true);
+          expect(intersection.includes('lp')).toEqual(false);
+          expect(intersection.includes('lo')).toEqual(false);
+        });
+        it('will get an intersection of two arrays', () => {
+          const map1 = [
+            "he",
+            "el",
+            "ll",
+            "lo",
+          ];
+          const map2 = [
+            "he",
+            "el",
+            "lp",
+            "ps",
+          ];
+
+          const intersection = Methodius.getIntersection(map1, map2);
+          expect(intersection.includes('he')).toEqual(true);
+          expect(intersection.includes('el')).toEqual(true);
+          expect(intersection.includes('lp')).toEqual(false);
+          expect(intersection.includes('lo')).toEqual(false);
+        });
+        it('will not duplicate items', () => {
+          const map1 = [
+            "he",
+            "el",
+            "ll",
+            "lo",
+            'el',
+            'he',
+          ];
+          const map2 = [
+            "he",
+            "el",
+            "lp",
+            "ps",
+          ];
+
+          const intersection = Methodius.getIntersection(map1, map2);
+          expect(intersection.includes('he')).toEqual(true);
+          expect(intersection.includes('el')).toEqual(true);
+          expect(intersection.indexOf('he')).toEqual(intersection.lastIndexOf('he'));
+          expect(intersection.indexOf('el')).toEqual(intersection.lastIndexOf('el'));
+        });
+      });
+    });
   });
   describe('instance properties', () => {
     it('has all the properties', () => {

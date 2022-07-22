@@ -209,8 +209,6 @@ class Methodius {
     ]);
   }
 
-
-
   /**
    * @description lowercased text with diacritics removed
    * @returns  {string} sanitizedText - text that is all lowercase and without Hebrew diacritics
@@ -384,6 +382,11 @@ class Methodius {
     return Methodius.getTopGrams(this.wordFrequencies, limit);
   }
 
+  /**
+   * @description Compare this methodius instance's letter, bigrams, trigrams, and words to another methodius instance
+   * @param  {Methodius} methodius another methodius instance
+   * @returns {Map<string, Map>} -A map of property names and their comparisons (intersection, disjunctiveUnions, etc) for a set of properties
+   */
   compareTo(methodius) {
     if (!(methodius instanceof Methodius)) {
       throw new Error('This must be an instance of Methodius');

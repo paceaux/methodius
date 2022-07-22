@@ -137,6 +137,139 @@ describe('NGrammer', () => {
         expect(topGrams.get('ll')).toEqual(2);
       });
     });
+    describe('comparisons', () => {
+      describe('intersection', () => {
+        it('will get an intersection of two maps', () => {
+          const map1 = new Map([
+            ['he', 1],
+            ['el', 1],
+            ['ll', 1],
+            ['lo', 1],
+          ]);
+          const map2 = new Map([
+            ['he', 1],
+            ['el', 1],
+            ['lp', 1],
+            ['ps', 1],
+          ]);
+
+          const intersection = Methodius.getIntersection(map1, map2);
+          expect(intersection.includes('he')).toEqual(true);
+          expect(intersection.includes('el')).toEqual(true);
+          expect(intersection.includes('lp')).toEqual(false);
+          expect(intersection.includes('lo')).toEqual(false);
+        });
+        it('will get an intersection of two arrays', () => {
+          const map1 = [
+            'he',
+            'el',
+            'll',
+            'lo',
+          ];
+          const map2 = [
+            'he',
+            'el',
+            'lp',
+            'ps',
+          ];
+
+          const intersection = Methodius.getIntersection(map1, map2);
+          expect(intersection.includes('he')).toEqual(true);
+          expect(intersection.includes('el')).toEqual(true);
+          expect(intersection.includes('lp')).toEqual(false);
+          expect(intersection.includes('lo')).toEqual(false);
+        });
+        it('will not duplicate items', () => {
+          const map1 = [
+            'he',
+            'el',
+            'll',
+            'lo',
+            'el',
+            'he',
+          ];
+          const map2 = [
+            'he',
+            'el',
+            'lp',
+            'ps',
+          ];
+
+          const intersection = Methodius.getIntersection(map1, map2);
+          expect(intersection.includes('he')).toEqual(true);
+          expect(intersection.includes('el')).toEqual(true);
+          expect(intersection.indexOf('he')).toEqual(intersection.lastIndexOf('he'));
+          expect(intersection.indexOf('el')).toEqual(intersection.lastIndexOf('el'));
+        });
+      });
+      describe('disjunctiveUnion', () => {
+        it('will get a disjunctive union of two maps', () => {
+          const map1 = new Map([
+            ['he', 1],
+            ['el', 1],
+            ['ll', 1],
+            ['lo', 1],
+          ]);
+          const map2 = new Map([
+            ['he', 1],
+            ['el', 1],
+            ['lp', 1],
+            ['ps', 1],
+          ]);
+
+          const [set1, set2] = Methodius.getDisjunctiveUnion(map1, map2);
+          expect(set1.includes('he')).toEqual(false);
+          expect(set1.includes('el')).toEqual(false);
+          expect(set1.includes('ll')).toEqual(true);
+          expect(set1.includes('lo')).toEqual(true);
+          expect(set2.includes('he')).toEqual(false);
+          expect(set2.includes('el')).toEqual(false);
+          expect(set2.includes('lp')).toEqual(true);
+          expect(set2.includes('ps')).toEqual(true);
+        });
+        it('will get a disjunctive union of two arrays', () => {
+          const map1 = [
+            'he',
+            'el',
+            'll',
+            'lo',
+          ];
+          const map2 = [
+            'he',
+            'el',
+            'lp',
+            'ps',
+          ];
+
+          const [set1, set2] = Methodius.getDisjunctiveUnion(map1, map2);
+          expect(set1.includes('he')).toEqual(false);
+          expect(set1.includes('el')).toEqual(false);
+          expect(set1.includes('ll')).toEqual(true);
+          expect(set1.includes('lo')).toEqual(true);
+          expect(set2.includes('he')).toEqual(false);
+          expect(set2.includes('el')).toEqual(false);
+          expect(set2.includes('lp')).toEqual(true);
+          expect(set2.includes('ps')).toEqual(true);
+        });
+        it('will get identical arrays if they are totally unique', () => {
+          const map1 = [
+            'he',
+            'el',
+            'll',
+            'lo',
+          ];
+          const map2 = [
+            'wo',
+            'or',
+            'ld',
+          ];
+
+          const [set1, set2] = Methodius.getDisjunctiveUnion(map1, map2);
+          expect(set1).toEqual(map1);
+          expect(set2).toEqual(map2);
+        });
+      });
+    });
   });
   describe('instance properties', () => {
     it('has all the properties', () => {
@@ -303,6 +436,30 @@ describe('NGrammer', () => {
         'rl',
         'ld',
       ]);
+    });
+    describe('comparison method', () => {
+      it('will compare two ngrammers', () => {
+        const nGrammer1 = new Methodius('hello world');
+        const nGrammer2 = new Methodius('Help words');
+        const comparison = nGrammer1.compareTo(nGrammer2);
+
+        expect(comparison).toBeInstanceOf(Map);
+        expect(comparison.has('letters')).toBe(true);
+        expect(comparison.get('bigrams').has('disjunctiveUnion')).toBe(true);
+        expect(comparison.get('trigrams').has('intersection')).toBe(true);
+        expect(comparison.has('words')).toBe(true);
+      });
+      it('will compare two ngrammers and give good results', () => {
+        const nGrammer1 = new Methodius('hello world');
+        const nGrammer2 = new Methodius('Help words');
+        const comparison = nGrammer1.compareTo(nGrammer2);
+
+        expect(comparison).toBeInstanceOf(Map);
+        expect(comparison.get('letters').get('intersection')).toEqual(['h', 'e', 'l', 'o', 'w', 'r', 'd']);
+        expect(comparison.get('letters').get('disjunctiveUnion')).toEqual([[], ['p', 's']]);
+        expect(comparison.get('bigrams').get('intersection')).toEqual(['he', 'el', 'wo', 'or']);
+        expect(comparison.get('trigrams').get('disjunctiveUnion')).toEqual([['ell', 'llo', 'orl', 'rld'], ['elp', 'ord', 'rds']]);
+      });
     });
   });
 });

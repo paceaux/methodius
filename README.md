@@ -153,6 +153,47 @@ Note: This doesn't use sentence punctuation as a boundary. Should it?
 **Returns**
 `Map<string, number>`
 
+#### `getIntersection(iterable1, iterable2)`
+returns an array of items that occur in both iterables
+ 
+**Parameters**
+| name  | type  | Description   |
+| ---   |---    | ---           |
+| iterable1      |   `Map|Array`    |               |
+| iterable2      |   `Map|Array`    |               |
+
+**Returns**
+`Array<any>` 
+An array of items that occur in both iterables. It will compare the keys, if sent a map
+
+#### `getDisjunctiveUnion(iterable1, iterable2)`
+returns an array of arrays of the unique items in either iterable
+ 
+**Parameters**
+| name  | type  | Description   |
+| ---   |---    | ---           |
+| iterable1      |   `Map|Array`    |               |
+| iterable2      |   `Map|Array`    |               |
+
+**Returns**
+`Array<Array<any>` 
+An array of arrays of the unique items. The first item is the first parameter, 2nd item second param
+
+#### `getComparison(iterable1, iterable2)`
+returns a map containing various comparisons between two iterables
+ 
+**Parameters**
+| name  | type  | Description   |
+| ---   |---    | ---           |
+| iterable1      |   `Map|Array`    |               |
+| iterable2      |   `Map|Array`    |               |
+
+**Returns**
+`Map<string, <array>>` 
+A map containing various comparisons between two iterables. Those comparisons will be some kind of array (See intersection or disjunctiveUnion)
+
+
+
 ### Instance Members
 #### `sanitizedText`
 lowercased text with diacritics removed
@@ -280,4 +321,16 @@ gets an array of customizeable ngrams in the text
 **Returns**
 `Map<string, number>`
 
+
+#### `compareTo(methodius)`
+ a map of the most used words in the text
+
+**Parameters**
+| name          | type  | Description   |
+| ---           |---    | ---           |
+|    limit   | `number`      | default = 20  number of top words to return       |
+
+**Returns**
+`Map<string, Map>`
+A map of property names and their comparisons (intersection, disjunctiveUnions, etc) for a set of properties
 

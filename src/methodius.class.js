@@ -197,6 +197,21 @@ class Methodius {
   }
 
   /**
+   * @description returns a map containing various comparisons between two iterables
+   * @param  {Map|Array} iterable1
+   * @param  {Map|Array} iterable2
+   * @returns {Map} A map containing various comparisons between two iterables
+   */
+  static getComparison(iterable1, iterable2) {
+    return new Map([
+      ['intersection', Methodius.getIntersection(iterable1, iterable2)],
+      ['disjunctiveUnion', Methodius.getDisjunctiveUnion(iterable1, iterable2)],
+    ]);
+  }
+
+
+
+  /**
    * @description lowercased text with diacritics removed
    * @returns  {string} sanitizedText - text that is all lowercase and without Hebrew diacritics
    */
@@ -367,6 +382,21 @@ class Methodius {
    */
   getTopWords(limit = 20) {
     return Methodius.getTopGrams(this.wordFrequencies, limit);
+  }
+
+  compareTo(methodius) {
+    if (!(methodius instanceof Methodius)) {
+      throw new Error('This must be an instance of Methodius');
+    }
+
+    const comparison = new Map();
+
+    comparison.set('letters', Methodius.getComparison(this.letters, methodius.letters));
+    comparison.set('bigrams', Methodius.getComparison(this.bigrams, methodius.bigrams));
+    comparison.set('trigrams', Methodius.getComparison(this.trigrams, methodius.trigrams));
+    comparison.set('words', Methodius.getComparison(this.words, methodius.words));
+
+    return comparison;
   }
 }
 

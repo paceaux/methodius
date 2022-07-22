@@ -437,5 +437,29 @@ describe('NGrammer', () => {
         'ld',
       ]);
     });
+    describe('comparison method', () => {
+      it('will compare two ngrammers', () => {
+        const nGrammer1 = new Methodius('hello world');
+        const nGrammer2 = new Methodius('Help words');
+        const comparison = nGrammer1.compareTo(nGrammer2);
+
+        expect(comparison).toBeInstanceOf(Map);
+        expect(comparison.has('letters')).toBe(true);
+        expect(comparison.get('bigrams').has('disjunctiveUnion')).toBe(true);
+        expect(comparison.get('trigrams').has('intersection')).toBe(true);
+        expect(comparison.has('words')).toBe(true);
+      });
+      it('will compare two ngrammers and give good results', () => {
+        const nGrammer1 = new Methodius('hello world');
+        const nGrammer2 = new Methodius('Help words');
+        const comparison = nGrammer1.compareTo(nGrammer2);
+
+        expect(comparison).toBeInstanceOf(Map);
+        expect(comparison.get('letters').get('intersection')).toEqual(['h', 'e', 'l', 'o', 'w', 'r', 'd']);
+        expect(comparison.get('letters').get('disjunctiveUnion')).toEqual([[], ['p', 's']]);
+        expect(comparison.get('bigrams').get('intersection')).toEqual(['he', 'el', 'wo', 'or']);
+        expect(comparison.get('trigrams').get('disjunctiveUnion')).toEqual([['ell', 'llo', 'orl', 'rld'], ['elp', 'ord', 'rds']]);
+      });
+    });
   });
 });

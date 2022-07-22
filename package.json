@@ -1,10 +1,10 @@
 {
   "name": "methodius",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A utility for analyzing text to find bigrams, trigrams, and other n-grams.",
-  "main": "dist/methodius.cjs.js",
-  "module": "dist/methodius.esm.js",
-  "browser": "dist/methodius.umd.js",
+  "main": "dist/main.js",
+  "module": "dist/main.js",
+  "browser": "dist/main.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/paceaux/methodius.git"
@@ -12,8 +12,7 @@
   "scripts": {
     "lint": "eslint -f table src/**/*.js test/**/*.js",
     "lint:fix": "eslint --fix src/**/*.js test/**/*.js",
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "build": "babel src --out-dir dist",
     "pretest": "npm run build",
     "test": "jest --config jest.config.js",
     "prepublish": "safe-publish-latest && npm run build"
@@ -30,18 +29,17 @@
   "author": "paceaux (frank m. taylor)",
   "license": "MIT",
   "devDependencies": {
+    "@babel/cli": "^7.18.9",
     "@babel/core": "^7.18.9",
     "@babel/preset-env": "^7.18.9",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-node-resolve": "^13.3.0",
+    "core-js": "^3.23.5",
     "eslint": "^8.18.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-formatter-table": "^7.32.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsdoc": "^39.3.3",
-    "rollup": "^2.75.7",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
     "safe-publish-latest": "^2.0.0"
   }
 }

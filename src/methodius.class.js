@@ -26,7 +26,7 @@ class Methodius {
    * @returns {boolean} - true if string contains punctuation
    */
   static hasPunctuation(string) {
-    const punctuationRegEx = new RegExp(`([${Methodius.punctuations}])`, 'g');
+    const punctuationRegEx = new RegExp(`([${Methodius.punctuations}])`, "g");
 
     return punctuationRegEx.test(string);
   }
@@ -47,10 +47,10 @@ class Methodius {
    */
   static sanitizeText(string) {
     const stringWithoutDiacritics = string
-      .replace(/\u05BE/g, '-')
-      .replace(/[\u0591-\u05C7]/g, '')
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '');
+      .replace(/\u05BE/g, "-")
+      .replace(/[\u0591-\u05C7]/g, "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
 
     return stringWithoutDiacritics.toLowerCase();
   }
@@ -63,7 +63,7 @@ class Methodius {
   static getWords(text) {
     const wordSeparatorRegex = new RegExp(
       `[(${Methodius.wordSeparators})]`,
-      'g',
+      "g"
     );
     const wordArray = text
       .split(wordSeparatorRegex)
@@ -85,8 +85,8 @@ class Methodius {
       const substring = text.substring(i, i + gramSize);
 
       if (
-        !Methodius.hasPunctuation(substring)
-        && !Methodius.hasSpace(substring)
+        !Methodius.hasPunctuation(substring) &&
+        !Methodius.hasSpace(substring)
       ) {
         bigrams.push(substring);
       }
@@ -145,15 +145,68 @@ class Methodius {
   /**
    * @description filters a frequency map into only a small subset of the most frequent ones
    * @param  {Map<string, number>} frequencyMap - map of ngrams and their frequencies
-   * @param  {number} [topCount=20] - number of top ngrams to return
+   * @param  {number} [limit=20] - number of top ngrams to return
    * @returns {Map<string, number>} - map of ngrams and their frequencies
    */
-  static getTopGrams(frequencyMap, topCount = 20) {
-    const orderedGrams = [...frequencyMap].sort((entry1, entry2) => entry2[1] - entry1[1]);
+  static getTopGrams(frequencyMap, limit = 20) {
+    const orderedGrams = [...frequencyMap].sort(
+      (entry1, entry2) => entry2[1] - entry1[1]
+    );
 
-    const topGrams = orderedGrams.slice(0, topCount);
+    const topGrams = orderedGrams.slice(0, limit);
 
     return new Map(topGrams);
+  }
+
+  /**
+   * @description returns an array of items that occur in both iterables
+   * @param  {Map|Array} iterable1 A map or array
+   * @param  {Map|Array} iterable2 A map or array
+   * @returns {Array<string>} An array of items that occur in both iterables. It will compare the keys, if sent a map
+   */
+  static getIntersection(iterable1, iterable2) {
+    const array1 = Array.isArray(iterable1) ? iterable1 : [...iterable1.keys()];
+    const array2 = Array.isArray(iterable2) ? iterable2 : [...iterable2.keys()];
+
+    const intersection = [];
+
+    array1.forEach((entry) => {
+      if (array2.includes(entry) && !intersection.includes(entry)) {
+        intersection.push(entry);
+      }
+    });
+
+    return intersection;
+  }
+
+  /**
+   * @description returns an array of arrays of the unique items in either iterable
+   * @param  {Map|Array} iterable1 A map or array
+   * @param  {Map|Array} iterable2 A map or array
+   * @returns {Array<Array>} An array of arrays of the unique items. The first item is the first parameter, 2nd item second param
+   */
+  static getDisjunctiveUnion(iterable1, iterable2) {
+    const array1 = Array.isArray(iterable1) ? iterable1 : [...iterable1.keys()];
+    const array2 = Array.isArray(iterable2) ? iterable2 : [...iterable2.keys()];
+
+    const intersection = Methodius.getIntersection(array1, array2);
+    const set1 = array1.filter((entry) => !intersection.includes(entry));
+    const set2 = array2.filter((entry) => !intersection.includes(entry));
+
+    return [set1, set2];
+  }
+
+  /**
+   * @description returns a map containing various comparisons between two iterables
+   * @param  {Map|Array} iterable1
+   * @param  {Map|Array} iterable2
+   * @returns {Map} A map containing various comparisons between two iterables
+   */
+  static getComparison(iterable1, iterable2) {
+    return new Map([
+      ['intersection', Methodius.getIntersection(iterable1, iterable2)],
+      ['disjunctiveUnion', Methodius.getDisjunctiveUnion(iterable1, iterable2)],
+    ]);
   }
 
   /**
@@ -285,39 +338,68 @@ class Methodius {
   }
 
   /**
+   * @description gets an array of customizeable ngrams in the text
+   * @param {number} [size=2] - size of nGram
+   * @returns {string[]} - array of granms in text
+   */
+  getLetterNGrams(size = 2) {
+    return Methodius.getNGrams(this.sanitizedText, size);
+  }
+
+  /**
    * @description a map of the most used letters in the text
-   * @param {number} [topCount=20] - number of top letters to return
+   * @param {number} [limit=20] - number of top letters to return
    * @returns {Map<string, number>} - map of letters and their frequencies
    */
-  getTopLetters(topCount = 10) {
-    return Methodius.getTopGrams(this.letterFrequencies, topCount);
+  getTopLetters(limit = 10) {
+    return Methodius.getTopGrams(this.letterFrequencies, limit);
   }
 
   /**
    * @description a map of the most used bigrams in the text
-   * @param {number} [topCount=20] - number of top bigrams to return
+   * @param {number} [limit=20] - number of top bigrams to return
    * @returns {Map<string, number>} - map of bigrams and their frequencies
    */
-  getTopBigrams(topCount = 20) {
-    return Methodius.getTopGrams(this.bigramFrequencies, topCount);
+  getTopBigrams(limit = 20) {
+    return Methodius.getTopGrams(this.bigramFrequencies, limit);
   }
 
   /**
    * @description a map of the most used trigrams in the text
-   * @param {number} [topCount=20] - number of top trigrams to return
+   * @param {number} [limit=20] - number of top trigrams to return
    * @returns {Map<string, number>} - map of trigrams and their frequencies
    */
-  getTopTrigrams(topCount = 20) {
-    return Methodius.getTopGrams(this.trigramFrequencies, topCount);
+  getTopTrigrams(limit = 20) {
+    return Methodius.getTopGrams(this.trigramFrequencies, limit);
   }
 
   /**
    * @description a map of the most used words in the text
-   * @param {number} [topCount=20] - number of top trigrams to return
+   * @param {number} [limit=20] - number of top trigrams to return
    * @returns {Map<string, number>} - map of trigrams and their frequencies
    */
-  getTopWords(topCount = 20) {
-    return Methodius.getTopGrams(this.wordFrequencies, topCount);
+  getTopWords(limit = 20) {
+    return Methodius.getTopGrams(this.wordFrequencies, limit);
+  }
+
+  /**
+   * @description Compare this methodius instance's letter, bigrams, trigrams, and words to another methodius instance
+   * @param  {Methodius} methodius another methodius instance
+   * @returns {Map<string, Map>} -A map of property names and their comparisons (intersection, disjunctiveUnions, etc) for a set of properties
+   */
+  compareTo(methodius) {
+    if (!(methodius instanceof Methodius)) {
+      throw new Error('This must be an instance of Methodius');
+    }
+
+    const comparison = new Map();
+
+    comparison.set('letters', Methodius.getComparison(this.letters, methodius.letters));
+    comparison.set('bigrams', Methodius.getComparison(this.bigrams, methodius.bigrams));
+    comparison.set('trigrams', Methodius.getComparison(this.trigrams, methodius.trigrams));
+    comparison.set('words', Methodius.getComparison(this.words, methodius.words));
+
+    return comparison;
   }
 }
 

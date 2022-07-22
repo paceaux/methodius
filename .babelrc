@@ -4,9 +4,18 @@
             "@babel/preset-env",
             {
                 "targets" : {
-                    "node" : "current"
-                }
+                    "node" : "14",
+                    "browsers" : [
+                        "> 1%",
+                        "last 2 node versions",
+                        "ie > 11"
+                    ]
+                },
+                "useBuiltIns" : "usage",
+                "corejs" : 3
             }
         ]
-    ]
+    ],
+    "sourceType": "module",
+    "sourceMap": true
 }

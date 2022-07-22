@@ -332,5 +332,5 @@ gets an array of customizeable ngrams in the text
 
 **Returns**
 `Map<string, Map>`
-A map of comparisons (intersection, disjunctiveUnions, etc) for a set of properties
+A map of property names and their comparisons (intersection, disjunctiveUnions, etc) for a set of properties
 

@@ -270,6 +270,38 @@ describe('NGrammer', () => {
         });
       });
     });
+    describe('placements', () => {
+      it('gets a placement map for an ngram', () => {
+        const words = ['he', 'therefore', 'ran', 'after', 'the', 'cat', 'who', 'ran', 'after', 'the', 'dog'];
+        const ngram = 'he';
+
+        const placementMap = Methodius.getWordPlacementForNGram(ngram, words);
+
+        expect(placementMap.get('start')).toEqual(1);
+        expect(placementMap.get('middle')).toEqual(1);
+        expect(placementMap.get('end')).toEqual(2);
+      });
+      it('gets a placement map for another ngram', () => {
+        const words = ['he', 'therefore', 'ran', 'after', 'the', 'cat', 'who', 'ran', 'after', 'the', 'dog'];
+        const ngram = 're';
+
+        const placementMap = Methodius.getWordPlacementForNGram(ngram, words);
+
+        expect(placementMap.get('start')).toEqual(0);
+        expect(placementMap.get('middle')).toEqual(1);
+        expect(placementMap.get('end')).toEqual(1);
+      });
+      it('gets a placement map for yet another ngram', () => {
+        const words = ['he', 'therefore', 'ran', 'after', 'the', 'cat', 'who', 'ran', 'after', 'the', 'dog'];
+        const ngram = 'er';
+
+        const placementMap = Methodius.getWordPlacementForNGram(ngram, words);
+
+        expect(placementMap.get('start')).toEqual(0);
+        expect(placementMap.get('middle')).toEqual(1);
+        expect(placementMap.get('end')).toEqual(2);
+      });
+    });
   });
   describe('instance properties', () => {
     it('has all the properties', () => {

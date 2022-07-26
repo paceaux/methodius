@@ -401,6 +401,40 @@ class Methodius {
 
     return comparison;
   }
+
+  /**
+   * @description determines the placement of a single ngram in an array of words
+   * @param  {string} ngram - a unigram, bigram, trigram, or ngram
+   * @param  {Array<string>} wordsArray - an array of words
+   * @returns {Map<string, number>} - a map with the keys 'start', 'middle', and 'end'
+   */
+  static getWordPlacementForNGram(ngram, wordsArray) {
+    const placementMap = new Map([
+      ['start', 0],
+      ['middle', 0],
+      ['end', 0],
+    ]);
+    wordsArray.forEach((word) => {
+      const wordNgrams = [...word.matchAll(new RegExp(ngram, 'gi'))];
+      if (wordNgrams.length > 0) {
+        wordNgrams.forEach((wordNgram) => {
+          const ngramIndex = wordNgram.index;
+          switch (ngramIndex) {
+            case 0:
+              placementMap.set('start', placementMap.get('start') + 1);
+              break;
+            case word.length - ngram.length:
+              placementMap.set('end', placementMap.get('end') + 1);
+              break;
+            default:
+              placementMap.set('middle', placementMap.get('middle') + 1);
+              break;
+          }
+        });
+      }
+    });
+    return placementMap;
+  }
 }
 
 module.exports = Methodius;

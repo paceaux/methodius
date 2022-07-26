@@ -250,6 +250,18 @@ lowercased text with diacritics removed
 #### `uniqueTrigrams`
  an array of unique trigrams in the text
 
+ `Map<string, Map<string, number>>`
+#### `letterPositions`
+a map of placements of letters within words
+
+ `Map<string, Map<string, number>>`
+#### `bigramPositions`
+a map of placements of bigrams within words
+
+ `Map<string, Map<string, number>>`
+#### `uniqueTrigrams`
+a map of placements of trigrams within words
+
  `Array<string>`
 #### `uniqueWords`
  an array of unique words in the text

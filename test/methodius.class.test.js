@@ -369,44 +369,64 @@ describe('NGrammer', () => {
       );
       expect(nGrammer).toHaveProperty('wordFrequencies', new Map([['hello', 1], ['world', 1]]));
     });
-    it('has good values for the percentage properties', () => {});
-    const nGrammer = new Methodius('hèllo wórld');
-    expect(nGrammer).toHaveProperty(
-      'letterPercentages',
-      new Map([
-        ['h', 0.14285714285714285],
-        ['e', 0.14285714285714285],
-        ['l', 0.42857142857142855],
-        ['o', 0.2857142857142857],
-        ['w', 0.14285714285714285],
-        ['r', 0.14285714285714285],
-        ['d', 0.14285714285714285],
-      ]),
-    );
-    expect(nGrammer).toHaveProperty(
-      'bigramPercentages',
-      new Map([
-        ['he', 0.125],
-        ['el', 0.125],
-        ['ll', 0.125],
-        ['lo', 0.125],
-        ['wo', 0.125],
-        ['or', 0.125],
-        ['rl', 0.125],
-        ['ld', 0.125],
-      ]),
-    );
-    expect(nGrammer).toHaveProperty(
-      'trigramPercentages',
-      new Map([
-        ['hel', 0.16666666666666666],
-        ['ell', 0.16666666666666666],
-        ['llo', 0.16666666666666666],
-        ['wor', 0.16666666666666666],
-        ['orl', 0.16666666666666666],
-        ['rld', 0.16666666666666666],
-      ]),
-    );
+    it('has good values for the percentage properties', () => {
+      const nGrammer = new Methodius('hèllo wórld');
+      expect(nGrammer).toHaveProperty(
+        'letterPercentages',
+        new Map([
+          ['h', 0.14285714285714285],
+          ['e', 0.14285714285714285],
+          ['l', 0.42857142857142855],
+          ['o', 0.2857142857142857],
+          ['w', 0.14285714285714285],
+          ['r', 0.14285714285714285],
+          ['d', 0.14285714285714285],
+        ]),
+      );
+      expect(nGrammer).toHaveProperty(
+        'bigramPercentages',
+        new Map([
+          ['he', 0.125],
+          ['el', 0.125],
+          ['ll', 0.125],
+          ['lo', 0.125],
+          ['wo', 0.125],
+          ['or', 0.125],
+          ['rl', 0.125],
+          ['ld', 0.125],
+        ]),
+      );
+      expect(nGrammer).toHaveProperty(
+        'trigramPercentages',
+        new Map([
+          ['hel', 0.16666666666666666],
+          ['ell', 0.16666666666666666],
+          ['llo', 0.16666666666666666],
+          ['wor', 0.16666666666666666],
+          ['orl', 0.16666666666666666],
+          ['rld', 0.16666666666666666],
+        ]),
+      );
+    });
+    it('has good values for placement properties', () => {
+      const nGrammer = new Methodius('hello world');
+      expect(nGrammer).toHaveProperty('bigramPositions');
+      expect(nGrammer.bigramPositions.get('he').get('start')).toEqual(1);
+      expect(nGrammer.bigramPositions.get('el').get('middle')).toEqual(1);
+      expect(nGrammer.bigramPositions.get('ll').get('middle')).toEqual(1);
+      expect(nGrammer.bigramPositions.get('lo').get('end')).toEqual(1);
+      expect(nGrammer.bigramPositions.get('lo').get('start')).toEqual(0);
+      expect(nGrammer.trigramPositions.get('ell').get('start')).toEqual(0);
+    });
+    it('still has good values for placement properties', () => {
+      const nGrammer = new Methodius('hello, help the world\'s words');
+      expect(nGrammer).toHaveProperty('bigramPositions');
+      expect(nGrammer.bigramPositions.get('he').get('start')).toEqual(2);
+      expect(nGrammer.bigramPositions.get('he').get('end')).toEqual(1);
+      expect(nGrammer.trigramPositions.get('hel').get('start')).toEqual(2);
+      expect(nGrammer.trigramPositions.get('wor').get('start')).toEqual(2);
+      expect(nGrammer.bigramPositions.get('el').get('middle')).toEqual(2);
+    });
   });
   describe('instance methods', () => {
     const nGrammer = new Methodius('hello world');

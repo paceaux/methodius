@@ -244,6 +244,23 @@ class Methodius {
   }
 
   /**
+   * @description determines the placement of ngrams in an array of words
+   * @param  {Array<string>} ngrams - an array of ngrams
+   * @param  {Array<string>} wordsArray - an array of words
+   * @returns {Map<string, Map<string, number>>} - a map with the key of the ngram, and the value that is a map containing start, middle, end
+   */
+  static getWordPlacementForNGrams(ngrams, wordsArray) {
+    const wordPlacements = new Map();
+    const uniqueNgrams = [...new Set(ngrams)];
+
+    uniqueNgrams.forEach((ngram) => {
+      wordPlacements.set(ngram, Methodius.getWordPlacementForNGram(ngram, wordsArray));
+    });
+
+    return wordPlacements;
+  }
+
+  /**
    * @description lowercased text with diacritics removed
    * @returns  {string} sanitizedText - text that is all lowercase and without Hebrew diacritics
    */

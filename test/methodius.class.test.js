@@ -301,6 +301,19 @@ describe('NGrammer', () => {
         expect(placementMap.get('middle')).toEqual(1);
         expect(placementMap.get('end')).toEqual(2);
       });
+      it('gets placements for ngrams', () => {
+        const words = ['he', 'therefore', 'ran', 'after', 'the', 'cat', 'who', 'ran', 'after', 'the', 'dog'];
+        const ngram = ['he', 're', 'er'];
+
+        const placementMap = Methodius.getWordPlacementForNGrams(ngram, words);
+        expect(placementMap.get('he').get('start')).toEqual(1);
+        expect(placementMap.get('he').get('middle')).toEqual(1);
+        expect(placementMap.get('re').get('start')).toEqual(0);
+        expect(placementMap.get('re').get('end')).toEqual(1);
+        expect(placementMap.get('er').get('start')).toEqual(0);
+        expect(placementMap.get('er').get('middle')).toEqual(1);
+        expect(placementMap.get('er').get('end')).toEqual(2);
+      });
     });
   });
   describe('instance properties', () => {

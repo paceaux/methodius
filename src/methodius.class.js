@@ -26,7 +26,7 @@ class Methodius {
    * @returns {boolean} - true if string contains punctuation
    */
   static hasPunctuation(string) {
-    const punctuationRegEx = new RegExp(`([${Methodius.punctuations}])`, "g");
+    const punctuationRegEx = new RegExp(`([${Methodius.punctuations}])`, 'g');
 
     return punctuationRegEx.test(string);
   }
@@ -47,10 +47,10 @@ class Methodius {
    */
   static sanitizeText(string) {
     const stringWithoutDiacritics = string
-      .replace(/\u05BE/g, "-")
-      .replace(/[\u0591-\u05C7]/g, "")
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "");
+      .replace(/\u05BE/g, '-')
+      .replace(/[\u0591-\u05C7]/g, '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
 
     return stringWithoutDiacritics.toLowerCase();
   }
@@ -63,7 +63,7 @@ class Methodius {
   static getWords(text) {
     const wordSeparatorRegex = new RegExp(
       `[(${Methodius.wordSeparators})]`,
-      "g"
+      'g',
     );
     const wordArray = text
       .split(wordSeparatorRegex)
@@ -85,8 +85,8 @@ class Methodius {
       const substring = text.substring(i, i + gramSize);
 
       if (
-        !Methodius.hasPunctuation(substring) &&
-        !Methodius.hasSpace(substring)
+        !Methodius.hasPunctuation(substring)
+        && !Methodius.hasSpace(substring)
       ) {
         bigrams.push(substring);
       }
@@ -150,7 +150,7 @@ class Methodius {
    */
   static getTopGrams(frequencyMap, limit = 20) {
     const orderedGrams = [...frequencyMap].sort(
-      (entry1, entry2) => entry2[1] - entry1[1]
+      (entry1, entry2) => entry2[1] - entry1[1],
     );
 
     const topGrams = orderedGrams.slice(0, limit);
@@ -204,8 +204,8 @@ class Methodius {
    */
   static getComparison(iterable1, iterable2) {
     return new Map([
-      ["intersection", Methodius.getIntersection(iterable1, iterable2)],
-      ["disjunctiveUnion", Methodius.getDisjunctiveUnion(iterable1, iterable2)],
+      ['intersection', Methodius.getIntersection(iterable1, iterable2)],
+      ['disjunctiveUnion', Methodius.getDisjunctiveUnion(iterable1, iterable2)],
     ]);
   }
 
@@ -217,24 +217,24 @@ class Methodius {
    */
   static getWordPlacementForNGram(ngram, wordsArray) {
     const placementMap = new Map([
-      ["start", 0],
-      ["middle", 0],
-      ["end", 0],
+      ['start', 0],
+      ['middle', 0],
+      ['end', 0],
     ]);
     wordsArray.forEach((word) => {
-      const wordNgrams = [...word.matchAll(new RegExp(ngram, "gi"))];
+      const wordNgrams = [...word.matchAll(new RegExp(ngram, 'gi'))];
       if (wordNgrams.length > 0) {
         wordNgrams.forEach((wordNgram) => {
           const ngramIndex = wordNgram.index;
           switch (ngramIndex) {
             case 0:
-              placementMap.set("start", placementMap.get("start") + 1);
+              placementMap.set('start', placementMap.get('start') + 1);
               break;
             case word.length - ngram.length:
-              placementMap.set("end", placementMap.get("end") + 1);
+              placementMap.set('end', placementMap.get('end') + 1);
               break;
             default:
-              placementMap.set("middle", placementMap.get("middle") + 1);
+              placementMap.set('middle', placementMap.get('middle') + 1);
               break;
           }
         });
@@ -256,7 +256,7 @@ class Methodius {
     uniqueNgrams.forEach((ngram) => {
       wordPlacements.set(
         ngram,
-        Methodius.getWordPlacementForNGram(ngram, wordsArray)
+        Methodius.getWordPlacementForNGram(ngram, wordsArray),
       );
     });
 
@@ -467,26 +467,26 @@ class Methodius {
    */
   compareTo(methodius) {
     if (!(methodius instanceof Methodius)) {
-      throw new Error("This must be an instance of Methodius");
+      throw new Error('This must be an instance of Methodius');
     }
 
     const comparison = new Map();
 
     comparison.set(
-      "letters",
-      Methodius.getComparison(this.letters, methodius.letters)
+      'letters',
+      Methodius.getComparison(this.letters, methodius.letters),
     );
     comparison.set(
-      "bigrams",
-      Methodius.getComparison(this.bigrams, methodius.bigrams)
+      'bigrams',
+      Methodius.getComparison(this.bigrams, methodius.bigrams),
     );
     comparison.set(
-      "trigrams",
-      Methodius.getComparison(this.trigrams, methodius.trigrams)
+      'trigrams',
+      Methodius.getComparison(this.trigrams, methodius.trigrams),
     );
     comparison.set(
-      "words",
-      Methodius.getComparison(this.words, methodius.words)
+      'words',
+      Methodius.getComparison(this.words, methodius.words),
     );
 
     return comparison;

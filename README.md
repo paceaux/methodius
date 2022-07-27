@@ -192,7 +192,31 @@ returns a map containing various comparisons between two iterables
 `Map<string, <array>>` 
 A map containing various comparisons between two iterables. Those comparisons will be some kind of array (See intersection or disjunctiveUnion)
 
+#### `getWordPlacementForNGram(ngram, wordsArray)`
+determines the placement of a single ngram in an array of words
+ 
+**Parameters**
+| name  | type  | Description   |
+| ---   |---    | ---           |
+| ngram      |   `string`    |               |
+| wordsArray      |   `Array<string>`    |               |
 
+**Returns**
+`Map<string, number>` 
+a map with the keys 'start', 'middle', and 'end' whose values correspond to how often the provided ngram occurs in this position
+
+#### `getWordPlacementForNGrams(ngrams, wordsArray)`
+determines the placement of ngrams in an array of words
+ 
+**Parameters**
+| name  | type  | Description   |
+| ---   |---    | ---           |
+| ngram      |   `Array<string>`    |               |
+| wordsArray      |   `Array<string>`    |               |
+
+**Returns**
+`Map<string, Map<string, number>>` 
+a map with the key of the ngram, and the value that is a map containing start, middle, end
 
 ### Instance Members
 #### `sanitizedText`
@@ -225,6 +249,18 @@ lowercased text with diacritics removed
  `Array<string>`
 #### `uniqueTrigrams`
  an array of unique trigrams in the text
+
+ `Map<string, Map<string, number>>`
+#### `letterPositions`
+a map of placements of letters within words
+
+ `Map<string, Map<string, number>>`
+#### `bigramPositions`
+a map of placements of bigrams within words
+
+ `Map<string, Map<string, number>>`
+#### `uniqueTrigrams`
+a map of placements of trigrams within words
 
  `Array<string>`
 #### `uniqueWords`

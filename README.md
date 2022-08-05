@@ -2,9 +2,11 @@
 
 A utility for analyzing text on the web. 
 
-supply a bit o' text to the methodius class, and let it determine your bigrams, trigrams, ngrams, letter-frequencies, and word frequencies
+Supply a bit o' text to the methodius class, and let it determine your bigrams, trigrams, ngrams, letter-frequencies, and word frequencies
 
+[![Hippocratic License HL3-LAW-MEDIA-MIL-SOC-SV](https://img.shields.io/static/v1?label=Hippocratic%20License&message=HL3-LAW-MEDIA-MIL-SOC-SV&labelColor=5e2751&color=bc8c3d)](https://firstdonoharm.dev/version/3/0/law-media-mil-soc-sv.html)
 
+![npm](https://img.shields.io/npm/dm/methodius)
 
 ## Example
 

@@ -105,6 +105,14 @@ describe('NGrammer', () => {
         );
       });
     });
+    describe('getNGramsInWords', () => {
+      it('will get two arrays of ngrams from two words', () => {
+        const words = ['revolution', 'nation'];
+        const [array1, array2] = Methodius.getNgramCollections(words, 2);
+        expect(array1).toEqual(['re', 'ev', 'vo', 'ol', 'lu', 'ut', 'ti', 'io', 'on']);
+        expect(array2).toEqual(['na', 'at', 'ti', 'io', 'on']);
+      });
+    });
     describe('getFrequencyMap', () => {
       it('will get a frequency map', () => {
         const map = Methodius.getFrequencyMap(['he', 'el', 'll', 'lo']);

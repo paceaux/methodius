@@ -264,6 +264,21 @@ class Methodius {
   }
 
   /**
+   * @description gets ngrams from an array of words
+   * @param {Array<string>} wordArray - an array of words
+   * @param {number} [ngramSize=2] - the size of the ngrams to return
+   * @returns {Array<Array<string>>} - an array containing arrays
+   */
+  static getNgramCollections(wordArray, ngramSize = 2) {
+    const ngramCollections = [];
+
+    wordArray.forEach((word) => {
+      ngramCollections.push(Methodius.getNGrams(word, ngramSize));
+    });
+    return ngramCollections;
+  }
+
+  /**
    * @description lowercased text with diacritics removed
    * @returns  {string} sanitizedText - text that is all lowercase and without Hebrew diacritics
    */

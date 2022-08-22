@@ -113,6 +113,31 @@ describe('NGrammer', () => {
         expect(array2).toEqual(['na', 'at', 'ti', 'io', 'on']);
       });
     });
+    describe('getNGramSiblings', () => {
+      it('gets what comes before a given bigram', () => {
+        const words = ['revolution', 'nation'];
+        const ngramCollections = Methodius.getNgramCollections(words, 2);
+        const onSiblings = Methodius.getNgramSiblings('on', ngramCollections);
+        expect(onSiblings.has('before')).toEqual(true);
+        expect(onSiblings.has('after')).toEqual(true);
+        expect(onSiblings.get('before').get('io')).toEqual(2);
+      });
+      it('gets what comes after a given bigram', () => {
+        const words = ['revolution', 'nation'];
+        const ngramCollections = Methodius.getNgramCollections(words, 2);
+        const onSiblings = Methodius.getNgramSiblings('io', ngramCollections);
+        expect(onSiblings.has('before')).toEqual(true);
+        expect(onSiblings.has('after')).toEqual(true);
+        expect(onSiblings.get('after').get('on')).toEqual(2);
+      });
+      it('can be sent a single array', () => {
+        const onSiblings = Methodius.getNgramSiblings('io', ['na', 'at', 'ti', 'io', 'on']);
+        expect(onSiblings.has('before')).toEqual(true);
+        expect(onSiblings.has('after')).toEqual(true);
+        expect(onSiblings.get('after').get('on')).toEqual(1);
+        expect(onSiblings.get('before').get('ti')).toEqual(1);
+      });
+    });
     describe('getFrequencyMap', () => {
       it('will get a frequency map', () => {
         const map = Methodius.getFrequencyMap(['he', 'el', 'll', 'lo']);

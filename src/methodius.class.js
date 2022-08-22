@@ -279,6 +279,65 @@ class Methodius {
   }
 
   /**
+   * @description using a collection returned from getNgramCollections, searches for a string and returns what comes before and after it
+   * @param  {string} searchText - the string to search for
+   * @param  {Array<string>|Array<Array<string>>} ngramCollections - an array of ngrams, or an nGramCollection
+   * @param  {number} [siblingSize=1] - how many siblings to find in front or behind
+   * @returns {Map<'before'|'after',Map<string, number>>} - a Map with the keys 'before' and 'after' which contain maps of what comes before and after
+   * @example
+   *    const words = ['revolution', 'nation'];
+        const ngramCollections = Methodius.getNgramCollections(words, 2);
+        const onSiblings = Methodius.getNgramSiblings('io', ngramCollections);
+        onSiblings === new Map([
+          ['before', new Map(
+            ['ti', 2]
+          )],
+          ['after', new Map(
+            ['on', 2]
+          )]
+        ])
+   */
+  static getNgramSiblings(searchText, ngramCollections, siblingSize = 1) {
+    const ngramSiblings = new Map([
+      ['before', new Map()],
+      ['after', new Map()],
+    ]);
+
+    if (!searchText) return ngramSiblings;
+
+    const collections = typeof ngramCollections[0] === 'string' ? [[...ngramCollections]] : ngramCollections;
+
+    collections.forEach((ngramCollection) => {
+      const ngramIndex = ngramCollection.indexOf(searchText);
+      if (ngramIndex > -1) {
+        const isFirst = ngramIndex === 0;
+        const isLast = ngramIndex === ngramCollection.length - 1;
+        const siblingsSliceStart = isFirst ? 0 : ngramIndex - siblingSize;
+        const siblingsSliceEnd = isLast ? ngramCollection.length : ngramIndex + siblingSize + 1;
+        const siblingsSlice = ngramCollection.slice(siblingsSliceStart, siblingsSliceEnd);
+        const siblingsSliceSearchIndex = siblingsSlice.indexOf(searchText);
+
+        siblingsSlice.forEach((sibling, siblingIndex) => {
+          if (siblingIndex === siblingsSliceSearchIndex) {
+            return;
+          }
+          const siblingKey = siblingIndex < siblingsSliceSearchIndex ? 'before' : 'after';
+          const hasSibling = ngramSiblings.get(siblingKey).has(sibling);
+          if (!hasSibling) {
+            ngramSiblings.get(siblingKey).set(sibling, 1);
+          } else {
+            ngramSiblings
+              .get(siblingKey)
+              .set(sibling, ngramSiblings.get(siblingKey).get(sibling) + 1);
+          }
+        });
+      }
+    });
+
+    return ngramSiblings;
+  }
+
+  /**
    * @description lowercased text with diacritics removed
    * @returns  {string} sanitizedText - text that is all lowercase and without Hebrew diacritics
    */

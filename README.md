@@ -220,6 +220,50 @@ determines the placement of ngrams in an array of words
 `Map<string, Map<string, number>>` 
 a map with the key of the ngram, and the value that is a map containing start, middle, end
 
+#### `getNgramCollections(ngrams, wordsArray)`
+gets ngrams from an array of words
+ 
+**Parameters**
+| name  | type  | Description   |
+| ---   |---    | ---           |
+| wordArray      |   `Array<string>`    |     an array of words          |
+| ngramSize      |   `number`    | default = 2. The size of the ngrams to return               |
+
+**Returns**
+`Array<Array<string>>` 
+An array containing arrays of ngrams, each array corresponds to a word. 
+
+#### `getNgramSiblings(searchText, ngramCollections, siblingSize)`
+using a collection returned from getNgramCollections, searches for a string and returns what comes before and after it
+ 
+**Parameters**
+| name  | type  | Description   |
+| ---   |---    | ---           |
+| searchText      |   `string`    |     the string to search for          |
+| ngramCollections      |   `Array<string>|Array<Array<string>>`    | an array of ngrams, or an nGramCollection               |
+| siblingSize      |   `number`    | default = 1. How many siblings to find in front or behind               |
+
+**Returns**
+`Map<'before'|'after',Map<string, number>>` 
+a Map with the keys 'before' and 'after' which contain maps of what comes before and after
+
+**Example**
+```JavaScript
+        const words = ['revolution', 'nation'];
+        const ngramCollections = Methodius.getNgramCollections(words, 2);
+        const onSiblings = Methodius.getNgramSiblings('io', ngramCollections);
+        /* 
+        new Map([
+          ['before', new Map(
+            ['ti', 2]
+          )],
+          ['after', new Map(
+            ['on', 2]
+          )]
+        ])
+        */
+```
+
 ### Instance Members
 #### `sanitizedText`
 lowercased text with diacritics removed

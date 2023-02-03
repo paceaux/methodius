@@ -404,6 +404,22 @@ class Methodius {
   }
 
   /**
+   * @description The average size of a word
+   * @returns {number} float or int
+   */
+  get meanWordSize() {
+    return Methodius.getMeanWordSize(this.words);
+  }
+
+  /**
+   * @description The middle size of a word
+   * @returns {number} float or int
+   */
+  get medianWordSize() {
+    return Methodius.getMedianWordSize(this.words);
+  }
+
+  /**
    * @description an array of letter bigrams in the text
    * @returns {string[]} - array of bigrams in text
    */

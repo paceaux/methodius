@@ -388,6 +388,8 @@ describe('NGrammer', () => {
       expect(nGrammer).toHaveProperty('letterPercentages');
       expect(nGrammer).toHaveProperty('bigramPercentages');
       expect(nGrammer).toHaveProperty('trigramPercentages');
+      expect(nGrammer).toHaveProperty('meanWordSize');
+      expect(nGrammer).toHaveProperty('medianWordSize');
     });
     it('has good text, sanitization, letters, words, and gram values', () => {
       const nGrammer = new Methodius('hèllo wórld');

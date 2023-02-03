@@ -74,6 +74,43 @@ class Methodius {
   }
 
   /**
+   * @description Gets average size of a word
+   * @param {string[]} wordArray - text to be analyzed
+   * @returns {string[]} - array of words in text
+   */
+  static getMeanWordSize(wordArray) {
+    const filteredArray = wordArray.filter((word) => word.length > 0);
+    const wordSizes = filteredArray.map((word) => word.trim().length);
+    const sum = wordSizes.reduce(
+      (accumulator, currentVal) => accumulator + currentVal,
+      0,
+    );
+    const mean = sum / wordSizes.length;
+    return mean;
+  }
+
+  /**
+   * @description Gets median size of a word
+   * @param {string[]} wordArray - text to be analyzed
+   * @returns {string[]} - array of words in text
+   */
+  static getMedianWordSize(wordArray) {
+    const filteredArray = wordArray.filter((word) => word.length > 0);
+    const wordSizes = filteredArray.map((word) => word.trim().length);
+    const sortedSizes = wordSizes.sort((first, second) => {
+      if (first < second) return -1;
+      if (second > first) return 1;
+      return 0;
+    });
+    const isOdd = sortedSizes.length % 2 !== 0;
+    const median = isOdd
+      ? sortedSizes[Math.floor(sortedSizes.length / 2)]
+      : (sortedSizes[sortedSizes.length / 2]
+          + sortedSizes[sortedSizes.length / 2 + 1]) / 2;
+    return median;
+  }
+
+  /**
    * @description gets ngrams from text
    * @param  {string} text - text to be analyzed
    * @param  {number} [gramSize=2] - size of ngram to be analyzed
@@ -313,8 +350,13 @@ class Methodius {
         const isFirst = ngramIndex === 0;
         const isLast = ngramIndex === ngramCollection.length - 1;
         const siblingsSliceStart = isFirst ? 0 : ngramIndex - siblingSize;
-        const siblingsSliceEnd = isLast ? ngramCollection.length : ngramIndex + siblingSize + 1;
-        const siblingsSlice = ngramCollection.slice(siblingsSliceStart, siblingsSliceEnd);
+        const siblingsSliceEnd = isLast
+          ? ngramCollection.length
+          : ngramIndex + siblingSize + 1;
+        const siblingsSlice = ngramCollection.slice(
+          siblingsSliceStart,
+          siblingsSliceEnd,
+        );
         const siblingsSliceSearchIndex = siblingsSlice.indexOf(searchText);
 
         siblingsSlice.forEach((sibling, siblingIndex) => {

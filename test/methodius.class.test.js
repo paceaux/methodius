@@ -8,6 +8,8 @@ describe('NGrammer', () => {
       expect(Methodius).toHaveProperty('hasPunctuation');
       expect(Methodius).toHaveProperty('hasSpace');
       expect(Methodius).toHaveProperty('sanitizeText');
+      expect(Methodius).toHaveProperty('getMeanWordSize');
+      expect(Methodius).toHaveProperty('getMedianWordSize');
       expect(Methodius).toHaveProperty('getWords');
       expect(Methodius).toHaveProperty('getNGrams');
       expect(Methodius).toHaveProperty('getFrequencyMap');
@@ -16,11 +18,11 @@ describe('NGrammer', () => {
     });
     it('has all the common punctuations', () => {
       expect(Methodius.punctuations).toEqual(
-        "\\.,;:!?‽¡¿⸘()\\[\\]{}<>’'…\"\n\t\r",
+        "\\.,;:!?‽¡¿⸘()\\[\\]{}<>’'«»…\"\n\t\r",
       );
     });
     it('has common word Separators', () => {
-      expect(Methodius.wordSeparators).toEqual('—\\.,;:!?‽¡¿⸘()\\[\\]{}<>…"\\s');
+      expect(Methodius.wordSeparators).toEqual('—\\.,;:!?‽¡¿⸘()\\[\\]{}<>«»…"\\s');
     });
     it('can determine if a bit of text has common punctuations', () => {
       expect(Methodius.hasPunctuation('hello, world!')).toBe(true);
@@ -346,6 +348,23 @@ describe('NGrammer', () => {
         expect(placementMap.get('er').get('start')).toEqual(0);
         expect(placementMap.get('er').get('middle')).toEqual(1);
         expect(placementMap.get('er').get('end')).toEqual(2);
+      });
+    });
+    describe('wordSize', () => {
+      it('will get the mean word size from an array of words', () => {
+        const words = ['it', 'will', 'get', 'the', 'mean'];
+        const mean = Methodius.getMeanWordSize(words);
+        expect(mean).toEqual((2 + 4 + 3 + 3 + 4) / 5);
+      });
+      it('will get the median word size from an odd sized array of words', () => {
+        const words = ['it', 'will', 'get', 'the', 'mean'];
+        const mean = Methodius.getMedianWordSize(words);
+        expect(mean).toEqual(3);
+      });
+      it('will get the median word size from an even sized array of words', () => {
+        const words = ['it', 'will', 'get', 'the'];
+        const mean = Methodius.getMedianWordSize(words);
+        expect(mean).toEqual(3.5);
       });
     });
   });

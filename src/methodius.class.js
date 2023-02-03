@@ -11,14 +11,14 @@ class Methodius {
    * @description period, comma, semicolon, colon, bang,
    * question mark, interrobang, Spanish bang+, parens, bracket, brace, single quote, some spaces
    */
-  static punctuations = "\\.,;:!?‽¡¿⸘()\\[\\]{}<>’'…\"\n\t\r";
+  static punctuations = "\\.,;:!?‽¡¿⸘()\\[\\]{}<>’'«»…\"\n\t\r";
 
   /**
    * @property {string} wordSeparators - characters to ignore AND CONSUME when trying to find words
    * @description em-dash, period, comman, semicolon, colon, bang,
    * question mark, interrobang, Spanish bang+, parens, bracket, brace, single quote, space
    */
-  static wordSeparators = '—\\.,;:!?‽¡¿⸘()\\[\\]{}<>…"\\s';
+  static wordSeparators = '—\\.,;:!?‽¡¿⸘()\\[\\]{}<>«»…"\\s';
 
   /**
    * @description determins if string contains punctuation

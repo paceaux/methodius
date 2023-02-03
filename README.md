@@ -106,6 +106,28 @@ em-dash, period, comma, semicolon, colon, bang, question mark, interrobang, Span
 **Returns**
 `Array<string>`
 
+#### `getMeanWordSize(wordArray)`
+ Gets average size of a word
+
+**Parameters**
+| name  | type  | Description   |
+| ---   |---    | ---           |
+|  wordArray     | string[]       |               |
+
+**Returns**
+`number`
+
+#### `getMedianWordSize(wordArray)`
+ Gets the median (middle) size of a word
+
+**Parameters**
+| name  | type  | Description   |
+| ---   |---    | ---           |
+|  wordArray     | string[]       |               |
+
+**Returns**
+`number`
+
 
 #### `getWordNGrams(text)`
 Gets 2-word pairs from text.

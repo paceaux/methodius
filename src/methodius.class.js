@@ -76,7 +76,7 @@ class Methodius {
   /**
    * @description Gets average size of a word
    * @param {string[]} wordArray - text to be analyzed
-   * @returns {string[]} - array of words in text
+   * @returns {number} - float. Average size of word
    */
   static getMeanWordSize(wordArray) {
     const filteredArray = wordArray.filter((word) => word.length > 0);
@@ -92,7 +92,7 @@ class Methodius {
   /**
    * @description Gets median size of a word
    * @param {string[]} wordArray - text to be analyzed
-   * @returns {string[]} - array of words in text
+   * @returns {number} - float. the median word size
    */
   static getMedianWordSize(wordArray) {
     const filteredArray = wordArray.filter((word) => word.length > 0);

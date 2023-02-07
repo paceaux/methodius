@@ -190,6 +190,19 @@ returns an array of items that occur in both iterables
 `Array<any>` 
 An array of items that occur in both iterables. It will compare the keys, if sent a map
 
+#### `getUnion(iterable1, iterable2)`
+Returns an array that is the union of two iterables
+
+**Parameters**
+| name  | type  | Description   |
+| ---   |---    | ---           |
+| iterable1      |   `Map|Array`    |               |
+| iterable2      |   `Map|Array`    |               |
+
+**Returns**
+`Array<any>` 
+A union of the items that occur in both iterables. 
+
 #### `getDisjunctiveUnion(iterable1, iterable2)`
 returns an array of arrays of the unique items in either iterable
  
@@ -367,6 +380,16 @@ a map of placements of trigrams within words
  a map of word percentages in the sanitized text
 
   `Map<string, number>`
+
+#### `meanWordSize`
+ The average size of a word
+  
+  `number`
+
+#### `medianWordSize`
+ The middle size of a word
+
+ `number`
 
 ### Instance Methods
 

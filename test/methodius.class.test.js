@@ -305,6 +305,28 @@ describe('NGrammer', () => {
         });
       });
     });
+    describe('getUnion', () => {
+      it('turns tio and ion into tion', () => {
+        const union = Methodius.getUnion([...'tio'], [...'ion']);
+        const result = union.join('');
+        expect(result).toEqual('tion');
+      });
+      it('turns io and on into ion', () => {
+        const union = Methodius.getUnion([...'io'], [...'on']);
+        const result = union.join('');
+        expect(result).toEqual('ion');
+      });
+      it('turns on and it into onit', () => {
+        const union = Methodius.getUnion([...'on'], [...'it']);
+        const result = union.join('');
+        expect(result).toEqual('onit');
+      });
+      it('turns on and io into oni', () => {
+        const union = Methodius.getUnion([...'on'], [...'i']);
+        const result = union.join('');
+        expect(result).toEqual('oni');
+      });
+    });
     describe('placements', () => {
       it('gets a placement map for an ngram', () => {
         const words = ['he', 'therefore', 'ran', 'after', 'the', 'cat', 'who', 'ran', 'after', 'the', 'dog'];

@@ -106,7 +106,8 @@ class Methodius {
     const median = isOdd
       ? sortedSizes[Math.floor(sortedSizes.length / 2)]
       : (sortedSizes[sortedSizes.length / 2]
-          + sortedSizes[sortedSizes.length / 2 + 1]) / 2;
+          + sortedSizes[sortedSizes.length / 2 + 1])
+        / 2;
     return median;
   }
 
@@ -214,6 +215,23 @@ class Methodius {
     });
 
     return intersection;
+  }
+
+  /**
+   * @description returns an array that is the union of two iterables
+   * @param  {Map|Array} iterable1 A map or array
+   * @param  {Map|Array} iterable2 A map or array
+   * @returns {Array<string>} An array of items. It will  be the keys if sent a map
+   */
+  static getUnion(iterable1, iterable2) {
+    const array1 = Array.isArray(iterable1) ? iterable1 : [...iterable1.keys()];
+    const array2 = Array.isArray(iterable2) ? iterable2 : [...iterable2.keys()];
+    const set = new Set();
+
+    array1.forEach((char) => set.add(char));
+    array2.forEach((char) => set.add(char));
+
+    return [...set];
   }
 
   /**
@@ -342,7 +360,9 @@ class Methodius {
 
     if (!searchText) return ngramSiblings;
 
-    const collections = typeof ngramCollections[0] === 'string' ? [[...ngramCollections]] : ngramCollections;
+    const collections = typeof ngramCollections[0] === 'string'
+      ? [[...ngramCollections]]
+      : ngramCollections;
 
     collections.forEach((ngramCollection) => {
       const ngramIndex = ngramCollection.indexOf(searchText);

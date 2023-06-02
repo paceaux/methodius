@@ -15,7 +15,8 @@
     "build": "babel src --out-dir dist",
     "pretest": "npm run build",
     "test": "jest --config jest.config.js",
-    "prepublish": "safe-publish-latest && npm run build"
+    "prepublish": "safe-publish-latest && npm run build",
+    "build:ts": "tsc --build tsconfig.json"
   },
   "keywords": [
     "nlp",
@@ -42,6 +43,7 @@
     "eslint-formatter-table": "^7.32.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsdoc": "^39.3.3",
-    "safe-publish-latest": "^2.0.0"
+    "safe-publish-latest": "^2.0.0",
+    "typescript": "^5.1.3"
   }
 }

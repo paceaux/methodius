@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "module": "commonjs",
+    "outDir": "dist",
+    "strict": true,
+    "allowJs": true,
+    "sourceMap": true,
+    "lib": [
+      "ESNext"
+    ],
+  },
+  "include": [
+    "src/**/*.ts",
+  ],
+  "exclude": [
+    "node_modules/**/*.*",
+    "test/**/*.*",
+    "**/*.spec.ts",
+  ]
+}

@@ -76,9 +76,81 @@ function getNgramCollections(wordArray: Word[], ngramSize : number = 2) : NGramC
   return ngramCollections;
 }
 
+/**
+ * @description using a collection returned from getNgramCollections, searches for a string and returns what comes before and after it
+ * @param  {string} searchText - the string to search for
+ * @param  {NGramSequence|nGramCollection} collectionOrSequence - an array of ngrams, or an nGramCollection
+ * @param  {number} [siblingSize=1] - how many siblings to find in front or behind
+ * @returns {SiblingsFrequencyMap} - a Map with the keys 'before' and 'after' which contain maps of what comes before and after
+ * @example
+ *    const words = ['revolution', 'nation'];
+    const ngramCollections = Methodius.getNgramCollections(words, 2);
+    const onSiblings = Methodius.getNgramSiblings('io', ngramCollections);
+    onSiblings === new Map([
+      ['before', new Map(
+        ['ti', 2]
+      )],
+      ['after', new Map(
+        ['on', 2]
+      )]
+    ])
+*/
+function getNgramSiblings(
+  searchText:string,
+  collectionOrSequence: NGramSequence|NGramCollection,
+  siblingSize:number = 1)
+  : SiblingsFrequencyMap {
+const ngramSiblings : SiblingsFrequencyMap = new Map([
+  ['before', new Map()],
+  ['after', new Map()],
+]);
 
+if (!searchText) return ngramSiblings;
+
+const isSequence = typeof collectionOrSequence[0] === 'string';
+
+const collection = !isSequence
+      ? [[...collectionOrSequence]] as NGramCollection
+      : collectionOrSequence as NGramCollection;
+
+collection.forEach((ngramSequence: NGramSequence) => {
+  const ngramIndex = ngramSequence.indexOf(searchText);
+  if (ngramIndex > -1) {
+    const isFirst = ngramIndex === 0;
+    const isLast = ngramIndex === ngramSequence.length - 1;
+    const siblingsSliceStart = isFirst ? 0 : ngramIndex - siblingSize;
+    const siblingsSliceEnd = isLast
+      ? ngramSequence.length
+      : ngramIndex + siblingSize + 1;
+    const siblingsSlice = ngramSequence.slice(
+      siblingsSliceStart,
+      siblingsSliceEnd,
+    );
+    const siblingsSliceSearchIndex = siblingsSlice.indexOf(searchText);
+
+    siblingsSlice.forEach((sibling: NGram, siblingIndex: number) => {
+      if (siblingIndex === siblingsSliceSearchIndex) {
+        return;
+      }
+      const siblingPosition: RelativePosition = siblingIndex < siblingsSliceSearchIndex ? 'before' : 'after';
+      const hasSibling = ngramSiblings.get(siblingPosition)?.has(sibling);
+      if (!hasSibling) {
+        ngramSiblings.get(siblingPosition)?.set(sibling, 1);
+      } else {
+        const currentPosition = ngramSiblings?.get(siblingPosition);
+        const currentPositionCountOfSibling = currentPosition?.get(sibling) || 0; // only here to appease TS
+        currentPosition
+          ?.set(sibling, currentPositionCountOfSibling + 1);
+      }
+    });
+  }
+});
+
+return ngramSiblings;
+}
 export {
   getWordPlacementForNGram,
   getWordPlacementForNGrams,
-  getNgramCollections
+  getNgramCollections,
+  getNgramSiblings,
 }

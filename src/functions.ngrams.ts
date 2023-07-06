@@ -8,9 +8,9 @@ import {
    * @description gets ngrams from text
    * @param  {string} text - text to be analyzed
    * @param  {number} [gramSize=2] - size of ngram to be analyzed
-   * @returns {NGram[]} - array of ngrams
+   * @returns {NGramSequence} - array of ngrams extracted from a single word
    */
-  function getNGrams(text:string, gramSize: number = 2) : NGram[] {
+  function getNGrams(text:string, gramSize: number = 2) : NGramSequence {
     const bigrams: NGram[] = [];
     for (let i = 0; i < text.length - (gramSize - 1); i += 1) {
       const substring : NGram = text.substring(i, i + gramSize);
@@ -43,3 +43,8 @@ import {
     }
     return wordNGrams;
   }
+
+export {
+  getNGrams,
+  getWordNGrams,
+};

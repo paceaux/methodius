@@ -109,7 +109,7 @@ if (!searchText) return ngramSiblings;
 
 const isSequence = typeof collectionOrSequence[0] === 'string';
 
-const collection = !isSequence
+const collection = isSequence
       ? [[...collectionOrSequence]] as NGramCollection
       : collectionOrSequence as NGramCollection;
 

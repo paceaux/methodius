@@ -14,7 +14,8 @@
                 "useBuiltIns" : "usage",
                 "corejs" : 3
             }
-        ]
+        ],
+        '@babel/preset-typescript'
     ],
     "sourceType": "module",
     "sourceMap": true

@@ -70,17 +70,22 @@ function getDisjunctiveUnion(
 
   return [set1, set2];
 }
+/** The type of way that two NGramSequences can be evaluated */
+type SequenceComparisonType = "intersection" | "disjunctiveUnion";
+
+/** A map containing various comparisons between two iterables */
+type SequenceComparison = Map<SequenceComparisonType, Intersection | DisjunctiveUnion>;
 
 /**
  * @description returns a map containing various comparisons between two iterables
- * @param  {Map|Array} iterable1 an array or map
- * @param  {Map|Array} iterable2 an array or map
- * @returns {Map<string, Intersection | DisjunctiveUnion>} A map containing various comparisons between two iterables
+ * @param  {Map|NGramSequence} iterable1 an array or map
+ * @param  {Map|NGramSequence} iterable2 an array or map
+ * @returns {SequenceComparison} A map containing various comparisons between two iterables
  */
 function getComparison(
-  iterable1: Map<string, string>,
-  iterable2: Map<string, string>
-) {
+  iterable1: Map<string, string> | NGramSequence,
+  iterable2: Map<string, string> | NGramSequence
+) : SequenceComparison {
   const comparison = new Map();
   comparison.set("intersection", getIntersection(iterable1, iterable2));
   comparison.set("disjunctiveUnion", getDisjunctiveUnion(iterable1, iterable2));
@@ -93,4 +98,6 @@ export {
   getUnion,
   getDisjunctiveUnion,
   getComparison,
+  SequenceComparisonType,
+  SequenceComparison
 };

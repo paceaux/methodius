@@ -10,6 +10,14 @@ declare global {
   /** a string of <N> adjacent characters from a Word  */
   type NGram = string;
 
+  /** A user-friendly name for the size of the Ngram*/
+  enum NGramType {
+    "letter" = 1,
+    "bigram" = 2,
+    "trigram" = 3,
+    "word" = Infinity,
+  }
+
   /** an array of NGram extracted from a single word */
   type NGramSequence = NGram[];
 

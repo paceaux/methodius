@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import  Methodius  from '../../src/Methodius.class';
+import  Methodius  from '../../src/Methodius.class.ts';
 
 describe('static class members', () => {
   it('has static members', () => {

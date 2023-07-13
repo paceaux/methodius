@@ -1,5 +1,5 @@
 import { punctuations, wordSeparators } from './constants';
-import { hasPunctuation, hasSpace, sanitizeText } from './functions.tokenizers';
+import { hasPunctuation, hasSpace, sanitizeText, getWords } from './functions.tokenizers';
 import { getMeanWordSize, getMedianWordSize } from './functions.metrics.words';
 import { getNGrams, getWordNGrams } from './functions.ngrams';
 import { getFrequencyMap, getPercentMap, getTopGrams } from './functions.metrics.ngrams';
@@ -17,6 +17,7 @@ export default class Methodius {
   static hasPunctuation = hasPunctuation;
   static hasSpace = hasSpace;
   static sanitizeText = sanitizeText;
+  static getWords = getWords;
   static getMeanWordSize = getMeanWordSize;
   static getMedianWordSize = getMedianWordSize;
   static getNGrams = getNGrams;

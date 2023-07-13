@@ -3,7 +3,7 @@ import { hasPunctuation, hasSpace, sanitizeText, getWords } from './functions.to
 import { getMeanWordSize, getMedianWordSize } from './functions.metrics.words';
 import { getNGrams, getWordNGrams } from './functions.ngrams';
 import { getFrequencyMap, getPercentMap, getTopGrams } from './functions.metrics.ngrams';
-import { getIntersection, getUnion, getDisjunctiveUnion, getComparison} from './functions.comparisons';
+import { getIntersection, getUnion, getDisjunctiveUnion, getComparison, SequenceComparisonType, SequenceComparison } from './functions.comparisons';
 import { getWordPlacementForNGram, getWordPlacementForNGrams, getNgramCollections, getNgramSiblings } from './functions.analysis';
 
 export default class Methodius {
@@ -200,5 +200,83 @@ export default class Methodius {
    */
   get trigramPositions() : PlacementsMap {
     return Methodius.getWordPlacementForNGrams(this.uniqueTrigrams, this.words);
+  }
+
+/**
+   * @description gets an array of customizeable ngrams in the text
+   * @param {number} [size=2] - size of nGram
+   * @returns {NGramSequence} - array of granms in text
+   */
+  getLetterNGrams(size: number = 2) : NGramSequence {
+    return Methodius.getNGrams(this.sanitizedText, size);
+  }
+
+  /**
+   * @description a map of the most used letters in the text
+   * @param {number} [limit=20] - number of top letters to return
+   * @returns {FrequencyMap} - map of letters and their frequencies
+   */
+  getTopLetters(limit: number = 10) : FrequencyMap {
+    return Methodius.getTopGrams(this.letterFrequencies, limit);
+  }
+
+  /**
+   * @description a map of the most used bigrams in the text
+   * @param {number} [limit=20] - number of top bigrams to return
+   * @returns {FrequencyMap} - map of bigrams and their frequencies
+   */
+  getTopBigrams(limit: number = 20) {
+    return Methodius.getTopGrams(this.bigramFrequencies, limit);
+  }
+
+  /**
+   * @description a map of the most used trigrams in the text
+   * @param {number} [limit=20] - number of top trigrams to return
+   * @returns {FrequencyMap} - map of trigrams and their frequencies
+   */
+  getTopTrigrams(limit: number = 20) : FrequencyMap {
+    return Methodius.getTopGrams(this.trigramFrequencies, limit);
+  }
+
+  /**
+   * @description a map of the most used words in the text
+   * @param {number} [limit=20] - number of top trigrams to return
+   * @returns {FrequencyMap} - map of trigrams and their frequencies
+   */
+  getTopWords(limit: number = 20) : FrequencyMap {
+    return Methodius.getTopGrams(this.wordFrequencies, limit);
+  }
+  
+  
+  /**
+   * @description Compare this methodius instance's letter, bigrams, trigrams, and words to another methodius instance
+   * @param  {Methodius} methodius another methodius instance
+   * @returns {Map<NGramType, SequenceComparison>} -A map of property names and their comparisons (intersection, disjunctiveUnions, etc) for a set of properties
+   */
+  compareTo(methodius: Methodius) : Map<NGramType, SequenceComparison> {
+    if (!(methodius instanceof Methodius)) {
+      throw new Error('This must be an instance of Methodius');
+    }
+
+    const comparison = new Map();
+
+    comparison.set(
+      'letters',
+      Methodius.getComparison(this.letters, methodius.letters),
+    );
+    comparison.set(
+      'bigrams',
+      Methodius.getComparison(this.bigrams, methodius.bigrams),
+    );
+    comparison.set(
+      'trigrams',
+      Methodius.getComparison(this.trigrams, methodius.trigrams),
+    );
+    comparison.set(
+      'words',
+      Methodius.getComparison(this.words, methodius.words),
+    );
+
+    return comparison;
   }
 }

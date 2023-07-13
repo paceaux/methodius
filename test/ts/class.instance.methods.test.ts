@@ -3,66 +3,69 @@ import  Methodius  from '../../src/Methodius.class.ts';
 
 describe('instance methods', () => {
   const nGrammer = new Methodius('hello world');
-  it('will get the top letters', () => {
-    expect(nGrammer.getTopLetters(1))
-      .toEqual(new Map(
-        [
-          ['l', 3],
-        ],
-      ));
-    expect(nGrammer.getTopLetters(2))
-      .toEqual(new Map(
-        [
-          ['l', 3],
-          ['o', 2],
-        ],
-      ));
+  describe('Frequency analysis', () => {
+    it('will get the top letters', () => {
+      expect(nGrammer.getTopLetters(1))
+        .toEqual(new Map(
+          [
+            ['l', 3],
+          ],
+        ));
+      expect(nGrammer.getTopLetters(2))
+        .toEqual(new Map(
+          [
+            ['l', 3],
+            ['o', 2],
+          ],
+        ));
+    });
+    it('will get the top bigrams', () => {
+      expect(nGrammer.getTopBigrams(1))
+        .toEqual(new Map(
+          [
+            ['he', 1],
+          ],
+        ));
+      expect(nGrammer.getTopBigrams(2))
+        .toEqual(new Map(
+          [
+            ['he', 1],
+            ['el', 1],
+          ],
+        ));
+    });
+    it('will get the top trigrams', () => {
+      expect(nGrammer.getTopTrigrams(1))
+        .toEqual(new Map(
+          [
+            ['hel', 1],
+          ],
+        ));
+      expect(nGrammer.getTopTrigrams(2))
+        .toEqual(new Map(
+          [
+            ['hel', 1],
+            ['ell', 1],
+          ],
+        ));
+    });
+    it('will get the top words', () => {
+      expect(nGrammer.getTopWords(1))
+        .toEqual(new Map(
+          [
+            ['hello', 1],
+          ],
+        ));
+      expect(nGrammer.getTopWords(2))
+        .toEqual(new Map(
+          [
+            ['hello', 1],
+            ['world', 1],
+          ],
+        ));
+    });
   });
-  it('will get the top bigrams', () => {
-    expect(nGrammer.getTopBigrams(1))
-      .toEqual(new Map(
-        [
-          ['he', 1],
-        ],
-      ));
-    expect(nGrammer.getTopBigrams(2))
-      .toEqual(new Map(
-        [
-          ['he', 1],
-          ['el', 1],
-        ],
-      ));
-  });
-  it('will get the top trigrams', () => {
-    expect(nGrammer.getTopTrigrams(1))
-      .toEqual(new Map(
-        [
-          ['hel', 1],
-        ],
-      ));
-    expect(nGrammer.getTopTrigrams(2))
-      .toEqual(new Map(
-        [
-          ['hel', 1],
-          ['ell', 1],
-        ],
-      ));
-  });
-  it('will get the top words', () => {
-    expect(nGrammer.getTopWords(1))
-      .toEqual(new Map(
-        [
-          ['hello', 1],
-        ],
-      ));
-    expect(nGrammer.getTopWords(2))
-      .toEqual(new Map(
-        [
-          ['hello', 1],
-          ['world', 1],
-        ],
-      ));
-  });
+
   it('can get an arbitrary letterNgram', () => {
     expect(nGrammer.getLetterNGrams(2)).toEqual([
       'he',

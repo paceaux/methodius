@@ -12,10 +12,12 @@
   },
   "include": [
     "src/**/*.ts",
+    "typings/**/*.d.ts",
   ],
   "exclude": [
     "node_modules/**/*.*",
     "test/**/*.*",
     "**/*.spec.ts",
-  ]
+  ],
+  "declaration": true,
 }

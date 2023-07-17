@@ -15,12 +15,16 @@
     "url": "https://github.com/paceaux/methodius.git"
   },
   "scripts": {
+    "clean": "rimraf dist esm",
     "lint": "eslint -f table src/**/*.js test/**/*.js",
     "lint:fix": "eslint --fix src/**/*.js test/**/*.js",
     "pretest": "npm run build",
     "test": "jest --config jest.config.js",
     "prepublish": "safe-publish-latest && npm run build",
-    "build": "tsc --build tsconfig.json",
+    "build:cjs": "tsc --module commonjs --outDir dist",
+    "build:esm": "tsc --target esnext --outDir esm",
+    "prebuild": "npm run clean",
+    "build": "npm run build:esm && npm run build:cjs",
     "prepare": "npm run build",
     "prepublishOnly": "npm run build"
   },
@@ -52,6 +56,7 @@
     "eslint-formatter-table": "^7.32.1",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsdoc": "^39.3.3",
+    "rimraf": "^5.0.1",
     "safe-publish-latest": "^2.0.0",
     "ts-jest": "^29.1.1",
     "typescript": "^5.1.3"

@@ -11,7 +11,7 @@ Supply a bit o' text to the methodius class, and let it determine your bigrams, 
 ## Example
 
 ```JavaScript
-const { Methodius } = require('../index');
+const { Methodius } = require('methodius');
 
 const udhr1 = `
 All human beings are born free and equal in dignity and rights. They are endowed with reason and conscience and should act towards one another in a spirit of brotherhood.

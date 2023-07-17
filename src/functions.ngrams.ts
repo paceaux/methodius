@@ -3,6 +3,13 @@ import {
   hasSpace,
   getWords,
 } from './functions.tokenizers';
+import { NGramSequence, Word } from './functions.analysis';
+
+/** a string of <N> adjacent characters from a Word  */
+type NGram = string;
+
+/** an array of <N> adjacent words from a text */
+type WordNGram = Word[];
 
 /**
    * @description gets ngrams from text
@@ -47,4 +54,6 @@ import {
 export {
   getNGrams,
   getWordNGrams,
+  WordNGram,
+  NGram,
 };

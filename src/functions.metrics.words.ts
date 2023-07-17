@@ -1,3 +1,4 @@
+  import { Word } from './functions.analysis';
   /**
    * @description Gets average size of a word
    * @param {Word[]} wordArray - text to be analyzed

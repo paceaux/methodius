@@ -1,10 +1,18 @@
 import { punctuations, wordSeparators } from './constants';
 import { hasPunctuation, hasSpace, sanitizeText, getWords } from './functions.tokenizers';
 import { getMeanWordSize, getMedianWordSize } from './functions.metrics.words';
-import { getNGrams, getWordNGrams } from './functions.ngrams';
+import { getNGrams, getWordNGrams, WordNGram, NGram } from './functions.ngrams';
 import { getFrequencyMap, getPercentMap, getTopGrams } from './functions.metrics.ngrams';
 import { getIntersection, getUnion, getDisjunctiveUnion, getComparison, SequenceComparisonType, SequenceComparison } from './functions.comparisons';
-import { getWordPlacementForNGram, getWordPlacementForNGrams, getNgramCollections, getNgramSiblings } from './functions.analysis';
+import { getWordPlacementForNGram, getWordPlacementForNGrams, getNgramCollections, getNgramSiblings, PlacementsMap, FrequencyMap, NGramSequence, NGramCollection, Word } from './functions.analysis';
+
+/** A user-friendly name for the size of the Ngram*/
+enum NGramType {
+  "letter" = 1,
+  "bigram" = 2,
+  "trigram" = 3,
+  "word" = Infinity,
+}
 
 export default class Methodius {
   text: string;

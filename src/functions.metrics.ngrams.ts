@@ -1,4 +1,6 @@
-  /**
+import { NGram } from './functions.ngrams';
+import { FrequencyMap, NGramSequence } from './functions.analysis';
+/**
    * @description converts an array of strings into a map of those strings and number of occurences
    * @param  {NGram[]} ngramArray - array of ngrams
    * @returns {FrequencyMap} - map of ngrams and their frequencies

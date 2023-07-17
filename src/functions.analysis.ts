@@ -1,6 +1,28 @@
 import {
   getNGrams,
+  NGram,
 } from './functions.ngrams';
+
+/** string without punctuations or word separators */
+type Word = string;
+
+/** an array of NGram extracted from a single word */
+type NGramSequence = NGram[];
+
+/** an array of NGramSequence extracted from many words */
+type NGramCollection = NGramSequence[];
+
+/** The positions within a word where an ngram can occur */
+type Positions = "start" | "middle" | "end";
+
+/** Frequency of placements of a single ngram in a word */
+type PlacementMap = Map<Positions, number>;
+
+/** Frequency of placements of many ngrams within words */
+type PlacementsMap = Map<NGram, PlacementMap>;
+
+/** a map of ngrams and their frequencies as either an integer or percentage */
+type FrequencyMap = Map<NGram, number>;
 
 /**
  * @description determines the placement of a single ngram in an array of words
@@ -75,6 +97,12 @@ function getNgramCollections(wordArray: Word[], ngramSize : number = 2) : NGramC
   });
   return ngramCollections;
 }
+
+/** The relative positions one NGram can have to another */
+type RelativePosition = "before" | "after";
+
+/** The frequency of a given relative position that <Ngram> has had to <NGram> */
+type SiblingsFrequencyMap = Map<RelativePosition, FrequencyMap>;
 
 /**
  * @description using a collection returned from getNgramCollections, searches for a string and returns what comes before and after it
@@ -153,4 +181,13 @@ export {
   getWordPlacementForNGrams,
   getNgramCollections,
   getNgramSiblings,
+  Word,
+  NGramSequence,
+  NGramCollection,
+  Positions,
+  PlacementMap,
+  PlacementsMap,
+  RelativePosition,
+  FrequencyMap,
+  SiblingsFrequencyMap,
 }

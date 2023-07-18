@@ -4,6 +4,7 @@ import {
   getWordPlacementForNGrams,
   getNgramCollections,
   getNgramSiblings,
+  getNgramTree,
 } from '../../src/functions.analysis';
 
 describe('getNGramsInWords', () => {
@@ -83,5 +84,37 @@ describe('placements', () => {
     expect(placementMap.get('er').get('start')).toEqual(0);
     expect(placementMap.get('er').get('middle')).toEqual(1);
     expect(placementMap.get('er').get('end')).toEqual(2);
+  });
+});
+
+describe('getNGramTree', () => {
+  it('returns an array from a 2-letter word', () =>{
+    const tree = getNgramTree('on');
+    console.log(tree);
+    expect(tree.includes('o') ).toEqual(true);
+    expect(tree.includes('n')).toEqual(true);
+  });
+  it('forms a tree from a 3-letter word', () =>{
+    const tree = getNgramTree('one');
+    expect(tree.has('on')).toEqual(true);
+    expect(tree.has('ne')).toEqual(true);
+  });
+  it('forms a tree from a 4-letter word', () =>{
+    const tree = getNgramTree('tree');
+    expect(tree.has('tre')).toEqual(true);
+    expect(tree.has('ree')).toEqual(true);
+    expect(tree.get('tre').has('tr')).toEqual(true);
+    expect(tree.get('tre').has('re')).toEqual(true);
+  });
+  it('forms a tree from a 6-letter word', () => {
+    const tree = getNgramTree('nation');
+    expect(tree.has('natio')).toEqual(true);
+    expect(tree.has('ation')).toEqual(true);
+    expect(tree.get('ation').has('atio')).toEqual(true);
+    expect(tree.get('ation').has('tion')).toEqual(true);
+    expect(tree.get('ation').get('tion').has('tio')).toEqual(true);
+    expect(tree.get('ation').get('tion').has('ion')).toEqual(true);
+    expect(tree.get('ation').get('tion').get('ion').has('io')).toEqual(true);
+    expect(tree.get('ation').get('tion').get('ion').has('on')).toEqual(true);
   });
 });

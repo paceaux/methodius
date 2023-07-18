@@ -176,6 +176,27 @@ collection.forEach((ngramSequence: NGramSequence) => {
 
 return ngramSiblings;
 }
+
+function getNgramTree(word:Word) : Map<any, any> | NGramSequence {
+  const ngramSize = word?.length - 1;
+
+  if (ngramSize  < 2) {
+    return getNGrams(word, 1);
+  }
+  const ngrams = getNGrams(word, ngramSize);
+  const ngramTree = new Map();
+  ngrams.forEach((ngram) => {
+    if (ngramTree.has(ngram)) {
+      return;
+    }
+    if (ngram.length >= 2) {
+      const childTree = getNgramTree(ngram);
+      ngramTree.set(ngram, getNgramTree(ngram));
+    }
+  });
+
+  return ngramTree;
+}
 export {
   getWordPlacementForNGram,
   getWordPlacementForNGrams,
@@ -190,4 +211,5 @@ export {
   RelativePosition,
   FrequencyMap,
   SiblingsFrequencyMap,
-}
+  getNgramTree,
+};

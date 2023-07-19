@@ -58,6 +58,15 @@ class NGramTree extends Map<NGram, NGramTree | NGramSequence> {
     }
     return depth;
   }
+
+  hasDeep(ngram: NGram) : boolean {
+    const nGramSize = ngram.length;
+    if (!nGramSize) return false;
+
+    const ngramsOfMatchingSize = this.flatten(ngram.length);
+    const hasNGram = ngramsOfMatchingSize.includes(ngram);
+    return hasNGram;
+  }
 }
 
 export default NGramTree;

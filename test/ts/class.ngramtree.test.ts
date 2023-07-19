@@ -156,5 +156,59 @@ describe('NGramTree', () => {
         expect(flattendTree).toEqual(['nati', 'atio']);
       });
   });
-
+  describe('hasDeep', () => {
+    const na = ["n", "a"];
+    const at = ["a", "t"];
+    const ti = ["t", "i"];
+    const io = ["i", "o"];
+    const on = ["o", "n"];
+    const natTree = new NGramTree([
+      ["na", ...na],
+      ["at", ...at],
+    ]);
+    const atiTree = new NGramTree([
+      ["at", ...at],
+      ["ti", ...ti],
+    ]);
+    const tioTree = new NGramTree([
+      ["ti", ...ti],
+      ["io", ...io],
+    ]);
+    const ionTree = new NGramTree([
+      ["io", ...io],
+      ["on", ...on],
+    ]);
+    const atioTree = new NGramTree([
+      ["ati", atiTree],
+      ["tio", tioTree],
+    ]);
+    const tionTree = new NGramTree([
+      ["tio", tioTree],
+      ["ion", ionTree],
+    ]);
+    const natiTree = new NGramTree([
+      ["nat", natTree],
+      ["ati", atiTree],
+    ]);
+    const natioTree = new NGramTree([
+      ["nati", natiTree],
+      ["atio", atioTree],
+    ]);
+    const ationTree = new NGramTree([
+      ["atio", atioTree],
+      ["tion", tionTree],
+    ]);
+    it('will find an ngram of many levels deep', () => {
+      expect(tionTree.hasDeep('io')).toEqual(true);
+      expect(tionTree.hasDeep('ion')).toEqual(true);
+    });
+    it('will find an ngram few levels deep', () => {
+      expect(ionTree.hasDeep('io')).toEqual(true);
+      expect(ionTree.hasDeep('on')).toEqual(true);
+    });
+    it('will find an ngram few levels deep on a larger-ish tree', () => {
+      expect(ationTree.hasDeep('ion')).toEqual(true);
+      expect(ationTree.hasDeep('tion')).toEqual(true);
+    });
+  });
 });

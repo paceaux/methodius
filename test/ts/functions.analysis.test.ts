@@ -5,6 +5,7 @@ import {
   getNgramCollections,
   getNgramSiblings,
   getNgramTree,
+  getNgramTreeCollection,
 } from '../../src/functions.analysis';
 
 describe('getNGramsInWords', () => {
@@ -90,7 +91,6 @@ describe('placements', () => {
 describe('getNGramTree', () => {
   it('returns an array from a 2-letter word', () =>{
     const tree = getNgramTree('on');
-    console.log(tree);
     expect(tree.includes('o') ).toEqual(true);
     expect(tree.includes('n')).toEqual(true);
   });
@@ -116,5 +116,24 @@ describe('getNGramTree', () => {
     expect(tree.get('ation').get('tion').has('ion')).toEqual(true);
     expect(tree.get('ation').get('tion').get('ion').has('io')).toEqual(true);
     expect(tree.get('ation').get('tion').get('ion').has('on')).toEqual(true);
+  });
+});
+
+describe('getNgramTreeCollection', () => {
+  it('forms a map of trees from an array of words', () => {
+    const words = ['the', 'revolution', 'nation', 'distillation'];
+    const treeCollection = getNgramTreeCollection(words);
+    expect(treeCollection.has('the')).toEqual(true);
+    expect(treeCollection.has('revolution')).toEqual(true);
+    expect(treeCollection.has('nation')).toEqual(true);
+    expect(treeCollection.has('distillation')).toEqual(true);
+  });
+  it('will not have duplicates', () => {
+    const words = ['the', 'revolution', 'nation', 'distillation'];
+    const treeCollection = getNgramTreeCollection(words);
+    expect(treeCollection.has('the')).toEqual(true);
+    expect(treeCollection.has('revolution')).toEqual(true);
+    expect(treeCollection.has('nation')).toEqual(true);
+    expect(treeCollection.has('distillation')).toEqual(true);
   });
 });

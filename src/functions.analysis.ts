@@ -24,6 +24,12 @@ type PlacementsMap = Map<NGram, PlacementMap>;
 /** a map of ngrams and their frequencies as either an integer or percentage */
 type FrequencyMap = Map<NGram, number>;
 
+/** a nested map of maps of ngrams formed from a single word where the deepest structure is an array of bigrams */
+type NGramTree = Map<NGram, NGramTree | NGramSequence>;
+
+/** a map of words and their ngram trees */
+type NGramTreeCollection = Map<Word, NGramTree | NGramSequence>;
+
 /**
  * @description determines the placement of a single ngram in an array of words
  * @param  {NGram} ngram - a unigram, bigram, trigram, or ngram
@@ -177,13 +183,19 @@ collection.forEach((ngramSequence: NGramSequence) => {
 return ngramSiblings;
 }
 
-function getNgramTree(word:Word) : Map<any, any> | NGramSequence {
-  const ngramSize = word?.length - 1;
+/**
+ * @description Recursively creates a nested tree of ngrams from a  where the innermost part will be bigrams
+ * @param {Word|NGram} word - a word from which the tree is created
+ * @returns {NGramTree | NGramSequence} - a tree of ngrams
+*/
+
+function getNgramTree(word:Word|NGram) : NGramTree | NGramSequence {
+  const ngramSize : number = word?.length - 1;
 
   if (ngramSize  < 2) {
     return getNGrams(word, 1);
   }
-  const ngrams = getNGrams(word, ngramSize);
+  const ngrams : NGramSequence = getNGrams(word, ngramSize);
   const ngramTree = new Map();
   ngrams.forEach((ngram) => {
     if (ngramTree.has(ngram)) {
@@ -197,6 +209,25 @@ function getNgramTree(word:Word) : Map<any, any> | NGramSequence {
 
   return ngramTree;
 }
+
+/**
+ * @description creates a map of words with their respective ngram trees
+ * @param  {Word[]} words -the words from which ngram trees are created
+ * @returns NGramTreeCollection
+ */
+function getNgramTreeCollection(words:Word[]) : NGramTreeCollection {
+  const ngramTreeCollection : NGramTreeCollection = new Map();
+  const uniqueWords : Word[] = [...new Set(words)];
+
+  uniqueWords.forEach((word) => {
+    if (word && !ngramTreeCollection.has(word)) {
+      ngramTreeCollection.set(word, getNgramTree(word));
+    }
+  });
+
+  return ngramTreeCollection;
+}
+
 export {
   getWordPlacementForNGram,
   getWordPlacementForNGrams,
@@ -212,4 +243,5 @@ export {
   FrequencyMap,
   SiblingsFrequencyMap,
   getNgramTree,
+  getNgramTreeCollection,
 };

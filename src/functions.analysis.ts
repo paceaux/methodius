@@ -3,6 +3,8 @@ import {
   NGram,
 } from './functions.ngrams';
 
+import NGramTree from './ngramtree.class';
+
 /** string without punctuations or word separators */
 type Word = string;
 
@@ -23,9 +25,6 @@ type PlacementsMap = Map<NGram, PlacementMap>;
 
 /** a map of ngrams and their frequencies as either an integer or percentage */
 type FrequencyMap = Map<NGram, number>;
-
-/** a nested map of maps of ngrams formed from a single word where the deepest structure is an array of bigrams */
-type NGramTree = Map<NGram, NGramTree | NGramSequence>;
 
 /** a map of words and their ngram trees */
 type NGramTreeCollection = Map<Word, NGramTree | NGramSequence>;
@@ -196,7 +195,7 @@ function getNgramTree(word:Word|NGram) : NGramTree | NGramSequence {
     return getNGrams(word, 1);
   }
   const ngrams : NGramSequence = getNGrams(word, ngramSize);
-  const ngramTree = new Map();
+  const ngramTree = new NGramTree();
   ngrams.forEach((ngram) => {
     if (ngramTree.has(ngram)) {
       return;
@@ -213,7 +212,7 @@ function getNgramTree(word:Word|NGram) : NGramTree | NGramSequence {
 /**
  * @description creates a map of words with their respective ngram trees
  * @param  {Word[]} words -the words from which ngram trees are created
- * @returns NGramTreeCollection
+ * @returns {NGramTreeCollection}
  */
 function getNgramTreeCollection(words:Word[]) : NGramTreeCollection {
   const ngramTreeCollection : NGramTreeCollection = new Map();

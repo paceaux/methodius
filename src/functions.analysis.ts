@@ -243,4 +243,5 @@ export {
   SiblingsFrequencyMap,
   getNgramTree,
   getNgramTreeCollection,
+  NGramTreeCollection,
 };

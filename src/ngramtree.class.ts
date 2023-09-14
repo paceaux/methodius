@@ -59,13 +59,84 @@ class NGramTree extends Map<NGram, NGramTree | NGramSequence> {
     return depth;
   }
 
+  /**
+   * @description will determine if any part of the tree contains the ngram
+   * @param  {NGram} ngram
+   * @returns {boolean}
+   */
   hasDeep(ngram: NGram) : boolean {
     const nGramSize = ngram.length;
     if (!nGramSize) return false;
 
     const ngramsOfMatchingSize = this.flatten(ngram.length);
     const hasNGram = ngramsOfMatchingSize.includes(ngram);
-    return hasNGram;
+    // for sake of performance, don't try a partial match unless it comes up false in the keys
+    return hasNGram || ngramsOfMatchingSize
+      .some((ngramOfMatchingSize) => ngramOfMatchingSize.includes(ngram));
+  }
+
+  /**
+   * @description convenience method for hasDeep that determines if _all_ ngrams are present in the tree
+   * @param ngrams 
+   * @returns {boolean}
+   */
+  hasMany(ngrams: NGram[]) : boolean {
+    const hasMany = ngrams.every((ngram) => this.hasDeep(ngram));
+    return hasMany;
+  }
+
+  /**
+   * @description will determine if all of the ngrams are contained in the tree
+   * @param ngrams 
+   * @returns {boolean}
+   */
+  hasAny(ngrams: NGram[]) : boolean {
+    const hasMany = ngrams.some((ngram) => this.hasDeep(ngram));
+    return hasMany;
+  }
+
+  hasWhich(ngrams: NGram[]) : NGram[] {
+    const hasWhich = ngrams.filter((ngram) => this.hasDeep(ngram));
+    return hasWhich;
+  }
+
+  /**
+   * @description will return the key that contains the ngram you provide it
+   * @param  {NGram[]|NGram} ngram
+   * @returns {string|[string]}
+   */
+  keyContaining(ngram: NGram[] | NGram) : string | [string] {
+    let ngramSequence = ngram;
+    if (!Array.isArray(ngram)) {
+      ngramSequence = [ngram];
+    }
+
+    const ngramSize = ngramSequence[0].length;
+    let keyContaining: string | Array<string> = '';
+    this.forEach((value, key) => {
+      if (value instanceof NGramTree && value.hasMany(ngramSequence as NGram[])) {
+        if (key.length === ngramSize + 1) {
+          keyContaining = key;
+        } else {
+          keyContaining = value.keyContaining(ngramSequence);
+        }
+      }
+      // if the value is an array, this is the smallest set we can go
+      // that means the key is two letters and the array should have single letters
+      // there's a fun edge case where, given "t" and "[at, ti]", it occurs in both. So we need to return two keys
+      if (Array.isArray(value)) {
+        const hasSome = value.includes(ngramSequence[0]);
+        if (hasSome) {
+          if (!keyContaining) {
+            keyContaining = key;
+          } else {
+            keyContaining = [keyContaining as string, key as string]
+          }
+        }
+      }
+    });  
+
+    return keyContaining;
   }
 }
 

@@ -103,3 +103,25 @@ describe('instance methods', () => {
     });
   });
 });
+
+describe('instance method: ngram combo discovery', () => {
+  it('gets words with top bigrams', () => {
+    const nGrammer = new Methodius('the revolution of the nation was on television. It was about pollution and the terrible situation that it has caused. A declaration should be written about it.');
+    const words = nGrammer.getWordsContainingTopNgrams(2, 5);
+    expect(words).toBeTruthy();
+    expect(words.has('revolution')).toBe(true);
+    expect(words.has('nation')).toBe(true);
+    expect(words.has('of')).toBe(false);
+
+  });
+  it('gets words with top trigrams', () => {
+    const nGrammer = new Methodius('the revolution of the nation was on television. It was about pollution and the terrible situation that it has caused. A declaration should be written about it.');
+    const words = nGrammer.getWordsContainingTopNgrams(3, 5);
+    console.log(words);
+    expect(words).toBeTruthy();
+    expect(words.has('revolution')).toBe(true);
+    expect(words.has('nation')).toBe(true);
+    expect(words.has('of')).toBe(false);
+
+  });
+});

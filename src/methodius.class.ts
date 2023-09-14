@@ -255,6 +255,62 @@ export default class Methodius {
     return Methodius.getTopGrams(this.wordFrequencies, limit);
   }
   
+  /**
+   * @description evaluates the top ngrams to discover the words which contain them
+   * @param  {number=2} ngramSize
+   * @param  {number=20} limit
+   * @returns {Map<Word, NGram[]>}
+   */
+  getWordsContainingTopNgrams(ngramSize: number = 2, limit: number = 20) : Map<Word, NGram[]> {
+    const topNgrams = this.getTopNgrams(ngramSize, limit);
+    const topNgramKeys:  NGram[] = [...topNgrams.keys()];
+    const ngramTreeCollection = this.ngramTreeCollection;
+    const wordsWithTopNgrams = new Map();
+
+    ngramTreeCollection.forEach((ngramTree, word) => {
+      if (ngramTree instanceof NGramTree) {
+        // it's an ngram tree
+        const containsTopNgrams = ngramTree.hasAny(topNgramKeys);
+        if (containsTopNgrams) {
+          const whichTopNgrams = ngramTree.hasWhich(topNgramKeys);
+          wordsWithTopNgrams.set(word, whichTopNgrams);
+        }
+      } else {
+        // this is an array
+        const containsTopNgrams = ngramTree.some((ngram) => topNgramKeys.includes(ngram));
+        if (containsTopNgrams) {
+          const whichTopNgrams = ngramTree.filter((ngram) => topNgramKeys.includes(ngram));
+          wordsWithTopNgrams.set(word, whichTopNgrams);
+        }
+      }
+    });
+    return wordsWithTopNgrams;
+  }
+
+  getRelatedNgrams(ngramSize: number = 2, limit: number = 20) {
+    const wordsWithTopNgrams = this.getWordsContainingTopNgrams(ngramSize, limit);
+
+    const wordsWithPotentialCombos = new Map();
+    wordsWithTopNgrams.forEach((ngrams, word) => {
+      if (ngrams.length > 1) {
+        wordsWithPotentialCombos.set(word, ngrams);
+      }
+    });
+    const relatedNgrams = new Map();
+    const nGramTreeToAnalyze = new Map();
+
+    wordsWithPotentialCombos.forEach((ngrams, word) => {
+      const ngramTree = this.ngramTreeCollection.get(word);
+      nGramTreeToAnalyze.set(word, ngramTree);
+    });
+
+    const combinations = new Map();
+    nGramTreeToAnalyze.forEach((ngramTree, word) => {
+      const flattenedTree = ngramTree.flatten(ngramSize);
+    });
+
+    return nGramTreeToAnalyze;
+  }
   
   /**
    * @description Compare this methodius instance's letter, bigrams, trigrams, and words to another methodius instance

@@ -108,10 +108,6 @@ describe('getNGramTree', () => {
   });
   it('forms a tree from a 6-letter word', () => {
     const tree = getNgramTree('nation');
-    console.log('6 LETTER WORD TREE FOR NATION')
-    // console.log(tree);
-    // console.log(tree.get('natio'));
-    // console.log(tree.get('natio').get('nati'));
     expect(tree.has('natio')).toEqual(true);
     expect(tree.has('ation')).toEqual(true);
     expect(tree.get('ation').has('atio')).toEqual(true);

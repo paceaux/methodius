@@ -117,11 +117,21 @@ describe('instance method: ngram combo discovery', () => {
   it('gets words with top trigrams', () => {
     const nGrammer = new Methodius('the revolution of the nation was on television. It was about pollution and the terrible situation that it has caused. A declaration should be written about it.');
     const words = nGrammer.getWordsContainingTopNgrams(3, 5);
-    console.log(words);
     expect(words).toBeTruthy();
     expect(words.has('revolution')).toBe(true);
     expect(words.has('nation')).toBe(true);
     expect(words.has('of')).toBe(false);
 
   });
+  it('will discover ngram combos', () => {
+    const nGrammer = new Methodius('the revolution of the nation was on television. It was about pollution and the terrible situation that it has caused. A declaration should be written about it before there is confusion or revision. we are on a mission to make a decision.');
+    const relatedNgrams = nGrammer.getRelatedNgrams(2, 5);
+    expect(relatedNgrams).toBeTruthy();
+    expect(relatedNgrams.has('io')).toBe(true);
+    expect(relatedNgrams.has('on')).toBe(true);
+    expect(relatedNgrams.has('si')).toBe(true);
+    expect(relatedNgrams.get('io')).toBe(10);
+    expect(relatedNgrams.get('on')).toBe(10);
+  });
+
 });

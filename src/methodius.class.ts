@@ -333,28 +333,47 @@ export default class Methodius {
   }
 
   getRelatedNgrams(ngramSize: number = 2, limit: number = 20) {
+    // first, let's find the most common ngrams
+    const topNgrams = this.getTopNgrams(ngramSize, limit);
+    // next, get the words that have them
     const wordsWithTopNgrams = this.getWordsContainingTopNgrams(ngramSize, limit);
-
-    const wordsWithPotentialCombos = new Map();
-    wordsWithTopNgrams.forEach((ngrams, word) => {
-      if (ngrams.length > 1) {
-        wordsWithPotentialCombos.set(word, ngrams);
+    const relatedNgrams = new Map();
+    const relatedFrequencies = new Map();
+    // now,go through words that have the most common
+    wordsWithTopNgrams.forEach((ngrams, word) => { 
+      // loop through, and basicaly re-gramify. 
+      // the nature of this algorithm is that we will get bigrams that occur right next to each other
+      for (let i = 0; i < word.length - 1; i++) {
+        const ngram = word.slice(i, i + ngramSize);
+        const nextNgram = word.slice(i + 1, i + 1 + ngramSize);
+        const previousNgram = word.slice(i-1,((i - 1) + ngramSize));
+        const hasPrevAndCurrent = topNgrams.has(previousNgram) && topNgrams.has(ngram);
+        const hasNextAndCurrent = topNgrams.has(ngram) && topNgrams.has(nextNgram);
+        // we're looking for relationships, we any cases of top ngrams happening next to each other
+        if (hasPrevAndCurrent || hasNextAndCurrent) {
+          // our list didn't have it, so we add it
+          if (!relatedNgrams.has(ngram)) {
+            relatedNgrams.set(ngram, 1);
+          } else {
+            relatedNgrams.set(ngram, relatedNgrams.get(ngram) + 1);
+          }
+        }
       }
     });
-    const relatedNgrams = new Map();
-    const nGramTreeToAnalyze = new Map();
 
-    wordsWithPotentialCombos.forEach((ngrams, word) => {
-      const ngramTree = this.ngramTreeCollection.get(word);
-      nGramTreeToAnalyze.set(word, ngramTree);
-    });
+    relatedNgrams.forEach((frequency, ngram) => {
+      const hasFrequency = relatedFrequencies.has(frequency);
+      if (hasFrequency) {
+        relatedFrequencies.set(
+          frequency,
+          [...relatedFrequencies.get(frequency), ngram 
+        ]);
+      } else {
+        relatedFrequencies.set(frequency, [ngram]);
+      }
+   });
 
-    const combinations = new Map();
-    nGramTreeToAnalyze.forEach((ngramTree, word) => {
-      const flattenedTree = ngramTree.flatten(ngramSize);
-    });
-
-    return nGramTreeToAnalyze;
+    return relatedNgrams;
   }
   
   /**

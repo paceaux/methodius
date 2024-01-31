@@ -4,7 +4,20 @@ import { getMeanWordSize, getMedianWordSize } from './functions.metrics.words';
 import { getNGrams, getWordNGrams, WordNGram, NGram } from './functions.ngrams';
 import { getFrequencyMap, getPercentMap, getTopGrams } from './functions.metrics.ngrams';
 import { getIntersection, getUnion, getDisjunctiveUnion, getComparison, SequenceComparisonType, SequenceComparison } from './functions.comparisons';
-import { getWordPlacementForNGram, getWordPlacementForNGrams, getNgramCollections, getNgramSiblings, PlacementsMap, FrequencyMap, NGramSequence, NGramCollection, Word } from './functions.analysis';
+import {
+  getWordPlacementForNGram,
+  getWordPlacementForNGrams,
+  getNgramCollections,
+  getNgramSiblings,
+  getNgramTreeCollection,
+  PlacementsMap,
+  FrequencyMap,
+  NGramSequence,
+  NGramCollection,
+  NGramTreeCollection,
+  Word
+} from './functions.analysis';
+import NGramTree from './ngramtree.class';
 
 /** A user-friendly name for the size of the Ngram*/
 enum NGramType {
@@ -41,6 +54,7 @@ export default class Methodius {
   static getWordPlacementForNGrams = getWordPlacementForNGrams;
   static getNgramCollections = getNgramCollections;
   static getNgramSiblings = getNgramSiblings;
+  static getNgramTreeCollection = getNgramTreeCollection;
 
   /**
    * @description lowercased text with diacritics removed
@@ -210,6 +224,10 @@ export default class Methodius {
     return Methodius.getWordPlacementForNGrams(this.uniqueTrigrams, this.words);
   }
 
+
+  get ngramTreeCollection() : NGramTreeCollection {
+    return Methodius.getNgramTreeCollection(this.uniqueWords);
+  }
 /**
    * @description gets an array of customizeable ngrams in the text
    * @param {number} [size=2] - size of nGram
@@ -244,6 +262,33 @@ export default class Methodius {
    */
   getTopTrigrams(limit: number = 20) : FrequencyMap {
     return Methodius.getTopGrams(this.trigramFrequencies, limit);
+  }
+
+/**
+ * @description a wrapper for the getTop<whatever>grams methods that gives a choice for the size of ngram to return
+ * @param {number} [ngramSize = 2] - the size of the ngram (1 = letter, 2 = bigram, 3 = trigram, 3+ = ngram)
+ * @param {number }[limit=20] - number of top ngrams to return
+ * @returns {FrequencyMap} - a map of the ngrams and their frequencies
+ */
+  getTopNgrams(ngramSize: number = 2, limit: number = 20) : FrequencyMap {
+    let topNgrams;
+    switch (ngramSize) {
+      case 1:
+        topNgrams = this.getTopLetters(limit);
+        break;
+      case 2:
+        topNgrams = this.getTopBigrams(limit);
+        break;
+      case 3:
+        topNgrams = this.getTopTrigrams(limit);
+        break;
+      default:
+        const ngrams = Methodius.getNGrams(this.sanitizedText, ngramSize);
+        const ngramFrequencies = Methodius.getFrequencyMap(ngrams);
+        topNgrams = Methodius.getTopGrams(ngramFrequencies, limit);
+        break;
+    }
+    return topNgrams;
   }
 
   /**

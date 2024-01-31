@@ -336,20 +336,26 @@ export default class Methodius {
     // first, let's find the most common ngrams
     const topNgrams = this.getTopNgrams(ngramSize, limit);
     // next, get the words that have them
+    // NOTE: SHOULD THIS JUST BE ALL THE WORDS?
     const wordsWithTopNgrams = this.getWordsContainingTopNgrams(ngramSize, limit);
     const relatedNgrams = new Map();
-    const relatedFrequencies = new Map();
+  
     // now,go through words that have the most common
     wordsWithTopNgrams.forEach((ngrams, word) => { 
-      // loop through, and basicaly re-gramify. 
-      // the nature of this algorithm is that we will get bigrams that occur right next to each other
-      for (let i = 0; i < word.length - 1; i++) {
-        const ngram = word.slice(i, i + ngramSize);
-        const nextNgram = word.slice(i + 1, i + 1 + ngramSize);
-        const previousNgram = word.slice(i-1,((i - 1) + ngramSize));
+      
+      // let's split the word back into ngrams. 
+      const wordNgrams = Methodius.getNGrams(word, ngramSize);
+
+      // loop through our freshly split ngrams
+      wordNgrams.forEach((ngram, ngramIndex) => {
+        // we want the one before and the one after
+        const previousNgram = wordNgrams[ngramIndex - 1];
+        const nextNgram = wordNgrams[ngramIndex + 1];
         const hasPrevAndCurrent = topNgrams.has(previousNgram) && topNgrams.has(ngram);
         const hasNextAndCurrent = topNgrams.has(ngram) && topNgrams.has(nextNgram);
-        // we're looking for relationships, we any cases of top ngrams happening next to each other
+
+        // we have a case where it's either previous and current are both common,
+        // or current and next are both common
         if (hasPrevAndCurrent || hasNextAndCurrent) {
           // our list didn't have it, so we add it
           if (!relatedNgrams.has(ngram)) {
@@ -358,20 +364,8 @@ export default class Methodius {
             relatedNgrams.set(ngram, relatedNgrams.get(ngram) + 1);
           }
         }
-      }
+      });
     });
-
-    relatedNgrams.forEach((frequency, ngram) => {
-      const hasFrequency = relatedFrequencies.has(frequency);
-      if (hasFrequency) {
-        relatedFrequencies.set(
-          frequency,
-          [...relatedFrequencies.get(frequency), ngram 
-        ]);
-      } else {
-        relatedFrequencies.set(frequency, [ngram]);
-      }
-   });
 
     return relatedNgrams;
   }

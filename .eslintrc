@@ -28,7 +28,7 @@
         "it": true
     },
     "rules": {
-        "max-len": ["error", {"code": 150 }],
+        "max-len": ["error", {"code": 180 }],
     },
     "plugins": [
         "jsdoc",

@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import Methodius from '../../src/methodius.class.ts';
+import Methodius from '../../src/methodius.class';
 
 describe('instance methods', () => {
   const nGrammer = new Methodius('hello world');

@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import NGramTree from '../../src/ngramtree.class.ts';
+import NGramTree from '../../src/ngramtree.class';
 
 describe('NGramTree', () => {
   it('can be created without values', () => {

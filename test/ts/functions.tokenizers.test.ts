@@ -4,7 +4,7 @@ import {
   hasSpace,
   sanitizeText,
   getWords,
-} from '../../src/functions.tokenizers.ts';
+} from '../../src/functions.tokenizers';
 
 describe('tokenization', () => {
   it('can determine if a bit of text has common punctuations', () => {

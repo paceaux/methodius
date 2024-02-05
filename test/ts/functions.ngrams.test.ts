@@ -2,7 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 import {
   getNGrams,
   getWordNGrams,
-} from '../../src/functions.ngrams.ts';
+} from '../../src/functions.ngrams';
 
 describe('getNGrams', () => {
   it('will get a default size of 2 ', () => {

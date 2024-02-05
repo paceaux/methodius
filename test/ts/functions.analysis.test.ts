@@ -7,14 +7,14 @@ import {
   getNgramTree,
   getNgramTreeCollection,
   getRelatedNgrams,
-} from '../../src/functions.analysis.ts';
+} from '../../src/functions.analysis';
 import {
   getNGrams,
-} from '../../src/functions.ngrams.ts';
+} from '../../src/functions.ngrams';
 import {
   getFrequencyMap,
   getTopGrams,
-} from '../../src/functions.metrics.ngrams.ts';
+} from '../../src/functions.metrics.ngrams';
 
 describe('getNGramsInWords', () => {
   it('will get two arrays of ngrams from two words', () => {

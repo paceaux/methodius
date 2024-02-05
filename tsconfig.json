@@ -11,7 +11,6 @@
     "strict": true,
     "allowJs": true,
     "sourceMap": true,
-
     "lib": [
       "ESNext"
     ],
@@ -20,6 +19,9 @@
     "src/**/*.ts",
     "typings/**/*.d.ts",
   ],
+  "paths": {
+    "~*": ["./src/*"]
+  },
   "exclude": [
     "node_modules/**/*.*",
     "test/**/*.*",

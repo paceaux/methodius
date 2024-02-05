@@ -225,7 +225,9 @@ export default class Methodius {
     return Methodius.getWordPlacementForNGrams(this.uniqueTrigrams, this.words);
   }
 
-
+/**
+ * @description a nested map of maps that breaks down unique words into their smallest ngrams
+ */
   get ngramTreeCollection() : NGramTreeCollection {
     return Methodius.getNgramTreeCollection(this.uniqueWords);
   }

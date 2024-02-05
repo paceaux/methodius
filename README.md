@@ -325,6 +325,19 @@ This requires several steps. You'll need an array of words and a frequency map o
     const relatedNgrams = getRelatedNgrams(words, topNgrams, 2, 5);
 ```
 
+#### `getNgramTreeCollection(words)`
+
+Gets a nested map of maps that breaks down unique words into their smallest ngrams
+
+**Parameters**
+| name  | type  | Description   |
+| ---   |---    | ---           |
+| words      |   `Array<string>`    |     an array of words to evaluate          |
+
+**Returns**
+
+`Map<string, Array<string>| Map<string, <Array|string>>` A nested map of maps that breaks down unique words into their smallest ngrams.
+
 ### Instance Members
 #### `sanitizedText`
 lowercased text with diacritics removed
@@ -416,6 +429,9 @@ a map of placements of trigrams within words
  The middle size of a word
 
  `number`
+
+#### `ngramTreeCollection`
+A nested map of maps that breaks down unique words into their smallest ngrams.
 
 ### Instance Methods
 

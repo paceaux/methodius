@@ -4,11 +4,11 @@ import {
 } from './functions.tokenizers';
 import { getMeanWordSize, getMedianWordSize } from './functions.metrics.words';
 import {
-  getNGrams, getWordNGrams, WordNGram, NGram,
+  getNGrams, getWordNGrams, NGram,
 } from './functions.ngrams';
 import { getFrequencyMap, getPercentMap, getTopGrams } from './functions.metrics.ngrams';
 import {
-  getIntersection, getUnion, getDisjunctiveUnion, getComparison, SequenceComparisonType, SequenceComparison,
+  getIntersection, getUnion, getDisjunctiveUnion, getComparison, SequenceComparison,
 } from './functions.comparisons';
 import {
   getWordPlacementForNGram,
@@ -19,20 +19,24 @@ import {
   PlacementsMap,
   FrequencyMap,
   NGramSequence,
-  NGramCollection,
   NGramTreeCollection,
   Word,
   getRelatedNgrams,
 } from './functions.analysis';
 import NGramTree from './ngramtree.class';
 
-/** A user-friendly name for the size of the Ngram */
-enum NGramType {
-  'letter' = 1,
-  'bigram' = 2,
-  'trigram' = 3,
-  'word' = Infinity,
-}
+  /**
+   * @description User friendly name for the size of the ngram
+   * @enum {number}
+   */
+  // I have no idea where eslint thinks this should go. This is literally just to be user friendly; code ain't affected
+  // eslint-disable-next-line no-shadow
+  enum NGramType {
+    'letter' = 1,
+    'bigram' = 2,
+    'trigram' = 3,
+    'word' = Infinity,
+  }
 
 export default class Methodius {
   text: string;
@@ -199,7 +203,7 @@ export default class Methodius {
 
   /**
    * @description a map of word frequencies in the sanitized text
-   * @returns {FrequencyMap - map of unique words in text
+   * @returns {FrequencyMap} - map of unique words in text
    */
   get wordFrequencies(): FrequencyMap {
     return Methodius.getFrequencyMap(this.words);
@@ -255,6 +259,7 @@ export default class Methodius {
 
   /**
    * @description a nested map of maps that breaks down unique words into their smallest ngrams
+   * @returns {NGramTreeCollection} - A nested map of words and their ngram trees
    */
   get ngramTreeCollection() : NGramTreeCollection {
     return Methodius.getNgramTreeCollection(this.uniqueWords);
@@ -305,20 +310,24 @@ export default class Methodius {
   getTopNgrams(ngramSize: number = 2, limit: number = 20) : FrequencyMap {
     let topNgrams;
     switch (ngramSize) {
-      case 1:
+      case 1: {
         topNgrams = this.getTopLetters(limit);
         break;
-      case 2:
+      }
+      case 2: {
         topNgrams = this.getTopBigrams(limit);
         break;
-      case 3:
+      }
+      case 3: {
         topNgrams = this.getTopTrigrams(limit);
         break;
-      default:
+      }
+      default: {
         const ngrams = Methodius.getNGrams(this.sanitizedText, ngramSize);
         const ngramFrequencies = Methodius.getFrequencyMap(ngrams);
         topNgrams = Methodius.getTopGrams(ngramFrequencies, limit);
         break;
+      }
     }
     return topNgrams;
   }
@@ -334,9 +343,9 @@ export default class Methodius {
 
   /**
    * @description evaluates the top ngrams to discover the words which contain them
-   * @param  {number=2} ngramSize
-   * @param  {number=20} limit
-   * @returns {Map<Word, NGram[]>}
+   * @param  {number} [ngramSize=2] - the size of the ngram
+   * @param  {number} [limit=20] - the maximum number of top ngrams
+   * @returns {Map<Word, NGram[]>} - a map of words and the ngrams they contain
    */
   getWordsContainingTopNgrams(ngramSize: number = 2, limit: number = 20) : Map<Word, NGram[]> {
     const topNgrams = this.getTopNgrams(ngramSize, limit);
@@ -366,8 +375,8 @@ export default class Methodius {
 
   /**
    * @description Gets the ngrams that will occur before or after other ngrams based on what the most frequent ngrams are. Useful for finding patterns of ngrams.
-   * @param  {number=2} ngramSize the size of the ngram
-   * @param  {number=20} limit number of top ngrams to use as a basis for determining related ngrams
+   * @param  {number} [ngramSize = 2] the size of the ngram
+   * @param  {number} [limit = 20] number of top ngrams to use as a basis for determining related ngrams
    * @returns {FrequencyMap} A frequency map of how often the most common ngrams occured before or after other common ngrams
    */
   getRelatedTopNgrams(ngramSize: number = 2, limit: number = 20) : FrequencyMap {

@@ -228,7 +228,7 @@ function getNgramTreeCollection(words:Word[]) : NGramTreeCollection {
 }
 
 /**
- * @description gets the ngrams that are related to the top ngrams
+ * @description gets the ngrams that occur before and after other ngrams
  * @param  {Word[]} words - an array of words
  * @param  {FrequencyMap} ngrams - a frequency map of ngrams
  * @param  {number} [ngramSize=2] - the size of the ngram

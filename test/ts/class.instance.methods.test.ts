@@ -125,7 +125,7 @@ describe('instance method: ngram combo discovery', () => {
   });
   it('will discover ngram combos', () => {
     const nGrammer = new Methodius('the revolution of the nation was on television. It was about pollution and the terrible situation that it has caused. A declaration should be written about it before there is confusion or revision. we are on a mission to make a decision.');
-    const relatedNgrams = nGrammer.getRelatedNgrams(2, 5);
+    const relatedNgrams = nGrammer.getRelatedTopNgrams(2, 5);
     expect(relatedNgrams).toBeTruthy();
     expect(relatedNgrams.has('io')).toBe(true);
     expect(relatedNgrams.has('on')).toBe(true);
@@ -135,7 +135,7 @@ describe('instance method: ngram combo discovery', () => {
   });
   it('will discover ngram combos', () => {
     const nGrammer = new Methodius('they  saw this thing and this these thimbles thoughtfully throwing thorns through the thicket. They thusly thought that they would be through with the therapy. Thespians were not enough, so they fought and it was rough. ');
-    const relatedNgrams = nGrammer.getRelatedNgrams(2, 7);
+    const relatedNgrams = nGrammer.getRelatedTopNgrams(2, 7);
     expect(relatedNgrams).toBeTruthy();
     expect(relatedNgrams.has('th')).toBe(true);
     expect(relatedNgrams.has('he')).toBe(true);

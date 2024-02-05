@@ -299,6 +299,32 @@ a Map with the keys 'before' and 'after' which contain maps of what comes before
         */
 ```
 
+#### `getRelatedNgrams(words, ngrams, ngramSize)`
+Gets the ngrams that will occur before or after other ngrams. Useful for finding patterns of ngrams.
+
+**Parameters**
+| name  | type  | Description   |
+| ---   |---    | ---           |
+| words      |   `Array<string>`    |     an array of words to evaluate          |
+| ngrams      |   `Map<string, number>`    | a frequency map of ngrams               |
+| ngramSize      |   `number`    | default = 2. the size of the ngram              |
+
+**Returns**
+
+`Map<string, number>` A frequency map of how often ngrams occured before or after other ngrams
+
+**Example**
+
+This requires several steps. You'll need an array of words and a frequency map of ngrams.
+
+```JavaScript
+    const ngrams = getNGrams('the revolution of the nation was on television. It was about pollution and the terrible situation ', 2);
+    const frequencyMap = getFrequencyMap(ngrams);
+    const topNgrams = getTopGrams(frequencyMap, 5);
+    const words = ['the', 'revolution', 'of', 'the', 'nation', 'was', 'on', 'television', 'it', 'was', 'about', 'pollution', 'and', 'the', 'terrible', 'situation' ];
+    const relatedNgrams = getRelatedNgrams(words, topNgrams, 2, 5);
+```
+
 ### Instance Members
 #### `sanitizedText`
 lowercased text with diacritics removed
@@ -461,3 +487,16 @@ Compare this methodius instance to another
 `Map<string, Map>`
 A map of property names and their comparisons (intersection, disjunctiveUnions, etc) for a set of properties
 
+
+#### `getRelatedTopNgrams(ngramSize, limit)`
+Gets the ngrams that will occur before or after other ngrams based on what the most frequent ngrams are. Useful for finding patterns of ngrams.
+
+**Parameters**
+| name  | type  | Description   |
+| ---   |---    | ---           |
+| ngramSize      |   `number`    | default = 2. the size of the ngram              |
+| limit      |   `number`    | default = 20. the number of top ngrams to use              |
+
+**Returns**
+
+`Map<string, number>` A frequency map of how often the most common ngrams occured before or after other common ngrams

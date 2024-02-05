@@ -334,13 +334,13 @@ export default class Methodius {
   }
 
   /** 
-   * @description Reports how many times the top ngrams occur with other top ngrams. 
+   * @description Gets the ngrams that will occur before or after other ngrams based on what the most frequent ngrams are. Useful for finding patterns of ngrams.
    * @param  {number=2} ngramSize the size of the ngram
-   * @param  {number=20} the number of top ngrams to use as a basis for determining related ngrams
-   * @returns {FrequencyMap} A map of ngrams and their frequencies of occurence with top ngrams
+   * @param  {number=20} limit number of top ngrams to use as a basis for determining related ngrams
+   * @returns {FrequencyMap} A frequency map of how often the most common ngrams occured before or after other common ngrams
    * 
    */
-  getRelatedNgrams(ngramSize: number = 2, limit: number = 20) : FrequencyMap {
+  getRelatedTopNgrams(ngramSize: number = 2, limit: number = 20) : FrequencyMap {
     // first, let's find the most common ngrams
     const topNgrams = this.getTopNgrams(ngramSize, limit);
     // next, get the words that have them

@@ -227,6 +227,49 @@ function getNgramTreeCollection(words:Word[]) : NGramTreeCollection {
   return ngramTreeCollection;
 }
 
+/**
+ * @description gets the ngrams that are related to the top ngrams
+ * @param  {Word[]} words - an array of words
+ * @param  {FrequencyMap} ngrams - a frequency map of ngrams
+ * @param  {number} [ngramSize=2] - the size of the ngram
+ * @returns {FrequencyMap} - a map of ngrams and their frequencies
+ */
+function getRelatedNgrams(words: Word[], ngrams: FrequencyMap, ngramSize: number = 2) : FrequencyMap {
+  if (!words || !ngrams) {
+    throw new Error('getRelatedNgrams requires an array of words and an array of ngrams');
+  }
+
+  const relatedNgrams = new Map();
+    // now,go through words
+    words.forEach((word) => { 
+      
+      // let's split the word back into ngrams. 
+      const wordNgrams = getNGrams(word, ngramSize);
+
+      // loop through our freshly split ngrams
+      wordNgrams.forEach((ngram: NGram, ngramIndex: number) => {
+        // we want the one before and the one after
+        const previousNgram = wordNgrams[ngramIndex - 1];
+        const nextNgram = wordNgrams[ngramIndex + 1];
+        const hasPrevAndCurrent = ngrams.has(previousNgram) && ngrams.has(ngram);
+        const hasNextAndCurrent = ngrams.has(ngram) && ngrams.has(nextNgram);
+
+        // we have a case where it's either previous and current are both common,
+        // or current and next are both common
+        if (hasPrevAndCurrent || hasNextAndCurrent) {
+          // our list didn't have it, so we add it
+          if (!relatedNgrams.has(ngram)) {
+            relatedNgrams.set(ngram, 1);
+          } else {
+            relatedNgrams.set(ngram, relatedNgrams.get(ngram) + 1);
+          }
+        }
+      });
+    });
+
+    return relatedNgrams;
+}
+
 export {
   getWordPlacementForNGram,
   getWordPlacementForNGrams,
@@ -244,4 +287,5 @@ export {
   getNgramTree,
   getNgramTreeCollection,
   NGramTreeCollection,
+  getRelatedNgrams,
 };

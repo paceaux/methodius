@@ -6,7 +6,15 @@ import {
   getNgramSiblings,
   getNgramTree,
   getNgramTreeCollection,
+  getRelatedNgrams,
 } from '../../src/functions.analysis';
+import {
+  getNGrams,
+} from '../../src/functions.ngrams';
+import {
+  getFrequencyMap,
+  getTopGrams,
+} from '../../src/functions.metrics.ngrams';
 
 describe('getNGramsInWords', () => {
   it('will get two arrays of ngrams from two words', () => {
@@ -135,5 +143,60 @@ describe('getNgramTreeCollection', () => {
     expect(treeCollection.has('revolution')).toEqual(true);
     expect(treeCollection.has('nation')).toEqual(true);
     expect(treeCollection.has('distillation')).toEqual(true);
+  });
+});
+
+describe('getRelatedNgrams', () => {
+  it('will discover bigram combos', () => {
+    const ngrams = getNGrams('the revolution of the nation was on television. It was about pollution and the terrible situation ', 2);
+    const frequencyMap = getFrequencyMap(ngrams);
+    const topNgrams = getTopGrams(frequencyMap, 5);
+    const words = ['the', 'revolution', 'of', 'the', 'nation', 'was', 'on', 'television', 'it', 'was', 'about', 'pollution', 'and', 'the', 'terrible', 'situation' ];
+    const relatedNgrams = getRelatedNgrams(words, topNgrams, 2, 5);
+    expect(relatedNgrams).toBeTruthy();
+    expect(relatedNgrams.has('io')).toBe(true);
+    expect(relatedNgrams.has('on')).toBe(true);
+    expect(relatedNgrams.get('io')).toBe(5);
+    expect(relatedNgrams.get('on')).toBe(5);
+  });
+  it('will discover more bigram combos', () => {
+    const ngrams = getNGrams('they saw this thing and this these thimbles thoughtfully throwing thorns through the thicket they thusly thought wrath');
+    const frequencyMap = getFrequencyMap(ngrams);
+    const topNgrams = getTopGrams(frequencyMap, 7);
+    const words = ['they', 'saw', 'this', 'thing', 'and', 'this', 'these', 'thimbles', 'thoughtfully', 'throwing', 'thorns', 'through', 'the', 'thicket', 'they', 'thusly', 'thought', 'wrath'];
+    const relatedNgrams = getRelatedNgrams(words, topNgrams, 2, 7);
+    expect(relatedNgrams).toBeTruthy();
+    expect(relatedNgrams.has('th')).toBe(true);
+    expect(relatedNgrams.has('he')).toBe(true);
+    expect(relatedNgrams.has('hi')).toBe(true);
+    expect(relatedNgrams.get('th')).toBe(12);
+    expect(relatedNgrams.get('he')).toBe(4);
+    expect(relatedNgrams.get('hi')).toBe(5);
+  });
+  it('will discover trigram combos of tio / ion and ignore statistically insignificant instances', () => {
+    const ngrams = getNGrams('the revolution of the nation was on television. It was about pollution and the terrible situation', 3);
+    const frequencyMap = getFrequencyMap(ngrams);
+    const topNgrams = getTopGrams(frequencyMap, 5);
+    const words = ['the', 'revolution', 'of', 'the', 'nation', 'was', 'on', 'television', 'it', 'was', 'about', 'pollution', 'and', 'the', 'terrible', 'situation' ];
+    const relatedNgrams = getRelatedNgrams(words, topNgrams, 3, 5);
+    expect(relatedNgrams).toBeTruthy();
+    expect(relatedNgrams.has('ion')).toBe(true);
+    expect(relatedNgrams.has('tio')).toBe(true);
+    expect(relatedNgrams.get('ion')).toBe(4); // it won't see the 'ion' in 'television' as significant
+    expect(relatedNgrams.get('tio')).toBe(4);
+  });
+  it('will discover trigram combos of tio / ion and find sio instances', () => {
+    const ngrams = getNGrams('the revolution of the nation was on television. It was about pollution and the terrible situation of decisions about derision', 3);
+    const frequencyMap = getFrequencyMap(ngrams);
+    const topNgrams = getTopGrams(frequencyMap, 5);
+    const words = ['the', 'revolution', 'of', 'the', 'nation', 'was', 'on', 'television', 'it', 'was', 'about', 'pollution', 'and', 'the', 'terrible', 'situation', 'of', 'decisions', 'about', 'derision' ];
+    const relatedNgrams = getRelatedNgrams(words, topNgrams, 3, 5);
+    expect(relatedNgrams).toBeTruthy();
+    expect(relatedNgrams.has('ion')).toBe(true);
+    expect(relatedNgrams.has('tio')).toBe(true);
+    expect(relatedNgrams.has('sio')).toBe(true);
+    expect(relatedNgrams.get('ion')).toBe(7); // b/c if finds sio significant, it finds the ion after it significant
+    expect(relatedNgrams.get('tio')).toBe(4);
+    expect(relatedNgrams.get('sio')).toBe(3);
   });
 });

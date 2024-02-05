@@ -15,7 +15,8 @@ import {
   NGramSequence,
   NGramCollection,
   NGramTreeCollection,
-  Word
+  Word,
+  getRelatedNgrams,
 } from './functions.analysis';
 import NGramTree from './ngramtree.class';
 
@@ -334,8 +335,8 @@ export default class Methodius {
 
   /** 
    * @description Reports how many times the top ngrams occur with other top ngrams. 
-   * @param  {number=2} ngramSize
-   * @param  {number=20} limit
+   * @param  {number=2} ngramSize the size of the ngram
+   * @param  {number=20} the number of top ngrams to use as a basis for determining related ngrams
    * @returns {FrequencyMap} A map of ngrams and their frequencies of occurence with top ngrams
    * 
    */
@@ -344,34 +345,8 @@ export default class Methodius {
     const topNgrams = this.getTopNgrams(ngramSize, limit);
     // next, get the words that have them
     const words = this.words;
-    const relatedNgrams = new Map();
-  
-    // now,go through words
-    words.forEach((word) => { 
-      
-      // let's split the word back into ngrams. 
-      const wordNgrams = Methodius.getNGrams(word, ngramSize);
 
-      // loop through our freshly split ngrams
-      wordNgrams.forEach((ngram, ngramIndex) => {
-        // we want the one before and the one after
-        const previousNgram = wordNgrams[ngramIndex - 1];
-        const nextNgram = wordNgrams[ngramIndex + 1];
-        const hasPrevAndCurrent = topNgrams.has(previousNgram) && topNgrams.has(ngram);
-        const hasNextAndCurrent = topNgrams.has(ngram) && topNgrams.has(nextNgram);
-
-        // we have a case where it's either previous and current are both common,
-        // or current and next are both common
-        if (hasPrevAndCurrent || hasNextAndCurrent) {
-          // our list didn't have it, so we add it
-          if (!relatedNgrams.has(ngram)) {
-            relatedNgrams.set(ngram, 1);
-          } else {
-            relatedNgrams.set(ngram, relatedNgrams.get(ngram) + 1);
-          }
-        }
-      });
-    });
+    const relatedNgrams = getRelatedNgrams(words, topNgrams, ngramSize);
 
     return relatedNgrams;
   }

@@ -332,16 +332,22 @@ export default class Methodius {
     return wordsWithTopNgrams;
   }
 
-  getRelatedNgrams(ngramSize: number = 2, limit: number = 20) {
+  /** 
+   * @description Reports how many times the top ngrams occur with other top ngrams. 
+   * @param  {number=2} ngramSize
+   * @param  {number=20} limit
+   * @returns {FrequencyMap} A map of ngrams and their frequencies of occurence with top ngrams
+   * 
+   */
+  getRelatedNgrams(ngramSize: number = 2, limit: number = 20) : FrequencyMap {
     // first, let's find the most common ngrams
     const topNgrams = this.getTopNgrams(ngramSize, limit);
     // next, get the words that have them
-    // NOTE: SHOULD THIS JUST BE ALL THE WORDS?
-    const wordsWithTopNgrams = this.getWordsContainingTopNgrams(ngramSize, limit);
+    const words = this.words;
     const relatedNgrams = new Map();
   
-    // now,go through words that have the most common
-    wordsWithTopNgrams.forEach((ngrams, word) => { 
+    // now,go through words
+    words.forEach((word) => { 
       
       // let's split the word back into ngrams. 
       const wordNgrams = Methodius.getNGrams(word, ngramSize);

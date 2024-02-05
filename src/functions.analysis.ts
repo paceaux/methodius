@@ -48,18 +48,21 @@ function getWordPlacementForNGram(ngram: NGram, wordsArray: Word[]) : PlacementM
       wordNgrams.forEach((wordNgram) => {
         const ngramIndex = wordNgram.index;
         switch (ngramIndex) {
-          case 0:
+          case 0: {
             const start : number = placementMap.get('start') || 0;
             placementMap.set('start', start + 1);
             break;
-          case word.length - ngram.length:
+          }
+          case word.length - ngram.length: {
             const end: number = placementMap.get('end') || 0;
             placementMap.set('end', end + 1);
             break;
-          default:
+          }
+          default: {
             const middle : number = placementMap.get('middle') || 0;
             placementMap.set('middle', middle + 1);
             break;
+          }
         }
       });
     }
@@ -111,7 +114,7 @@ type SiblingsFrequencyMap = Map<RelativePosition, FrequencyMap>;
 /**
  * @description using a collection returned from getNgramCollections, searches for a string and returns what comes before and after it
  * @param  {string} searchText - the string to search for
- * @param  {NGramSequence|nGramCollection} collectionOrSequence - an array of ngrams, or an nGramCollection
+ * @param  {NGramSequence|NGramCollection} collectionOrSequence - an array of ngrams, or an nGramCollection
  * @param  {number} [siblingSize=1] - how many siblings to find in front or behind
  * @returns {SiblingsFrequencyMap} - a Map with the keys 'before' and 'after' which contain maps of what comes before and after
  * @example
@@ -190,10 +193,16 @@ function getNgramSiblings(
 
 /**
  *
- * @param word
+ * @param  {Word|NGram} word - a word from which the tree is created
+ * @returns {NGramTree | NGramSequence} - a tree of ngrams
  */
 function getNgramTree(word:Word|NGram) : NGramTree | NGramSequence {
-  const ngramSize : number = word?.length - 1;
+  if (!word || typeof word !== 'string') {
+    throw new Error('getNgramTree requires a word');
+  }
+
+  const wordLength = word?.length || 0;
+  const ngramSize : number = wordLength - 1;
 
   if (ngramSize < 2) {
     return getNGrams(word, 1);
@@ -205,7 +214,6 @@ function getNgramTree(word:Word|NGram) : NGramTree | NGramSequence {
       return;
     }
     if (ngram.length >= 2) {
-      const childTree = getNgramTree(ngram);
       ngramTree.set(ngram, getNgramTree(ngram));
     }
   });
@@ -216,7 +224,7 @@ function getNgramTree(word:Word|NGram) : NGramTree | NGramSequence {
 /**
  * @description creates a map of words with their respective ngram trees
  * @param  {Word[]} words -the words from which ngram trees are created
- * @returns {NGramTreeCollection}
+ * @returns {NGramTreeCollection} A collection of ngram trees
  */
 function getNgramTreeCollection(words:Word[]) : NGramTreeCollection {
   const ngramTreeCollection : NGramTreeCollection = new Map();

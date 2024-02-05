@@ -1,5 +1,4 @@
 import { NGramSequence } from './functions.analysis';
-import { NGram } from './functions.ngrams';
 
 /** An array of items that occur in two iterables */
 type Intersection = Array<string>;

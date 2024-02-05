@@ -6,8 +6,7 @@ import { Word } from './functions.analysis';
 
 /**
  * @description determins if string contains punctuation
- * @param text
- * @param  {text} string - string to check for punctuation
+ * @param  {string} text - string to check for punctuation
  * @returns {boolean} - true if string contains punctuation
  */
 function hasPunctuation(text: string): boolean {
@@ -18,8 +17,7 @@ function hasPunctuation(text: string): boolean {
 
 /**
  * @description determins if a string has a space
- * @param text
- * @param  {string} string - string to check for space
+ * @param  {string} text - string to check for space
  * @returns  {boolean} - true if string contains space
  */
 function hasSpace(text: string): boolean {

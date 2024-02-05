@@ -29,6 +29,13 @@
     },
     "rules": {
         "max-len": ["error", {"code": 180 }],
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "ts": "never"
+            }
+        ]
     },
     "plugins": [
         "jsdoc",
@@ -37,6 +44,16 @@
     "settings": {
         "jsdoc": {
             "mode": "typescript"
+        },
+        "import/extensions": [".js", ".ts"],
+        "import/parsers": {
+            "@typescript-eslint/parser": [".ts"]
+        },
+        "import/resolver": {
+            "node": {
+                "extensions": [".js", ".ts", ".d.ts"],
+                "paths": ["src"]
+            }
         }
     }
 }                                          

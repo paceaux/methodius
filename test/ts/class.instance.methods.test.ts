@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import Methodius from '../../src/Methodius.class.ts';
+import Methodius from '../../src/methodius.class.ts';
 
 describe('instance methods', () => {
   const nGrammer = new Methodius('hello world');
@@ -104,6 +104,7 @@ describe('instance methods', () => {
   });
 });
 
+/* eslint-disable max-len */
 describe('instance method: ngram combo discovery', () => {
   it('gets words with top bigrams', () => {
     const nGrammer = new Methodius('the revolution of the nation was on television. It was about pollution and the terrible situation that it has caused. A declaration should be written about it.');
@@ -143,3 +144,4 @@ describe('instance method: ngram combo discovery', () => {
     expect(relatedNgrams.get('hi')).toBe(5);
   });
 });
+/* eslint-enable max-len */

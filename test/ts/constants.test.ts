@@ -1,5 +1,5 @@
-import { describe, expect, it } from '@jest/globals';
-import { punctuations, wordSeparators } from '../../src/constants';
+import { expect, it } from '@jest/globals';
+import { punctuations, wordSeparators } from '../../src/constants.ts';
 
 it('has all the common punctuations', () => {
   expect(punctuations).toEqual(

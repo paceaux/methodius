@@ -7,14 +7,14 @@ import {
   getNgramTree,
   getNgramTreeCollection,
   getRelatedNgrams,
-} from '../../src/functions.analysis';
+} from '../../src/functions.analysis.ts';
 import {
   getNGrams,
-} from '../../src/functions.ngrams';
+} from '../../src/functions.ngrams.ts';
 import {
   getFrequencyMap,
   getTopGrams,
-} from '../../src/functions.metrics.ngrams';
+} from '../../src/functions.metrics.ngrams.ts';
 
 describe('getNGramsInWords', () => {
   it('will get two arrays of ngrams from two words', () => {
@@ -146,6 +146,7 @@ describe('getNgramTreeCollection', () => {
   });
 });
 
+/* eslint-disable max-len */
 describe('getRelatedNgrams', () => {
   it('will discover bigram combos', () => {
     const ngrams = getNGrams('the revolution of the nation was on television. It was about pollution and the terrible situation ', 2);
@@ -200,3 +201,4 @@ describe('getRelatedNgrams', () => {
     expect(relatedNgrams.get('sio')).toBe(3);
   });
 });
+/* eslint-enable max-len */

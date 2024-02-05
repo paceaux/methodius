@@ -3,7 +3,7 @@ import {
   getFrequencyMap,
   getPercentMap,
   getTopGrams,
-} from '../../src/functions.metrics.ngrams';
+} from '../../src/functions.metrics.ngrams.ts';
 
 describe('getFrequencyMap', () => {
   it('will get a frequency map', () => {

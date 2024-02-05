@@ -2,7 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 import {
   getMeanWordSize,
   getMedianWordSize,
-} from '../../src/functions.metrics.words';
+} from '../../src/functions.metrics.words.ts';
 
 describe('wordSize', () => {
   it('will get the mean word size from an array of words', () => {

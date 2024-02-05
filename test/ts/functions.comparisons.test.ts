@@ -3,8 +3,7 @@ import {
   getIntersection,
   getUnion,
   getDisjunctiveUnion,
-  getComparison,
-} from '../../src/functions.comparisons';
+} from '../../src/functions.comparisons.ts';
 
 describe('comparisons', () => {
   describe('intersection', () => {

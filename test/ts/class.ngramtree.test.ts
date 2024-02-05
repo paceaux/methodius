@@ -45,7 +45,6 @@ describe('NGramTree', () => {
     const at = ['a', 't'];
     const ti = ['t', 'i'];
     const io = ['i', 'o'];
-    const on = ['o', 'n'];
     const natTree = new NGramTree([
       ['na', ...na],
       ['at', ...at],
@@ -58,17 +57,10 @@ describe('NGramTree', () => {
       ['ti', ...ti],
       ['io', ...io],
     ]);
-    const ionTree = new NGramTree([
-      ['io', ...io],
-      ['on', ...on],
-    ]);
+
     const atioTree = new NGramTree([
       ['ati', atiTree],
       ['tio', tioTree],
-    ]);
-    const tionTree = new NGramTree([
-      ['tio', tioTree],
-      ['ion', ionTree],
     ]);
     const natiTree = new NGramTree([
       ['nat', natTree],
@@ -97,7 +89,6 @@ describe('NGramTree', () => {
     const at = ['a', 't'];
     const ti = ['t', 'i'];
     const io = ['i', 'o'];
-    const on = ['o', 'n'];
     const natTree = new NGramTree([
       ['na', ...na],
       ['at', ...at],
@@ -110,17 +101,9 @@ describe('NGramTree', () => {
       ['ti', ...ti],
       ['io', ...io],
     ]);
-    const ionTree = new NGramTree([
-      ['io', ...io],
-      ['on', ...on],
-    ]);
     const atioTree = new NGramTree([
       ['ati', atiTree],
       ['tio', tioTree],
-    ]);
-    const tionTree = new NGramTree([
-      ['tio', tioTree],
-      ['ion', ionTree],
     ]);
     const natiTree = new NGramTree([
       ['nat', natTree],
@@ -221,7 +204,6 @@ describe('NGramTree', () => {
     const at = ['a', 't'];
     const ti = ['t', 'i'];
     const io = ['i', 'o'];
-    const on = ['o', 'n'];
     const natTree = new NGramTree([
       ['na', [...na]],
       ['at', [...at]],
@@ -234,17 +216,9 @@ describe('NGramTree', () => {
       ['ti', [...ti]],
       ['io', [...io]],
     ]);
-    const ionTree = new NGramTree([
-      ['io', [...io]],
-      ['on', [...on]],
-    ]);
     const atioTree = new NGramTree([
       ['ati', atiTree],
       ['tio', tioTree],
-    ]);
-    const tionTree = new NGramTree([
-      ['tio', tioTree],
-      ['ion', ionTree],
     ]);
     const natiTree = new NGramTree([
       ['nat', natTree],
@@ -253,10 +227,6 @@ describe('NGramTree', () => {
     const natioTree = new NGramTree([
       ['nati', natiTree],
       ['atio', atioTree],
-    ]);
-    const ationTree = new NGramTree([
-      ['atio', atioTree],
-      ['tion', tionTree],
     ]);
 
     describe('hasMany', () => {

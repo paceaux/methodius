@@ -133,5 +133,16 @@ describe('instance method: ngram combo discovery', () => {
     expect(relatedNgrams.get('io')).toBe(10);
     expect(relatedNgrams.get('on')).toBe(10);
   });
+  it('will discover ngram combos', () => {
+    const nGrammer = new Methodius('they  saw this thing and this these thimbles thoughtfully throwing thorns through the thicket. They thusly thought that they would be through with the therapy. Thespians were not enough, so they fought and it was rough. ');
+    const relatedNgrams = nGrammer.getRelatedNgrams(2, 7);
+    expect(relatedNgrams).toBeTruthy();
+    expect(relatedNgrams.has('th')).toBe(true);
+    expect(relatedNgrams.has('he')).toBe(true);
+    expect(relatedNgrams.has('hi')).toBe(true);
+    expect(relatedNgrams.get('th')).toBe(14);
+    expect(relatedNgrams.get('he')).toBe(9);
+    expect(relatedNgrams.get('hi')).toBe(5);
+  });
 
 });

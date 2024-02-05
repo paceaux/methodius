@@ -3,9 +3,8 @@ import { NGram } from './functions.ngrams';
 import { NGramSequence } from './functions.analysis';
 
 /**
- * @extends Map
+ * @augments Map
  * @description a nested map of maps of ngrams formed from a single word where the deepest structure is an array of bigrams
- * 
  */
 class NGramTree extends Map<NGram, NGramTree | NGramSequence> {
   constructor(iterable?: Iterable<readonly [NGram, NGramTree | NGramSequence]>) {
@@ -20,14 +19,13 @@ class NGramTree extends Map<NGram, NGramTree | NGramSequence> {
   flatten(ngramSize: number = 2) : NGram[] {
     const ngramArray = [] as NGram[];
     this.forEach((value, key) => {
-        const hasTree = value instanceof NGramTree;
-        const hasTreeSmallerThanNGramSize = hasTree && ngramSize > value?.ngramSize;
-        if (!hasTree || hasTreeSmallerThanNGramSize) { 
-          ngramArray.push(key);
-        } else {
-          ngramArray.push(...value.flatten(ngramSize));
-        }  
-      
+      const hasTree = value instanceof NGramTree;
+      const hasTreeSmallerThanNGramSize = hasTree && ngramSize > value?.ngramSize;
+      if (!hasTree || hasTreeSmallerThanNGramSize) {
+        ngramArray.push(key);
+      } else {
+        ngramArray.push(...value.flatten(ngramSize));
+      }
     });
     return [...new Set(ngramArray)];
   }
@@ -45,7 +43,7 @@ class NGramTree extends Map<NGram, NGramTree | NGramSequence> {
   }
 
   /**
-   * @description will return the depth of the tree 
+   * @description will return the depth of the tree
    * @returns {number} - the depth of the tree (0 means this is a map of bigrams)
    * @readonly
    */
@@ -77,7 +75,7 @@ class NGramTree extends Map<NGram, NGramTree | NGramSequence> {
 
   /**
    * @description convenience method for hasDeep that determines if _all_ ngrams are present in the tree
-   * @param ngrams 
+   * @param ngrams
    * @returns {boolean}
    */
   hasMany(ngrams: NGram[]) : boolean {
@@ -87,7 +85,7 @@ class NGramTree extends Map<NGram, NGramTree | NGramSequence> {
 
   /**
    * @description will determine if all of the ngrams are contained in the tree
-   * @param ngrams 
+   * @param ngrams
    * @returns {boolean}
    */
   hasAny(ngrams: NGram[]) : boolean {
@@ -130,11 +128,11 @@ class NGramTree extends Map<NGram, NGramTree | NGramSequence> {
           if (!keyContaining) {
             keyContaining = key;
           } else {
-            keyContaining = [keyContaining as string, key as string]
+            keyContaining = [keyContaining as string, key as string];
           }
         }
       }
-    });  
+    });
 
     return keyContaining;
   }

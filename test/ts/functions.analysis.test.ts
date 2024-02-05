@@ -97,17 +97,17 @@ describe('placements', () => {
 });
 
 describe('getNGramTree', () => {
-  it('returns an array from a 2-letter word', () =>{
+  it('returns an array from a 2-letter word', () => {
     const tree = getNgramTree('on');
-    expect(tree.includes('o') ).toEqual(true);
+    expect(tree.includes('o')).toEqual(true);
     expect(tree.includes('n')).toEqual(true);
   });
-  it('forms a tree from a 3-letter word', () =>{
+  it('forms a tree from a 3-letter word', () => {
     const tree = getNgramTree('one');
     expect(tree.has('on')).toEqual(true);
     expect(tree.has('ne')).toEqual(true);
   });
-  it('forms a tree from a 4-letter word', () =>{
+  it('forms a tree from a 4-letter word', () => {
     const tree = getNgramTree('tree');
     expect(tree.has('tre')).toEqual(true);
     expect(tree.has('ree')).toEqual(true);
@@ -151,7 +151,7 @@ describe('getRelatedNgrams', () => {
     const ngrams = getNGrams('the revolution of the nation was on television. It was about pollution and the terrible situation ', 2);
     const frequencyMap = getFrequencyMap(ngrams);
     const topNgrams = getTopGrams(frequencyMap, 5);
-    const words = ['the', 'revolution', 'of', 'the', 'nation', 'was', 'on', 'television', 'it', 'was', 'about', 'pollution', 'and', 'the', 'terrible', 'situation' ];
+    const words = ['the', 'revolution', 'of', 'the', 'nation', 'was', 'on', 'television', 'it', 'was', 'about', 'pollution', 'and', 'the', 'terrible', 'situation'];
     const relatedNgrams = getRelatedNgrams(words, topNgrams, 2, 5);
     expect(relatedNgrams).toBeTruthy();
     expect(relatedNgrams.has('io')).toBe(true);
@@ -177,7 +177,7 @@ describe('getRelatedNgrams', () => {
     const ngrams = getNGrams('the revolution of the nation was on television. It was about pollution and the terrible situation', 3);
     const frequencyMap = getFrequencyMap(ngrams);
     const topNgrams = getTopGrams(frequencyMap, 5);
-    const words = ['the', 'revolution', 'of', 'the', 'nation', 'was', 'on', 'television', 'it', 'was', 'about', 'pollution', 'and', 'the', 'terrible', 'situation' ];
+    const words = ['the', 'revolution', 'of', 'the', 'nation', 'was', 'on', 'television', 'it', 'was', 'about', 'pollution', 'and', 'the', 'terrible', 'situation'];
     const relatedNgrams = getRelatedNgrams(words, topNgrams, 3, 5);
     expect(relatedNgrams).toBeTruthy();
     expect(relatedNgrams.has('ion')).toBe(true);
@@ -189,7 +189,7 @@ describe('getRelatedNgrams', () => {
     const ngrams = getNGrams('the revolution of the nation was on television. It was about pollution and the terrible situation of decisions about derision', 3);
     const frequencyMap = getFrequencyMap(ngrams);
     const topNgrams = getTopGrams(frequencyMap, 5);
-    const words = ['the', 'revolution', 'of', 'the', 'nation', 'was', 'on', 'television', 'it', 'was', 'about', 'pollution', 'and', 'the', 'terrible', 'situation', 'of', 'decisions', 'about', 'derision' ];
+    const words = ['the', 'revolution', 'of', 'the', 'nation', 'was', 'on', 'television', 'it', 'was', 'about', 'pollution', 'and', 'the', 'terrible', 'situation', 'of', 'decisions', 'about', 'derision'];
     const relatedNgrams = getRelatedNgrams(words, topNgrams, 3, 5);
     expect(relatedNgrams).toBeTruthy();
     expect(relatedNgrams.has('ion')).toBe(true);

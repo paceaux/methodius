@@ -1,5 +1,5 @@
 import { describe, expect, it } from '@jest/globals';
-import  Methodius  from '../../src/Methodius.class.ts';
+import Methodius from '../../src/Methodius.class.ts';
 
 describe('instance methods', () => {
   const nGrammer = new Methodius('hello world');
@@ -112,7 +112,6 @@ describe('instance method: ngram combo discovery', () => {
     expect(words.has('revolution')).toBe(true);
     expect(words.has('nation')).toBe(true);
     expect(words.has('of')).toBe(false);
-
   });
   it('gets words with top trigrams', () => {
     const nGrammer = new Methodius('the revolution of the nation was on television. It was about pollution and the terrible situation that it has caused. A declaration should be written about it.');
@@ -121,7 +120,6 @@ describe('instance method: ngram combo discovery', () => {
     expect(words.has('revolution')).toBe(true);
     expect(words.has('nation')).toBe(true);
     expect(words.has('of')).toBe(false);
-
   });
   it('will discover ngram combos', () => {
     const nGrammer = new Methodius('the revolution of the nation was on television. It was about pollution and the terrible situation that it has caused. A declaration should be written about it before there is confusion or revision. we are on a mission to make a decision.');
@@ -144,5 +142,4 @@ describe('instance method: ngram combo discovery', () => {
     expect(relatedNgrams.get('he')).toBe(9);
     expect(relatedNgrams.get('hi')).toBe(5);
   });
-
 });

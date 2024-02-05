@@ -15,7 +15,7 @@ type NGramSequence = NGram[];
 type NGramCollection = NGramSequence[];
 
 /** The positions within a word where an ngram can occur */
-type Positions = "start" | "middle" | "end";
+type Positions = 'start' | 'middle' | 'end';
 
 /** Frequency of placements of a single ngram in a word */
 type PlacementMap = Map<Positions, number>;
@@ -40,8 +40,7 @@ function getWordPlacementForNGram(ngram: NGram, wordsArray: Word[]) : PlacementM
     ['start', 0],
     ['middle', 0],
     ['end', 0],
-  ] 
-  );
+  ]);
 
   wordsArray.forEach((word) => {
     const wordNgrams = [...word.matchAll(new RegExp(ngram, 'gi'))];
@@ -104,7 +103,7 @@ function getNgramCollections(wordArray: Word[], ngramSize : number = 2) : NGramC
 }
 
 /** The relative positions one NGram can have to another */
-type RelativePosition = "before" | "after";
+type RelativePosition = 'before' | 'after';
 
 /** The frequency of a given relative position that <Ngram> has had to <NGram> */
 type SiblingsFrequencyMap = Map<RelativePosition, FrequencyMap>;
@@ -127,71 +126,76 @@ type SiblingsFrequencyMap = Map<RelativePosition, FrequencyMap>;
         ['on', 2]
       )]
     ])
-*/
+ */
 function getNgramSiblings(
   searchText:string,
   collectionOrSequence: NGramSequence|NGramCollection,
-  siblingSize:number = 1)
+  siblingSize:number = 1,
+)
   : SiblingsFrequencyMap {
-const ngramSiblings : SiblingsFrequencyMap = new Map([
-  ['before', new Map()],
-  ['after', new Map()],
-]);
+  const ngramSiblings : SiblingsFrequencyMap = new Map([
+    ['before', new Map()],
+    ['after', new Map()],
+  ]);
 
-if (!searchText) return ngramSiblings;
+  if (!searchText) return ngramSiblings;
 
-const isSequence = typeof collectionOrSequence[0] === 'string';
+  const isSequence = typeof collectionOrSequence[0] === 'string';
 
-const collection = isSequence
-      ? [[...collectionOrSequence]] as NGramCollection
-      : collectionOrSequence as NGramCollection;
+  const collection = isSequence
+    ? [[...collectionOrSequence]] as NGramCollection
+    : collectionOrSequence as NGramCollection;
 
-collection.forEach((ngramSequence: NGramSequence) => {
-  const ngramIndex = ngramSequence.indexOf(searchText);
-  if (ngramIndex > -1) {
-    const isFirst = ngramIndex === 0;
-    const isLast = ngramIndex === ngramSequence.length - 1;
-    const siblingsSliceStart = isFirst ? 0 : ngramIndex - siblingSize;
-    const siblingsSliceEnd = isLast
-      ? ngramSequence.length
-      : ngramIndex + siblingSize + 1;
-    const siblingsSlice = ngramSequence.slice(
-      siblingsSliceStart,
-      siblingsSliceEnd,
-    );
-    const siblingsSliceSearchIndex = siblingsSlice.indexOf(searchText);
+  collection.forEach((ngramSequence: NGramSequence) => {
+    const ngramIndex = ngramSequence.indexOf(searchText);
+    if (ngramIndex > -1) {
+      const isFirst = ngramIndex === 0;
+      const isLast = ngramIndex === ngramSequence.length - 1;
+      const siblingsSliceStart = isFirst ? 0 : ngramIndex - siblingSize;
+      const siblingsSliceEnd = isLast
+        ? ngramSequence.length
+        : ngramIndex + siblingSize + 1;
+      const siblingsSlice = ngramSequence.slice(
+        siblingsSliceStart,
+        siblingsSliceEnd,
+      );
+      const siblingsSliceSearchIndex = siblingsSlice.indexOf(searchText);
 
-    siblingsSlice.forEach((sibling: NGram, siblingIndex: number) => {
-      if (siblingIndex === siblingsSliceSearchIndex) {
-        return;
-      }
-      const siblingPosition: RelativePosition = siblingIndex < siblingsSliceSearchIndex ? 'before' : 'after';
-      const hasSibling = ngramSiblings.get(siblingPosition)?.has(sibling);
-      if (!hasSibling) {
-        ngramSiblings.get(siblingPosition)?.set(sibling, 1);
-      } else {
-        const currentPosition = ngramSiblings?.get(siblingPosition);
-        const currentPositionCountOfSibling = currentPosition?.get(sibling) || 0; // only here to appease TS
-        currentPosition
-          ?.set(sibling, currentPositionCountOfSibling + 1);
-      }
-    });
-  }
-});
+      siblingsSlice.forEach((sibling: NGram, siblingIndex: number) => {
+        if (siblingIndex === siblingsSliceSearchIndex) {
+          return;
+        }
+        const siblingPosition: RelativePosition = siblingIndex < siblingsSliceSearchIndex ? 'before' : 'after';
+        const hasSibling = ngramSiblings.get(siblingPosition)?.has(sibling);
+        if (!hasSibling) {
+          ngramSiblings.get(siblingPosition)?.set(sibling, 1);
+        } else {
+          const currentPosition = ngramSiblings?.get(siblingPosition);
+          const currentPositionCountOfSibling = currentPosition?.get(sibling) || 0; // only here to appease TS
+          currentPosition
+            ?.set(sibling, currentPositionCountOfSibling + 1);
+        }
+      });
+    }
+  });
 
-return ngramSiblings;
+  return ngramSiblings;
 }
 
 /**
  * @description Recursively creates a nested tree of ngrams from a  where the innermost part will be bigrams
  * @param {Word|NGram} word - a word from which the tree is created
  * @returns {NGramTree | NGramSequence} - a tree of ngrams
-*/
+ */
 
+/**
+ *
+ * @param word
+ */
 function getNgramTree(word:Word|NGram) : NGramTree | NGramSequence {
   const ngramSize : number = word?.length - 1;
 
-  if (ngramSize  < 2) {
+  if (ngramSize < 2) {
     return getNGrams(word, 1);
   }
   const ngrams : NGramSequence = getNGrams(word, ngramSize);
@@ -240,34 +244,33 @@ function getRelatedNgrams(words: Word[], ngrams: FrequencyMap, ngramSize: number
   }
 
   const relatedNgrams = new Map();
-    // now,go through words
-    words.forEach((word) => { 
-      
-      // let's split the word back into ngrams. 
-      const wordNgrams = getNGrams(word, ngramSize);
+  // now,go through words
+  words.forEach((word) => {
+    // let's split the word back into ngrams.
+    const wordNgrams = getNGrams(word, ngramSize);
 
-      // loop through our freshly split ngrams
-      wordNgrams.forEach((ngram: NGram, ngramIndex: number) => {
-        // we want the one before and the one after
-        const previousNgram = wordNgrams[ngramIndex - 1];
-        const nextNgram = wordNgrams[ngramIndex + 1];
-        const hasPrevAndCurrent = ngrams.has(previousNgram) && ngrams.has(ngram);
-        const hasNextAndCurrent = ngrams.has(ngram) && ngrams.has(nextNgram);
+    // loop through our freshly split ngrams
+    wordNgrams.forEach((ngram: NGram, ngramIndex: number) => {
+      // we want the one before and the one after
+      const previousNgram = wordNgrams[ngramIndex - 1];
+      const nextNgram = wordNgrams[ngramIndex + 1];
+      const hasPrevAndCurrent = ngrams.has(previousNgram) && ngrams.has(ngram);
+      const hasNextAndCurrent = ngrams.has(ngram) && ngrams.has(nextNgram);
 
-        // we have a case where it's either previous and current are both common,
-        // or current and next are both common
-        if (hasPrevAndCurrent || hasNextAndCurrent) {
-          // our list didn't have it, so we add it
-          if (!relatedNgrams.has(ngram)) {
-            relatedNgrams.set(ngram, 1);
-          } else {
-            relatedNgrams.set(ngram, relatedNgrams.get(ngram) + 1);
-          }
+      // we have a case where it's either previous and current are both common,
+      // or current and next are both common
+      if (hasPrevAndCurrent || hasNextAndCurrent) {
+        // our list didn't have it, so we add it
+        if (!relatedNgrams.has(ngram)) {
+          relatedNgrams.set(ngram, 1);
+        } else {
+          relatedNgrams.set(ngram, relatedNgrams.get(ngram) + 1);
         }
-      });
+      }
     });
+  });
 
-    return relatedNgrams;
+  return relatedNgrams;
 }
 
 export {

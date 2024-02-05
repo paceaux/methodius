@@ -12,7 +12,7 @@ type Intersection = Array<string>;
  */
 function getIntersection(
   iterable1: Map<string, string> | Array<string>,
-  iterable2: Map<string, string> | Array<string>
+  iterable2: Map<string, string> | Array<string>,
 ): Intersection {
   const array1 = Array.isArray(iterable1) ? iterable1 : [...iterable1.keys()];
   const array2 = Array.isArray(iterable2) ? iterable2 : [...iterable2.keys()];
@@ -39,7 +39,7 @@ type Union = Array<string>;
  */
 function getUnion(
   iterable1: Map<string, string> | Array<string>,
-  iterable2: Map<string, string> | Array<string>
+  iterable2: Map<string, string> | Array<string>,
 ): Array<string> {
   const array1 = Array.isArray(iterable1) ? iterable1 : [...iterable1.keys()];
   const array2 = Array.isArray(iterable2) ? iterable2 : [...iterable2.keys()];
@@ -62,7 +62,7 @@ type DisjunctiveUnion = Array<Array<string>>;
  */
 function getDisjunctiveUnion(
   iterable1: Map<string, string> | Array<string>,
-  iterable2: Map<string, string> | Array<string>
+  iterable2: Map<string, string> | Array<string>,
 ): DisjunctiveUnion {
   const array1 = Array.isArray(iterable1) ? iterable1 : [...iterable1.keys()];
   const array2 = Array.isArray(iterable2) ? iterable2 : [...iterable2.keys()];
@@ -74,7 +74,7 @@ function getDisjunctiveUnion(
   return [set1, set2];
 }
 /** The type of way that two NGramSequences can be evaluated */
-type SequenceComparisonType = "intersection" | "disjunctiveUnion";
+type SequenceComparisonType = 'intersection' | 'disjunctiveUnion';
 
 /** A map containing various comparisons between two iterables */
 type SequenceComparison = Map<SequenceComparisonType, Intersection | DisjunctiveUnion>;
@@ -87,11 +87,11 @@ type SequenceComparison = Map<SequenceComparisonType, Intersection | Disjunctive
  */
 function getComparison(
   iterable1: Map<string, string> | NGramSequence,
-  iterable2: Map<string, string> | NGramSequence
+  iterable2: Map<string, string> | NGramSequence,
 ) : SequenceComparison {
   const comparison = new Map();
-  comparison.set("intersection", getIntersection(iterable1, iterable2));
-  comparison.set("disjunctiveUnion", getDisjunctiveUnion(iterable1, iterable2));
+  comparison.set('intersection', getIntersection(iterable1, iterable2));
+  comparison.set('disjunctiveUnion', getDisjunctiveUnion(iterable1, iterable2));
 
   return comparison;
 }
@@ -102,5 +102,5 @@ export {
   getDisjunctiveUnion,
   getComparison,
   SequenceComparisonType,
-  SequenceComparison
+  SequenceComparison,
 };

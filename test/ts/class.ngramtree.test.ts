@@ -21,11 +21,10 @@ describe('NGramTree', () => {
     const the = new NGramTree([
       ['th', ['t', 'h']],
       ['he', ['h', 'e']],
-      ]);
-      expect(the.ngramSize).toEqual(2);
+    ]);
+    expect(the.ngramSize).toEqual(2);
   });
   it('reports the size of an ngram w/ nsted ones', () => {
-
     const the = new NGramTree([
       ['th', ['t', 'h']],
       ['he', ['h', 'e']],
@@ -42,50 +41,50 @@ describe('NGramTree', () => {
   });
 
   describe('item depth', () => {
-      const na = ["n", "a"];
-      const at = ["a", "t"];
-      const ti = ["t", "i"];
-      const io = ["i", "o"];
-      const on = ["o", "n"];
-      const natTree = new NGramTree([
-        ["na", ...na],
-        ["at", ...at],
-      ]);
-      const atiTree = new NGramTree([
-        ["at", ...at],
-        ["ti", ...ti],
-      ]);
-      const tioTree = new NGramTree([
-        ["ti", ...ti],
-        ["io", ...io],
-      ]);
-      const ionTree = new NGramTree([
-        ["io", ...io],
-        ["on", ...on],
-      ]);
-      const atioTree = new NGramTree([
-        ["ati", atiTree],
-        ["tio", tioTree],
-      ]);
-      const tionTree = new NGramTree([
-        ["tio", tioTree],
-        ["ion", ionTree],
-      ]);
-      const natiTree = new NGramTree([
-        ["nat", natTree],
-        ["ati", atiTree],
-      ]);
-      const natioTree = new NGramTree([
-        ["nati", natiTree],
-        ["atio", atioTree],
-      ]);
+    const na = ['n', 'a'];
+    const at = ['a', 't'];
+    const ti = ['t', 'i'];
+    const io = ['i', 'o'];
+    const on = ['o', 'n'];
+    const natTree = new NGramTree([
+      ['na', ...na],
+      ['at', ...at],
+    ]);
+    const atiTree = new NGramTree([
+      ['at', ...at],
+      ['ti', ...ti],
+    ]);
+    const tioTree = new NGramTree([
+      ['ti', ...ti],
+      ['io', ...io],
+    ]);
+    const ionTree = new NGramTree([
+      ['io', ...io],
+      ['on', ...on],
+    ]);
+    const atioTree = new NGramTree([
+      ['ati', atiTree],
+      ['tio', tioTree],
+    ]);
+    const tionTree = new NGramTree([
+      ['tio', tioTree],
+      ['ion', ionTree],
+    ]);
+    const natiTree = new NGramTree([
+      ['nat', natTree],
+      ['ati', atiTree],
+    ]);
+    const natioTree = new NGramTree([
+      ['nati', natiTree],
+      ['atio', atioTree],
+    ]);
     it('trees with bigrams are a depth of 0', () => {
       const the = new NGramTree([
-        ["th", ["t", "h"]],
-        ["he", ["h", "e"]],
+        ['th', ['t', 'h']],
+        ['he', ['h', 'e']],
       ]);
       expect(the.depth).toEqual(0);
-    })
+    });
     it('trees with maps of bigrams are a depth of 1', () => {
       expect(natiTree.depth).toEqual(1);
     });
@@ -94,109 +93,109 @@ describe('NGramTree', () => {
     });
   });
   describe('it can flatten itself', () => {
-      const na = ["n", "a"];
-      const at = ["a", "t"];
-      const ti = ["t", "i"];
-      const io = ["i", "o"];
-      const on = ["o", "n"];
-      const natTree = new NGramTree([
-        ["na", ...na],
-        ["at", ...at],
-      ]);
-      const atiTree = new NGramTree([
-        ["at", ...at],
-        ["ti", ...ti],
-      ]);
-      const tioTree = new NGramTree([
-        ["ti", ...ti],
-        ["io", ...io],
-      ]);
-      const ionTree = new NGramTree([
-        ["io", ...io],
-        ["on", ...on],
-      ]);
-      const atioTree = new NGramTree([
-        ["ati", atiTree],
-        ["tio", tioTree],
-      ]);
-      const tionTree = new NGramTree([
-        ["tio", tioTree],
-        ["ion", ionTree],
-      ]);
-      const natiTree = new NGramTree([
-        ["nat", natTree],
-        ["ati", atiTree],
-      ]);
-      const natioTree = new NGramTree([
-        ["nati", natiTree],
-        ["atio", atioTree],
-      ]);
-      it('flattens a bigram tree [na,at] to an array', () => {
-        const flattendTree = natTree.flatten();
-        expect(flattendTree).toEqual(['na', 'at']);
-      });
-      it('flattens a tree (nati) nested 1 level', () => {
-        const flattendTree = natiTree.flatten();
-        expect(flattendTree).toEqual(['na', 'at', 'ti']);
-      });
-      it('flattens a tree (natio) nested 2 levels', () => {
-        const flattendTree = natioTree.flatten();
-        expect(flattendTree).toEqual(['na', 'at', 'ti', 'io']);
-      });
-      it('flattens a tree (nati) nested 2 levels but of an ngram of my choice ', () => {
-        const flattendTree = natiTree.flatten(3);
-        expect(flattendTree).toEqual(['nat', 'ati']);
-      });
-      it('flattens a tree (natio) nested 3 levels to ngram size of 3 ', () => {
-        const flattendTree = natioTree.flatten(3);
-        expect(flattendTree).toEqual(['nat', 'ati', 'tio']);
-      });
-      it('flattens a tree (natio) nested 3 levels to ngram size of 4 ', () => {
-        const flattendTree = natioTree.flatten(4);
-        expect(flattendTree).toEqual(['nati', 'atio']);
-      });
-  });
-  describe('hasDeep', () => {
-    const na = ["n", "a"];
-    const at = ["a", "t"];
-    const ti = ["t", "i"];
-    const io = ["i", "o"];
-    const on = ["o", "n"];
+    const na = ['n', 'a'];
+    const at = ['a', 't'];
+    const ti = ['t', 'i'];
+    const io = ['i', 'o'];
+    const on = ['o', 'n'];
     const natTree = new NGramTree([
-      ["na", ...na],
-      ["at", ...at],
+      ['na', ...na],
+      ['at', ...at],
     ]);
     const atiTree = new NGramTree([
-      ["at", ...at],
-      ["ti", ...ti],
+      ['at', ...at],
+      ['ti', ...ti],
     ]);
     const tioTree = new NGramTree([
-      ["ti", ...ti],
-      ["io", ...io],
+      ['ti', ...ti],
+      ['io', ...io],
     ]);
     const ionTree = new NGramTree([
-      ["io", ...io],
-      ["on", ...on],
+      ['io', ...io],
+      ['on', ...on],
     ]);
     const atioTree = new NGramTree([
-      ["ati", atiTree],
-      ["tio", tioTree],
+      ['ati', atiTree],
+      ['tio', tioTree],
     ]);
     const tionTree = new NGramTree([
-      ["tio", tioTree],
-      ["ion", ionTree],
+      ['tio', tioTree],
+      ['ion', ionTree],
     ]);
     const natiTree = new NGramTree([
-      ["nat", natTree],
-      ["ati", atiTree],
+      ['nat', natTree],
+      ['ati', atiTree],
     ]);
     const natioTree = new NGramTree([
-      ["nati", natiTree],
-      ["atio", atioTree],
+      ['nati', natiTree],
+      ['atio', atioTree],
+    ]);
+    it('flattens a bigram tree [na,at] to an array', () => {
+      const flattendTree = natTree.flatten();
+      expect(flattendTree).toEqual(['na', 'at']);
+    });
+    it('flattens a tree (nati) nested 1 level', () => {
+      const flattendTree = natiTree.flatten();
+      expect(flattendTree).toEqual(['na', 'at', 'ti']);
+    });
+    it('flattens a tree (natio) nested 2 levels', () => {
+      const flattendTree = natioTree.flatten();
+      expect(flattendTree).toEqual(['na', 'at', 'ti', 'io']);
+    });
+    it('flattens a tree (nati) nested 2 levels but of an ngram of my choice ', () => {
+      const flattendTree = natiTree.flatten(3);
+      expect(flattendTree).toEqual(['nat', 'ati']);
+    });
+    it('flattens a tree (natio) nested 3 levels to ngram size of 3 ', () => {
+      const flattendTree = natioTree.flatten(3);
+      expect(flattendTree).toEqual(['nat', 'ati', 'tio']);
+    });
+    it('flattens a tree (natio) nested 3 levels to ngram size of 4 ', () => {
+      const flattendTree = natioTree.flatten(4);
+      expect(flattendTree).toEqual(['nati', 'atio']);
+    });
+  });
+  describe('hasDeep', () => {
+    const na = ['n', 'a'];
+    const at = ['a', 't'];
+    const ti = ['t', 'i'];
+    const io = ['i', 'o'];
+    const on = ['o', 'n'];
+    const natTree = new NGramTree([
+      ['na', ...na],
+      ['at', ...at],
+    ]);
+    const atiTree = new NGramTree([
+      ['at', ...at],
+      ['ti', ...ti],
+    ]);
+    const tioTree = new NGramTree([
+      ['ti', ...ti],
+      ['io', ...io],
+    ]);
+    const ionTree = new NGramTree([
+      ['io', ...io],
+      ['on', ...on],
+    ]);
+    const atioTree = new NGramTree([
+      ['ati', atiTree],
+      ['tio', tioTree],
+    ]);
+    const tionTree = new NGramTree([
+      ['tio', tioTree],
+      ['ion', ionTree],
+    ]);
+    const natiTree = new NGramTree([
+      ['nat', natTree],
+      ['ati', atiTree],
+    ]);
+    const natioTree = new NGramTree([
+      ['nati', natiTree],
+      ['atio', atioTree],
     ]);
     const ationTree = new NGramTree([
-      ["atio", atioTree],
-      ["tion", tionTree],
+      ['atio', atioTree],
+      ['tion', tionTree],
     ]);
     it('will find a letter one level deep', () => {
       expect(natTree.hasDeep('a')).toEqual(true);
@@ -218,50 +217,49 @@ describe('NGramTree', () => {
     });
   });
   describe('searching with hasMany, hasAny, hasWhich', () => {
-    const na = ["n", "a"];
-    const at = ["a", "t"];
-    const ti = ["t", "i"];
-    const io = ["i", "o"];
-    const on = ["o", "n"];
+    const na = ['n', 'a'];
+    const at = ['a', 't'];
+    const ti = ['t', 'i'];
+    const io = ['i', 'o'];
+    const on = ['o', 'n'];
     const natTree = new NGramTree([
-      ["na", [...na]],
-      ["at", [...at]],
+      ['na', [...na]],
+      ['at', [...at]],
     ]);
     const atiTree = new NGramTree([
-      ["at", [...at]],
-      ["ti", [...ti]],
+      ['at', [...at]],
+      ['ti', [...ti]],
     ]);
     const tioTree = new NGramTree([
-      ["ti", [...ti]],
-      ["io", [...io]],
+      ['ti', [...ti]],
+      ['io', [...io]],
     ]);
     const ionTree = new NGramTree([
-      ["io", [...io]],
-      ["on", [...on]],
+      ['io', [...io]],
+      ['on', [...on]],
     ]);
     const atioTree = new NGramTree([
-      ["ati", atiTree],
-      ["tio", tioTree],
+      ['ati', atiTree],
+      ['tio', tioTree],
     ]);
     const tionTree = new NGramTree([
-      ["tio", tioTree],
-      ["ion", ionTree],
+      ['tio', tioTree],
+      ['ion', ionTree],
     ]);
     const natiTree = new NGramTree([
-      ["nat", natTree],
-      ["ati", atiTree],
+      ['nat', natTree],
+      ['ati', atiTree],
     ]);
     const natioTree = new NGramTree([
-      ["nati", natiTree],
-      ["atio", atioTree],
+      ['nati', natiTree],
+      ['atio', atioTree],
     ]);
     const ationTree = new NGramTree([
-      ["atio", atioTree],
-      ["tion", tionTree],
+      ['atio', atioTree],
+      ['tion', tionTree],
     ]);
-    
-    describe('hasMany', () => {
 
+    describe('hasMany', () => {
       it('will confirm  two letters at once', () => {
         expect(tioTree.hasMany(['t', 'i'])).toEqual(true);
       });
@@ -269,7 +267,7 @@ describe('NGramTree', () => {
         expect(tioTree.hasMany(['ti', 'io'])).toEqual(true);
       });
       it('will confirm three bigrams at once', () => {
-        expect(atioTree.hasMany(['at','ti', 'io'])).toEqual(true);
+        expect(atioTree.hasMany(['at', 'ti', 'io'])).toEqual(true);
       });
       it('will confirm two trigrams at once', () => {
         expect(natioTree.hasMany(['nat', 'ati'])).toEqual(true);
@@ -281,7 +279,7 @@ describe('NGramTree', () => {
         expect(natioTree.hasMany(['nat', 'tio', 'ons'])).toEqual(false);
       });
     });
-    describe('hasAny', () => { 
+    describe('hasAny', () => {
       it('will return true if sent something not in the tree', () => {
         expect(natioTree.hasAny(['nat', 'tio', 'ons'])).toEqual(true);
       });
@@ -289,7 +287,7 @@ describe('NGramTree', () => {
         expect(natioTree.hasAny(['zi', 'qt'])).toEqual(false);
       });
     });
-    describe('hasAny', () => { 
+    describe('hasAny', () => {
       it('will return true if sent something not in the tree', () => {
         expect(natioTree.hasAny(['nat', 'tio', 'ons'])).toEqual(true);
       });
@@ -297,12 +295,12 @@ describe('NGramTree', () => {
         expect(natioTree.hasAny(['zi', 'qt'])).toEqual(false);
       });
     });
-    describe('hasWhich', () => { 
+    describe('hasWhich', () => {
       it('will return the trigrams in the tree', () => {
         expect(natioTree.hasWhich(['nat', 'tio', 'ons'])).toEqual(['nat', 'tio']);
       });
       it('will return the bigrams in the tree', () => {
-        expect(natioTree.hasWhich(['na', 'at','ti', 'on'])).toEqual(['na', 'at', 'ti']);
+        expect(natioTree.hasWhich(['na', 'at', 'ti', 'on'])).toEqual(['na', 'at', 'ti']);
       });
       it('will return false if sent nothing in the tree', () => {
         expect(natioTree.hasWhich(['zi', 'qt'])).toEqual([]);

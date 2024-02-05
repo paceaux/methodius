@@ -1,9 +1,15 @@
 import { punctuations, wordSeparators } from './constants';
-import { hasPunctuation, hasSpace, sanitizeText, getWords } from './functions.tokenizers';
+import {
+  hasPunctuation, hasSpace, sanitizeText, getWords,
+} from './functions.tokenizers';
 import { getMeanWordSize, getMedianWordSize } from './functions.metrics.words';
-import { getNGrams, getWordNGrams, WordNGram, NGram } from './functions.ngrams';
+import {
+  getNGrams, getWordNGrams, WordNGram, NGram,
+} from './functions.ngrams';
 import { getFrequencyMap, getPercentMap, getTopGrams } from './functions.metrics.ngrams';
-import { getIntersection, getUnion, getDisjunctiveUnion, getComparison, SequenceComparisonType, SequenceComparison } from './functions.comparisons';
+import {
+  getIntersection, getUnion, getDisjunctiveUnion, getComparison, SequenceComparisonType, SequenceComparison,
+} from './functions.comparisons';
 import {
   getWordPlacementForNGram,
   getWordPlacementForNGrams,
@@ -20,12 +26,12 @@ import {
 } from './functions.analysis';
 import NGramTree from './ngramtree.class';
 
-/** A user-friendly name for the size of the Ngram*/
+/** A user-friendly name for the size of the Ngram */
 enum NGramType {
-  "letter" = 1,
-  "bigram" = 2,
-  "trigram" = 3,
-  "word" = Infinity,
+  'letter' = 1,
+  'bigram' = 2,
+  'trigram' = 3,
+  'word' = Infinity,
 }
 
 export default class Methodius {
@@ -34,27 +40,49 @@ export default class Methodius {
   constructor(text:string) {
     this.text = text;
   }
+
   static punctuations = punctuations;
+
   static wordSeparators = wordSeparators;
+
   static hasPunctuation = hasPunctuation;
+
   static hasSpace = hasSpace;
+
   static sanitizeText = sanitizeText;
+
   static getWords = getWords;
+
   static getMeanWordSize = getMeanWordSize;
+
   static getMedianWordSize = getMedianWordSize;
+
   static getNGrams = getNGrams;
+
   static getWordNGrams = getWordNGrams;
+
   static getFrequencyMap = getFrequencyMap;
+
   static getPercentMap = getPercentMap;
+
   static getTopGrams = getTopGrams;
+
   static getIntersection = getIntersection;
+
   static getUnion = getUnion;
+
   static getDisjunctiveUnion = getDisjunctiveUnion;
+
   static getComparison = getComparison;
+
   static getWordPlacementForNGram = getWordPlacementForNGram;
+
   static getWordPlacementForNGrams = getWordPlacementForNGrams;
+
   static getNgramCollections = getNgramCollections;
+
   static getNgramSiblings = getNgramSiblings;
+
   static getNgramTreeCollection = getNgramTreeCollection;
 
   /**
@@ -125,7 +153,7 @@ export default class Methodius {
    * @description an array of unique bigrams in the text
    * @returns {string[]} - array of unique bigrams in text
    */
-  get uniqueBigrams() : NGramSequence  {
+  get uniqueBigrams() : NGramSequence {
     return [...new Set(this.bigrams)];
   }
 
@@ -141,7 +169,7 @@ export default class Methodius {
    * @description an array of unique words in the text
    * @returns {Word[]} - array of unique words in text
    */
-  get uniqueWords() : Word[]{
+  get uniqueWords() : Word[] {
     return [...new Set(this.words)];
   }
 
@@ -225,13 +253,14 @@ export default class Methodius {
     return Methodius.getWordPlacementForNGrams(this.uniqueTrigrams, this.words);
   }
 
-/**
- * @description a nested map of maps that breaks down unique words into their smallest ngrams
- */
+  /**
+   * @description a nested map of maps that breaks down unique words into their smallest ngrams
+   */
   get ngramTreeCollection() : NGramTreeCollection {
     return Methodius.getNgramTreeCollection(this.uniqueWords);
   }
-/**
+
+  /**
    * @description gets an array of customizeable ngrams in the text
    * @param {number} [size=2] - size of nGram
    * @returns {NGramSequence} - array of granms in text
@@ -267,12 +296,12 @@ export default class Methodius {
     return Methodius.getTopGrams(this.trigramFrequencies, limit);
   }
 
-/**
- * @description a wrapper for the getTop<whatever>grams methods that gives a choice for the size of ngram to return
- * @param {number} [ngramSize = 2] - the size of the ngram (1 = letter, 2 = bigram, 3 = trigram, 3+ = ngram)
- * @param {number }[limit=20] - number of top ngrams to return
- * @returns {FrequencyMap} - a map of the ngrams and their frequencies
- */
+  /**
+   * @description a wrapper for the getTop<whatever>grams methods that gives a choice for the size of ngram to return
+   * @param {number} [ngramSize = 2] - the size of the ngram (1 = letter, 2 = bigram, 3 = trigram, 3+ = ngram)
+   * @param {number }[limit=20] - number of top ngrams to return
+   * @returns {FrequencyMap} - a map of the ngrams and their frequencies
+   */
   getTopNgrams(ngramSize: number = 2, limit: number = 20) : FrequencyMap {
     let topNgrams;
     switch (ngramSize) {
@@ -302,7 +331,7 @@ export default class Methodius {
   getTopWords(limit: number = 20) : FrequencyMap {
     return Methodius.getTopGrams(this.wordFrequencies, limit);
   }
-  
+
   /**
    * @description evaluates the top ngrams to discover the words which contain them
    * @param  {number=2} ngramSize
@@ -311,8 +340,8 @@ export default class Methodius {
    */
   getWordsContainingTopNgrams(ngramSize: number = 2, limit: number = 20) : Map<Word, NGram[]> {
     const topNgrams = this.getTopNgrams(ngramSize, limit);
-    const topNgramKeys:  NGram[] = [...topNgrams.keys()];
-    const ngramTreeCollection = this.ngramTreeCollection;
+    const topNgramKeys: NGram[] = [...topNgrams.keys()];
+    const { ngramTreeCollection } = this;
     const wordsWithTopNgrams = new Map();
 
     ngramTreeCollection.forEach((ngramTree, word) => {
@@ -335,24 +364,23 @@ export default class Methodius {
     return wordsWithTopNgrams;
   }
 
-  /** 
+  /**
    * @description Gets the ngrams that will occur before or after other ngrams based on what the most frequent ngrams are. Useful for finding patterns of ngrams.
    * @param  {number=2} ngramSize the size of the ngram
    * @param  {number=20} limit number of top ngrams to use as a basis for determining related ngrams
    * @returns {FrequencyMap} A frequency map of how often the most common ngrams occured before or after other common ngrams
-   * 
    */
   getRelatedTopNgrams(ngramSize: number = 2, limit: number = 20) : FrequencyMap {
     // first, let's find the most common ngrams
     const topNgrams = this.getTopNgrams(ngramSize, limit);
     // next, get the words that have them
-    const words = this.words;
+    const { words } = this;
 
     const relatedNgrams = getRelatedNgrams(words, topNgrams, ngramSize);
 
     return relatedNgrams;
   }
-  
+
   /**
    * @description Compare this methodius instance's letter, bigrams, trigrams, and words to another methodius instance
    * @param  {Methodius} methodius another methodius instance

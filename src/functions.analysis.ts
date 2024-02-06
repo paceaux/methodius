@@ -1,18 +1,15 @@
 import {
-  getNGrams,
+  Word,
+  NGramSequence,
   NGram,
+  NGramCollection,
+} from './types';
+
+import {
+  getNGrams,
 } from './functions.ngrams';
 
 import NGramTree from './ngramtree.class';
-
-/** string without punctuations or word separators */
-type Word = string;
-
-/** an array of NGram extracted from a single word */
-type NGramSequence = NGram[];
-
-/** an array of NGramSequence extracted from many words */
-type NGramCollection = NGramSequence[];
 
 /** The positions within a word where an ngram can occur */
 type Positions = 'start' | 'middle' | 'end';
@@ -186,13 +183,8 @@ function getNgramSiblings(
 }
 
 /**
- * @description Recursively creates a nested tree of ngrams from a  where the innermost part will be bigrams
- * @param {Word|NGram} word - a word from which the tree is created
- * @returns {NGramTree | NGramSequence} - a tree of ngrams
- */
-
-/**
  *
+ * @description Recursively creates a nested tree of ngrams from a  where the innermost part will be bigrams
  * @param  {Word|NGram} word - a word from which the tree is created
  * @returns {NGramTree | NGramSequence} - a tree of ngrams
  */
@@ -299,4 +291,5 @@ export {
   getNgramTreeCollection,
   NGramTreeCollection,
   getRelatedNgrams,
+  NGram,
 };

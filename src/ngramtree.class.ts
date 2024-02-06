@@ -1,6 +1,5 @@
 import { getMeanWordSize } from './functions.metrics.words';
-import { NGram } from './functions.ngrams';
-import { NGramSequence } from './functions.analysis';
+import { NGram, NGramSequence } from './types';
 
 /**
  * @augments Map

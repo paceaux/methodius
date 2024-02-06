@@ -1,10 +1,12 @@
+import { NGram } from './types';
 import { punctuations, wordSeparators } from './constants';
 import {
   hasPunctuation, hasSpace, sanitizeText, getWords,
 } from './functions.tokenizers';
 import { getMeanWordSize, getMedianWordSize } from './functions.metrics.words';
 import {
-  getNGrams, getWordNGrams, NGram,
+  getNGrams,
+  getWordNGrams,
 } from './functions.ngrams';
 import { getFrequencyMap, getPercentMap, getTopGrams } from './functions.metrics.ngrams';
 import {

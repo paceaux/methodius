@@ -2,7 +2,7 @@ import {
   wordSeparators,
   punctuations,
 } from './constants';
-import { Word } from './functions.analysis';
+import { Word } from './types';
 
 /**
  * @description determins if string contains punctuation

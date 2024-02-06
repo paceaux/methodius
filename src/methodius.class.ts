@@ -91,6 +91,8 @@ export default class Methodius {
 
   static getNgramTreeCollection = getNgramTreeCollection;
 
+  static getRelatedNgrams = getRelatedNgrams;
+
   /**
    * @description lowercased text with diacritics removed
    * @returns  {string} sanitizedText - text that is all lowercase and without Hebrew diacritics
@@ -387,7 +389,7 @@ export default class Methodius {
     // next, get the words that have them
     const { words } = this;
 
-    const relatedNgrams = getRelatedNgrams(words, topNgrams, ngramSize);
+    const relatedNgrams = Methodius.getRelatedNgrams(words, topNgrams, ngramSize);
 
     return relatedNgrams;
   }

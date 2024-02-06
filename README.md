@@ -1,8 +1,8 @@
 # Methodius (an NGram utility)
 
-A utility for analyzing text on the web. 
+A utility for analyzing frequency of text chunks on the web.
 
-Supply a bit o' text to the methodius class, and let it determine your bigrams, trigrams, ngrams, letter-frequencies, and word frequencies
+Supply a bit o' text to the Methodius class, and let it determine your bigrams, trigrams, ngrams, letter-frequencies, word frequencies, bigram relationships, and create ngram trees. 
 
 [![Hippocratic License HL3-LAW-MEDIA-MIL-SOC-SV](https://img.shields.io/static/v1?label=Hippocratic%20License&message=HL3-LAW-MEDIA-MIL-SOC-SV&labelColor=5e2751&color=bc8c3d)](https://firstdonoharm.dev/version/3/0/law-media-mil-soc-sv.html)
 
@@ -12,6 +12,7 @@ Supply a bit o' text to the methodius class, and let it determine your bigrams, 
 
 ```JavaScript
 const { Methodius } = require('methodius');
+// or import { Methodius } from 'methodius';
 
 const udhr1 = `
 All human beings are born free and equal in dignity and rights. They are endowed with reason and conscience and should act towards one another in a spirit of brotherhood.

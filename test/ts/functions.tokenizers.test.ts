@@ -2,6 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 import {
   hasPunctuation,
   hasSpace,
+  hasSymbols,
   sanitizeText,
   getWords,
 } from '../../src/functions.tokenizers';
@@ -14,6 +15,16 @@ describe('tokenization', () => {
     expect(hasPunctuation('hello')).toBe(false);
     expect(hasPunctuation('Don\'t shouldn\'t')).toBe(true);
   });
+  it('can recognize symbols', () => {
+    expect(hasSymbols('$3 for food')).toBe(true);
+    expect(hasSymbols('5% for food')).toBe(true);
+    expect(hasSymbols('#FoodFun')).toBe(true);
+    expect(hasSymbols('^FoodFun')).toBe(true);
+    expect(hasSymbols('FoodFun-_')).toBe(true);
+    expect(hasSymbols('FoodFun')).toBe(false);
+    expect(hasSymbols('фвавф')).toBe(false);
+    expect(hasSymbols('شبيش')).toBe(false);
+  })
   it('can determine if a bit of text has spaces', () => {
     expect(hasSpace('hello world')).toBe(true);
     expect(hasSpace('hello')).toBe(false);

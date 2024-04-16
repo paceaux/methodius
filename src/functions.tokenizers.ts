@@ -1,6 +1,7 @@
 import {
   wordSeparators,
   punctuations,
+  symbols,
 } from './constants';
 import { Word } from './types';
 
@@ -13,6 +14,17 @@ function hasPunctuation(text: string): boolean {
   const punctuationRegEx = new RegExp(`([${punctuations}])`, 'g');
 
   return punctuationRegEx.test(text);
+}
+
+/**
+ * @param  {string} text
+ * @returns boolean
+ */
+function hasSymbols(text: string): boolean {
+  const symbolRegEx = new RegExp(`([${symbols}])`, 'g');
+
+  return symbolRegEx.test(text);
+
 }
 
 /**
@@ -59,6 +71,7 @@ function getWords(text:string) : Word[] {
 
 export {
   hasPunctuation,
+  hasSymbols,
   hasSpace,
   sanitizeText,
   getWords,

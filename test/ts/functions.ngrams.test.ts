@@ -88,6 +88,12 @@ describe('getNGrams', () => {
   it('will work on Ukrainian', () => {
     expect(getNGrams('привіт')).toEqual(['пр', 'ри', 'ив', 'ві', 'іт']);
   });
+  it('will not get tripped up by quotes', () => {
+    expect(getNGrams('hello "world"')).toEqual(['he', 'el', 'll', 'lo', 'wo', 'or', 'rl', 'ld']);
+    expect(getNGrams('hello \'world\'')).toEqual(['he', 'el', 'll', 'lo', 'wo', 'or', 'rl', 'ld']);
+    expect(getNGrams('hello “world”')).toEqual(['he', 'el', 'll', 'lo', 'wo', 'or', 'rl', 'ld']);
+    expect(getNGrams('«hello world»')).toEqual(['he', 'el', 'll', 'lo', 'wo', 'or', 'rl', 'ld']);
+  })
 });
 describe('getWordNGrams', () => {
   it('will get a default size of 2 ', () => {

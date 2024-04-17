@@ -6,7 +6,7 @@ import {
 import { Word } from './types';
 
 /**
- * @description determins if string contains punctuation
+ * @description determines if string contains punctuation
  * @param  {string} text - string to check for punctuation
  * @returns {boolean} - true if string contains punctuation
  */
@@ -17,6 +17,7 @@ function hasPunctuation(text: string): boolean {
 }
 
 /**
+ * @description determines if a string contains symbols such as #, $ or ^
  * @param  {string} text
  * @returns boolean
  */
@@ -28,7 +29,7 @@ function hasSymbols(text: string): boolean {
 }
 
 /**
- * @description determins if a string has a space
+ * @description determines if a string has a space
  * @param  {string} text - string to check for space
  * @returns  {boolean} - true if string contains space
  */

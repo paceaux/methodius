@@ -1,5 +1,6 @@
 import {
   hasPunctuation,
+  hasSymbols,
   hasSpace,
   getWords,
 } from './functions.tokenizers';
@@ -24,6 +25,7 @@ function getNGrams(text:string, gramSize: number = 2) : NGramSequence {
     if (
       !hasPunctuation(substring)
         && !hasSpace(substring)
+        && !hasSymbols(substring)
     ) {
       bigrams.push(substring);
     }

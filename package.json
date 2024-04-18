@@ -1,6 +1,6 @@
 {
   "name": "methodius",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A utility for analyzing text to find bigrams, trigrams, and other n-grams.",
   "main": "dist/main.js",
   "module": "esm/main.js",

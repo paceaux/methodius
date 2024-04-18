@@ -18,14 +18,13 @@ function hasPunctuation(text: string): boolean {
 
 /**
  * @description determines if a string contains symbols such as #, $ or ^
- * @param  {string} text
- * @returns boolean
+ * @param  {string} text - string to check for symbols
+ * @returns {boolean} - true if string contains symbols
  */
 function hasSymbols(text: string): boolean {
   const symbolRegEx = new RegExp(`([${symbols}])`, 'g');
 
   return symbolRegEx.test(text);
-
 }
 
 /**

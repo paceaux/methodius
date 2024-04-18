@@ -78,9 +78,9 @@ describe('getNGrams', () => {
     expect(getNGrams('foot_ball', 3)).toEqual(['foo', 'oot', 'bal', 'all']);
     expect(getNGrams('foot-_ball')).toEqual(['fo', 'oo', 'ot', 'ba', 'al', 'll']);
     expect(getNGrams('foot-_ball_')).toEqual(['fo', 'oo', 'ot', 'ba', 'al', 'll']);
-    expect(getNGrams('#football')).toEqual(['fo', 'oo', 'ot','tb', 'ba', 'al', 'll']);
-    expect(getNGrams('footb@ll')).toEqual(['fo', 'oo', 'ot','tb', 'll']);
-    expect(getNGrams('footb@11')).toEqual(['fo', 'oo', 'ot','tb', '11']);
+    expect(getNGrams('#football')).toEqual(['fo', 'oo', 'ot', 'tb', 'ba', 'al', 'll']);
+    expect(getNGrams('footb@ll')).toEqual(['fo', 'oo', 'ot', 'tb', 'll']);
+    expect(getNGrams('footb@11')).toEqual(['fo', 'oo', 'ot', 'tb', '11']);
   });
   it('will work on Hebrew', () => {
     expect(getNGrams('שלום')).toEqual(['של', 'לו', 'ום']);
@@ -93,7 +93,7 @@ describe('getNGrams', () => {
     expect(getNGrams('hello \'world\'')).toEqual(['he', 'el', 'll', 'lo', 'wo', 'or', 'rl', 'ld']);
     expect(getNGrams('hello “world”')).toEqual(['he', 'el', 'll', 'lo', 'wo', 'or', 'rl', 'ld']);
     expect(getNGrams('«hello world»')).toEqual(['he', 'el', 'll', 'lo', 'wo', 'or', 'rl', 'ld']);
-  })
+  });
 });
 describe('getWordNGrams', () => {
   it('will get a default size of 2 ', () => {

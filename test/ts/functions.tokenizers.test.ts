@@ -24,7 +24,7 @@ describe('tokenization', () => {
     expect(hasSymbols('FoodFun')).toBe(false);
     expect(hasSymbols('фвавф')).toBe(false);
     expect(hasSymbols('شبيش')).toBe(false);
-  })
+  });
   it('can determine if a bit of text has spaces', () => {
     expect(hasSpace('hello world')).toBe(true);
     expect(hasSpace('hello')).toBe(false);

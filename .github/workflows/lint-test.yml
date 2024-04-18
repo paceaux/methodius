@@ -1,0 +1,28 @@
+name: Lint
+
+on:
+    push:
+        branches:
+            - main
+            - develop
+    pull_request:
+        branches:
+            - main
+            - develop
+
+jobs:
+    run-all:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out Git repository
+              uses: actions/checkout@v2
+
+            - name: Set up Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 18
+            - run: npm ci
+            - run: npm run lint
+            - run: npm run test
+             
+ 

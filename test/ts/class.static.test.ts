@@ -6,6 +6,7 @@ describe('static class members', () => {
     expect(Methodius).toHaveProperty('punctuations');
     expect(Methodius).toHaveProperty('wordSeparators');
     expect(Methodius).toHaveProperty('hasPunctuation');
+    expect(Methodius).toHaveProperty('hasSymbols');
     expect(Methodius).toHaveProperty('hasSpace');
     expect(Methodius).toHaveProperty('sanitizeText');
     expect(Methodius).toHaveProperty('getMeanWordSize');

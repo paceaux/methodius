@@ -1,0 +1,20 @@
+name: Lint
+
+on: [push]
+
+jobs:
+    run-linters:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out Git repository
+              uses: actions/checkout@v4
+
+            - name: Set up Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 18
+
+            - run: npm ci
+            - run: npm run lint
+
+ 

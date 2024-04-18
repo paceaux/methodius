@@ -1,7 +1,7 @@
 import { NGram } from './types';
 import { punctuations, wordSeparators } from './constants';
 import {
-  hasPunctuation, hasSpace, sanitizeText, getWords,
+  hasPunctuation, hasSymbols, hasSpace, sanitizeText, getWords,
 } from './functions.tokenizers';
 import { getMeanWordSize, getMedianWordSize } from './functions.metrics.words';
 import {
@@ -52,6 +52,8 @@ export default class Methodius {
   static wordSeparators = wordSeparators;
 
   static hasPunctuation = hasPunctuation;
+
+  static hasSymbols = hasSymbols;
 
   static hasSpace = hasSpace;
 

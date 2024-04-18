@@ -62,6 +62,17 @@ em-dash, period, comma, semicolon, colon, bang, question mark, interrobang, Span
 **Returns**
 `boolean`
 
+#### `hasSymbols(string)`
+ determines if string contains symbols 
+ 
+**Parameters**
+| name      | type  | Description   |
+| ---       |---    | ---           |
+| string    | string       |               |
+
+**Returns**
+`boolean`
+
 #### `hasSpace(string)`
  determines if a string has a space 
 

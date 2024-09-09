@@ -39,28 +39,28 @@
   "author": "paceaux (frank m. taylor)",
   "license": "MIT",
   "dependencies": {
-    "core-js": "^3.24.0"
+    "@typescript-eslint/eslint-plugin": "^8.4.0",
+    "core-js": "^3.38.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.18.9",
-    "@babel/core": "^7.18.9",
-    "@babel/preset-env": "^7.18.9",
-    "@babel/preset-typescript": "^7.22.5",
-    "@jest/globals": "^29.6.1",
-    "@rollup/plugin-babel": "^5.3.1",
-    "@rollup/plugin-node-resolve": "^13.3.0",
-    "@types/jest": "^29.5.3",
-    "@typescript-eslint/eslint-plugin": "^6.20.0",
-    "@typescript-eslint/parser": "^6.20.0",
-    "eslint": "^8.56.0",
+    "@babel/cli": "^7.25.6",
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
+    "@babel/preset-typescript": "^7.24.7",
+    "@jest/globals": "^29.7.0",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@types/jest": "^29.5.12",
+    "@typescript-eslint/parser": "^8.4.0",
+    "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-formatter-table": "^7.32.1",
-    "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jsdoc": "^39.3.3",
-    "rimraf": "^5.0.1",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-jsdoc": "^39.9.1",
+    "rimraf": "^6.0.1",
     "safe-publish-latest": "^2.0.0",
-    "ts-jest": "^29.1.1",
-    "typescript": "^5.3.3"
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.5.4"
   }
 }

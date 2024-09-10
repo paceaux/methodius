@@ -42,12 +42,11 @@ function getUnion(
 ): Array<string> {
   const array1 = Array.isArray(iterable1) ? iterable1 : [...iterable1.keys()];
   const array2 = Array.isArray(iterable2) ? iterable2 : [...iterable2.keys()];
-  const set: Set<string> = new Set();
+  const set: Set<string> = new Set(array1);
 
-  array1.forEach((char) => set.add(char));
-  array2.forEach((char) => set.add(char));
+  const union = set.union(new Set(array2));
 
-  return [...set];
+  return [...union];
 }
 
 /** A Two dimensional array  where the first array is unique items from a first parameter, second is items from second */

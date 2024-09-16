@@ -1,4 +1,11 @@
 import { NGramSequence } from './functions.analysis';
+// @ts-ignore
+import union from 'set.prototype.union';
+// @ts-ignore
+import intersection from 'set.prototype.intersection';
+
+union.shim();
+intersection.shim();
 
 /** An array of items that occur in two iterables */
 type Intersection = Array<string>;
@@ -16,13 +23,8 @@ function getIntersection(
   const array1 = Array.isArray(iterable1) ? iterable1 : [...iterable1.keys()];
   const array2 = Array.isArray(iterable2) ? iterable2 : [...iterable2.keys()];
 
-  const intersection: Array<string> = [];
-
-  array1.forEach((entry) => {
-    if (array2.includes(entry) && !intersection.includes(entry)) {
-      intersection.push(entry);
-    }
-  });
+  const set = new Set(array1);
+  const intersection: Array<string> = [...set.intersection(new Set(array2))];
 
   return intersection;
 }

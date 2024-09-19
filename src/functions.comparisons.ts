@@ -5,10 +5,13 @@ import union from 'set.prototype.union';
 import intersection from 'set.prototype.intersection';
 // @ts-ignore
 import symmetricDifference from 'set.prototype.symmetricDifference';
+// @ts-ignore
+import difference from 'set.prototype.difference';
 
 union.shim();
 intersection.shim();
 symmetricDifference.shim();
+difference.shim();
 
 /** An array of items that occur in two iterables */
 type Intersection = Array<string>;
@@ -89,6 +92,28 @@ function getDisjunctiveUnion(
   return disjunctiveUnion2dArray;
 
 }
+
+/**
+ * @description returns the items unique only to the first iterable
+ * @param  {Map|Array} iterable1 A map or array
+ * @param  {Map|Array} iterable2 A map or array
+ * @returns {Array<string>} An array of arrays of the unique items. The first item is the first parameter, 2nd item second param
+ */
+function getDifference(
+  iterable1: Map<string, string> | Array<string>,
+  iterable2: Map<string, string> | Array<string>,
+) {
+  const array1 = Array.isArray(iterable1) ? iterable1 : [...iterable1.keys()];
+  const array2 = Array.isArray(iterable2) ? iterable2 : [...iterable2.keys()];
+
+  const set1 = new Set(array1);
+  const set2 = new Set(array2);
+
+  const difference = set1.difference(set2);
+
+  return [...difference];
+}
+
 /** The type of way that two NGramSequences can be evaluated */
 type SequenceComparisonType = 'intersection' | 'disjunctiveUnion';
 
@@ -116,6 +141,7 @@ export {
   getIntersection,
   getUnion,
   getDisjunctiveUnion,
+  getDifference,
   getComparison,
   SequenceComparisonType,
   SequenceComparison,

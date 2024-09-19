@@ -3,9 +3,12 @@ import { NGramSequence } from './functions.analysis';
 import union from 'set.prototype.union';
 // @ts-ignore
 import intersection from 'set.prototype.intersection';
+// @ts-ignore
+import symmetricDifference from 'set.prototype.symmetricDifference';
 
 union.shim();
 intersection.shim();
+symmetricDifference.shim();
 
 /** An array of items that occur in two iterables */
 type Intersection = Array<string>;
@@ -67,11 +70,24 @@ function getDisjunctiveUnion(
   const array1 = Array.isArray(iterable1) ? iterable1 : [...iterable1.keys()];
   const array2 = Array.isArray(iterable2) ? iterable2 : [...iterable2.keys()];
 
-  const intersection = getIntersection(array1, array2);
-  const set1 = array1.filter((entry) => !intersection.includes(entry));
-  const set2 = array2.filter((entry) => !intersection.includes(entry));
+  const set1 = new Set(array1);
+  const set2 = new Set(array2);
 
-  return [set1, set2];
+  const disjunctiveUnionSet = set1.symmetricDifference(set2);
+
+  const disjunctiveUnion2dArray: DisjunctiveUnion = [[], []];
+
+  disjunctiveUnionSet.forEach((item) => {
+    if (set1.has(item)) {
+      disjunctiveUnion2dArray[0].push(item);
+    }
+    if (set2.has(item)) {
+      disjunctiveUnion2dArray[1].push(item);
+    }
+  });
+
+  return disjunctiveUnion2dArray;
+
 }
 /** The type of way that two NGramSequences can be evaluated */
 type SequenceComparisonType = 'intersection' | 'disjunctiveUnion';

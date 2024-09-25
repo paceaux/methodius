@@ -1,10 +1,10 @@
-// @ts-ignore
+// @ts-expect-error the npm package isn't written in TS
 import union from 'set.prototype.union';
-// @ts-ignore
+// @ts-expect-error the npm package isn't written in TS
 import intersection from 'set.prototype.intersection';
-// @ts-ignore
-import symmetricDifference from 'set.prototype.symmetricDifference';
-// @ts-ignore
+// @ts-expect-error the npm package isn't written in TS
+import symmetricDifference from 'set.prototype.symmetricdifference';
+// @ts-expect-error the npm package isn't written in TS
 import difference from 'set.prototype.difference';
 import { NGramSequence } from './functions.analysis';
 
@@ -30,9 +30,9 @@ function getIntersection(
   const array2 = Array.isArray(iterable2) ? iterable2 : [...iterable2.keys()];
 
   const set = new Set(array1);
-  const intersection: Array<string> = [...set.intersection(new Set(array2))];
+  const iterableIntersection: Array<string> = [...set.intersection(new Set(array2))];
 
-  return intersection;
+  return iterableIntersection;
 }
 
 /** an array of items that is the union (joining) of  two iterables */
@@ -52,9 +52,9 @@ function getUnion(
   const array2 = Array.isArray(iterable2) ? iterable2 : [...iterable2.keys()];
   const set: Set<string> = new Set(array1);
 
-  const union = set.union(new Set(array2));
+  const iterableUnion = set.union(new Set(array2));
 
-  return [...union];
+  return [...iterableUnion];
 }
 
 /** A Two dimensional array  where the first array is unique items from a first parameter, second is items from second */
@@ -108,9 +108,9 @@ function getDifference(
   const set1 = new Set(array1);
   const set2 = new Set(array2);
 
-  const difference = set1.difference(set2);
+  const iterableDifference = set1.difference(set2);
 
-  return [...difference];
+  return [...iterableDifference];
 }
 
 /** The type of way that two NGramSequences can be evaluated */

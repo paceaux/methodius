@@ -1,4 +1,3 @@
-import { NGramSequence } from './functions.analysis';
 // @ts-ignore
 import union from 'set.prototype.union';
 // @ts-ignore
@@ -7,6 +6,7 @@ import intersection from 'set.prototype.intersection';
 import symmetricDifference from 'set.prototype.symmetricDifference';
 // @ts-ignore
 import difference from 'set.prototype.difference';
+import { NGramSequence } from './functions.analysis';
 
 union.shim();
 intersection.shim();
@@ -90,7 +90,6 @@ function getDisjunctiveUnion(
   });
 
   return disjunctiveUnion2dArray;
-
 }
 
 /**

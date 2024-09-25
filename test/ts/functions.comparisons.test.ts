@@ -3,7 +3,7 @@ import {
   getIntersection,
   getUnion,
   getDisjunctiveUnion,
-  getDifference
+  getDifference,
 } from '../../src/functions.comparisons';
 
 describe('comparisons', () => {
@@ -177,7 +177,7 @@ describe('comparisons', () => {
       expect(difference.includes('ll')).toEqual(true);
       expect(difference.includes('lo')).toEqual(true);
       expect(difference.includes('he')).toEqual(false);
-      expect(difference.includes('el')).toEqual(false);;
+      expect(difference.includes('el')).toEqual(false);
     });
   });
 });

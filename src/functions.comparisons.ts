@@ -97,7 +97,7 @@ function getDisjunctiveUnion(
  * @description returns the items unique only to the first iterable
  * @param  {Map|Array} iterable1 A map or array
  * @param  {Map|Array} iterable2 A map or array
- * @returns {Array<string>} An array of arrays of the unique items. The first item is the first parameter, 2nd item second param
+ * @returns {Array<string>} An array of items that are unique to the first iterable
  */
 function getDifference(
   iterable1: Map<string, string> | Array<string>,
@@ -115,7 +115,7 @@ function getDifference(
 }
 
 /** The type of way that two NGramSequences can be evaluated */
-type SequenceComparisonType = 'intersection' | 'disjunctiveUnion';
+type SequenceComparisonType = 'intersection' | 'disjunctiveUnion | union | difference-AB | difference-BA';
 
 /** A map containing various comparisons between two iterables */
 type SequenceComparison = Map<SequenceComparisonType, Intersection | DisjunctiveUnion>;
@@ -133,7 +133,9 @@ function getComparison(
   const comparison = new Map();
   comparison.set('intersection', getIntersection(iterable1, iterable2));
   comparison.set('disjunctiveUnion', getDisjunctiveUnion(iterable1, iterable2));
-
+  comparison.set('difference-AB', getDifference(iterable1, iterable2));
+  comparison.set('difference-BA', getDifference(iterable2, iterable1));
+  comparison.set('union', getDifference(iterable2, iterable1));
   return comparison;
 }
 

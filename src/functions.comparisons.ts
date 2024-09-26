@@ -1,4 +1,17 @@
+// @ts-expect-error the npm package isn't written in TS
+import union from 'set.prototype.union';
+// @ts-expect-error the npm package isn't written in TS
+import intersection from 'set.prototype.intersection';
+// @ts-expect-error the npm package isn't written in TS
+import symmetricDifference from 'set.prototype.symmetricdifference';
+// @ts-expect-error the npm package isn't written in TS
+import difference from 'set.prototype.difference';
 import { NGramSequence } from './functions.analysis';
+
+union.shim();
+intersection.shim();
+symmetricDifference.shim();
+difference.shim();
 
 /** An array of items that occur in two iterables */
 type Intersection = Array<string>;
@@ -16,15 +29,10 @@ function getIntersection(
   const array1 = Array.isArray(iterable1) ? iterable1 : [...iterable1.keys()];
   const array2 = Array.isArray(iterable2) ? iterable2 : [...iterable2.keys()];
 
-  const intersection: Array<string> = [];
+  const set = new Set(array1);
+  const iterableIntersection: Array<string> = [...set.intersection(new Set(array2))];
 
-  array1.forEach((entry) => {
-    if (array2.includes(entry) && !intersection.includes(entry)) {
-      intersection.push(entry);
-    }
-  });
-
-  return intersection;
+  return iterableIntersection;
 }
 
 /** an array of items that is the union (joining) of  two iterables */
@@ -42,12 +50,11 @@ function getUnion(
 ): Array<string> {
   const array1 = Array.isArray(iterable1) ? iterable1 : [...iterable1.keys()];
   const array2 = Array.isArray(iterable2) ? iterable2 : [...iterable2.keys()];
-  const set: Set<string> = new Set();
+  const set: Set<string> = new Set(array1);
 
-  array1.forEach((char) => set.add(char));
-  array2.forEach((char) => set.add(char));
+  const iterableUnion = set.union(new Set(array2));
 
-  return [...set];
+  return [...iterableUnion];
 }
 
 /** A Two dimensional array  where the first array is unique items from a first parameter, second is items from second */
@@ -66,14 +73,48 @@ function getDisjunctiveUnion(
   const array1 = Array.isArray(iterable1) ? iterable1 : [...iterable1.keys()];
   const array2 = Array.isArray(iterable2) ? iterable2 : [...iterable2.keys()];
 
-  const intersection = getIntersection(array1, array2);
-  const set1 = array1.filter((entry) => !intersection.includes(entry));
-  const set2 = array2.filter((entry) => !intersection.includes(entry));
+  const set1 = new Set(array1);
+  const set2 = new Set(array2);
 
-  return [set1, set2];
+  const disjunctiveUnionSet = set1.symmetricDifference(set2);
+
+  const disjunctiveUnion2dArray: DisjunctiveUnion = [[], []];
+
+  disjunctiveUnionSet.forEach((item) => {
+    if (set1.has(item)) {
+      disjunctiveUnion2dArray[0].push(item);
+    }
+    if (set2.has(item)) {
+      disjunctiveUnion2dArray[1].push(item);
+    }
+  });
+
+  return disjunctiveUnion2dArray;
 }
+
+/**
+ * @description returns the items unique only to the first iterable
+ * @param  {Map|Array} iterable1 A map or array
+ * @param  {Map|Array} iterable2 A map or array
+ * @returns {Array<string>} An array of items that are unique to the first iterable
+ */
+function getDifference(
+  iterable1: Map<string, string> | Array<string>,
+  iterable2: Map<string, string> | Array<string>,
+) {
+  const array1 = Array.isArray(iterable1) ? iterable1 : [...iterable1.keys()];
+  const array2 = Array.isArray(iterable2) ? iterable2 : [...iterable2.keys()];
+
+  const set1 = new Set(array1);
+  const set2 = new Set(array2);
+
+  const iterableDifference = set1.difference(set2);
+
+  return [...iterableDifference];
+}
+
 /** The type of way that two NGramSequences can be evaluated */
-type SequenceComparisonType = 'intersection' | 'disjunctiveUnion';
+type SequenceComparisonType = 'intersection' | 'disjunctiveUnion | union | difference-AB | difference-BA';
 
 /** A map containing various comparisons between two iterables */
 type SequenceComparison = Map<SequenceComparisonType, Intersection | DisjunctiveUnion>;
@@ -91,7 +132,9 @@ function getComparison(
   const comparison = new Map();
   comparison.set('intersection', getIntersection(iterable1, iterable2));
   comparison.set('disjunctiveUnion', getDisjunctiveUnion(iterable1, iterable2));
-
+  comparison.set('difference-AB', getDifference(iterable1, iterable2));
+  comparison.set('difference-BA', getDifference(iterable2, iterable1));
+  comparison.set('union', getDifference(iterable2, iterable1));
   return comparison;
 }
 
@@ -99,6 +142,7 @@ export {
   getIntersection,
   getUnion,
   getDisjunctiveUnion,
+  getDifference,
   getComparison,
   SequenceComparisonType,
   SequenceComparison,

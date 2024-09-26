@@ -10,7 +10,12 @@ import {
 } from './functions.ngrams';
 import { getFrequencyMap, getPercentMap, getTopGrams } from './functions.metrics.ngrams';
 import {
-  getIntersection, getUnion, getDisjunctiveUnion, getComparison, SequenceComparison,
+  getIntersection,
+  getUnion,
+  getDisjunctiveUnion,
+  getDifference,
+  getComparison,
+  SequenceComparison,
 } from './functions.comparisons';
 import {
   getWordPlacementForNGram,
@@ -80,6 +85,8 @@ export default class Methodius {
   static getUnion = getUnion;
 
   static getDisjunctiveUnion = getDisjunctiveUnion;
+
+  static getDifference = getDifference;
 
   static getComparison = getComparison;
 

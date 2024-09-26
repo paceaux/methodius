@@ -3,6 +3,7 @@ import {
   getIntersection,
   getUnion,
   getDisjunctiveUnion,
+  getDifference,
 } from '../../src/functions.comparisons';
 
 describe('comparisons', () => {
@@ -135,6 +136,48 @@ describe('comparisons', () => {
       const [set1, set2] = getDisjunctiveUnion(map1, map2);
       expect(set1).toEqual(map1);
       expect(set2).toEqual(map2);
+    });
+  });
+  describe('difference', () => {
+    it('will get the difference of two maps', () => {
+      const map1 = new Map([
+        ['he', 1],
+        ['el', 1],
+        ['ll', 1],
+        ['lo', 1],
+      ]);
+      const map2 = new Map([
+        ['he', 1],
+        ['el', 1],
+        ['lp', 1],
+        ['ps', 1],
+      ]);
+
+      const difference = getDifference(map1, map2);
+      expect(difference.includes('ll')).toEqual(true);
+      expect(difference.includes('lo')).toEqual(true);
+      expect(difference.includes('he')).toEqual(false);
+      expect(difference.includes('el')).toEqual(false);
+    });
+    it('will get a difference of two arrays', () => {
+      const map1 = [
+        'he',
+        'el',
+        'll',
+        'lo',
+      ];
+      const map2 = [
+        'he',
+        'el',
+        'lp',
+        'ps',
+      ];
+
+      const difference = getDifference(map1, map2);
+      expect(difference.includes('ll')).toEqual(true);
+      expect(difference.includes('lo')).toEqual(true);
+      expect(difference.includes('he')).toEqual(false);
+      expect(difference.includes('el')).toEqual(false);
     });
   });
 });

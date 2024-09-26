@@ -190,7 +190,7 @@ Note: This doesn't use sentence punctuation as a boundary. Should it?
 `Map<string, number>`
 
 #### `getIntersection(iterable1, iterable2)`
-returns an array of items that occur in both iterables
+Returns an array of items that occur in both iterables
  
 **Parameters**
 | name  | type  | Description   |
@@ -216,7 +216,7 @@ Returns an array that is the union of two iterables
 A union of the items that occur in both iterables. 
 
 #### `getDisjunctiveUnion(iterable1, iterable2)`
-returns an array of arrays of the unique items in either iterable
+Returns an array of arrays of the unique items in either iterable. Also known as the symmetric difference
  
 **Parameters**
 | name  | type  | Description   |
@@ -228,8 +228,21 @@ returns an array of arrays of the unique items in either iterable
 `Array<Array<any>` 
 An array of arrays of the unique items. The first item is the first parameter, 2nd item second param
 
+#### `getDifference`
+Returns an array of items that are unique only to the first parameter. 
+
+**Parameters**
+| name  | type  | Description   |
+| ---   |---    | ---           |
+| iterable1      |   `Map|Array`    |               |
+| iterable2      |   `Map|Array`    |               |
+
+**Returns**
+`Array<Array<any>`
+An array of items unique only to the first parameter
+
 #### `getComparison(iterable1, iterable2)`
-returns a map containing various comparisons between two iterables
+Returns a map containing various comparisons between two iterables
  
 **Parameters**
 | name  | type  | Description   |
@@ -239,7 +252,7 @@ returns a map containing various comparisons between two iterables
 
 **Returns**
 `Map<string, <array>>` 
-A map containing various comparisons between two iterables. Those comparisons will be some kind of array (See intersection or disjunctiveUnion)
+A map containing various comparisons between two iterables. Those comparisons will be arrays of intersection, disjunctiveUnion, difference, and union.
 
 #### `getWordPlacementForNGram(ngram, wordsArray)`
 determines the placement of a single ngram in an array of words

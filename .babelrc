@@ -4,7 +4,7 @@
             "@babel/preset-env",
             {
                 "targets" : {
-                    "node" : "14",
+                    "node" : "20",
                     "browsers" : [
                         "> 1%",
                         "last 2 node versions",
@@ -15,7 +15,7 @@
                 "corejs" : 3
             }
         ],
-        '@babel/preset-typescript'
+        "@babel/preset-typescript"
     ],
     "sourceType": "module",
     "sourceMap": true

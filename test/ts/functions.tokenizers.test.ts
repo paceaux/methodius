@@ -38,11 +38,17 @@ describe('tokenization', () => {
   });
   it('can normalize and sanitize Latin text', () => {
     expect(sanitizeText('Hello World')).toEqual('hello world');
-    expect(sanitizeText('Héllö ñ Wòrld')).toEqual('hello n world');
+    expect(sanitizeText('Héllö ñ Wòrld ç')).toEqual('hello n world c');
   });
   it('can normalize and sanitize Latin text and turn off changing the casing', () => {
     expect(sanitizeText('Hello World', false)).toEqual('Hello World');
-    expect(sanitizeText('Héllö ñ Wòrld', false)).toEqual('Hello n World');
+    expect(sanitizeText('Héllö ñ Wòrld Ç', false)).toEqual('Hello n World C');
+  });
+  it('can only remove diacritics and not casing', () => {
+    expect(sanitizeText('Élève', false)).toEqual('Eleve');
+  });
+  it('can only remove diacritics and casing', () => {
+    expect(sanitizeText('Élève')).toEqual('eleve');
   });
   it('can get words from a string', () => {
     expect(getWords('hello world')).toEqual(['hello', 'world']);

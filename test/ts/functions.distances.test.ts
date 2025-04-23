@@ -39,18 +39,30 @@ describe('distancing', () => {
       const hammingDistance = getHammingDistance(string1, string2);
       expect(hammingDistance.distance).toEqual(0);
     });
-    it('can recognize diacritics and consider them edits', () => {
+    it('will optionally count casing', () => {
+      const string1 = 'meat';
+      const string2 = 'Meat';
+      const hammingDistance = getHammingDistance(string1, string2, false);
+      expect(hammingDistance.distance).toEqual(1);
+      expect(hammingDistance.percentDifferent).toEqual(0.25);
+    });
+    it('will optionally count diacritics', () => {
       const string1 = 'eleve';
       const string2 = 'élève';
-      const hammingDistance = getHammingDistance(string1, string2, false);
+      const hammingDistance = getHammingDistance(string1, string2, false, true);
       expect(hammingDistance.distance).toEqual(2);
     });
-    it('will optionally consider casing', () => {
-      const string1 = 'meat';
-      const string2 = 'Meet';
-      const hammingDistance = getHammingDistance(string1, string2, false);
+    it('can optionally count casing AND diacritics', () => {
+      const string1 = 'eleve';
+      const string2 = 'Elève';
+      const hammingDistance = getHammingDistance(string1, string2, false, true);
       expect(hammingDistance.distance).toEqual(2);
-      expect(hammingDistance.percentDifferent).toEqual(0.5);
+    });
+    it('if counting case and diacritics, an uppercased diacritic is not extra', () => {
+      const string1 = 'eleve';
+      const string2 = 'Élève';
+      const hammingDistance = getHammingDistance(string1, string2, false, true);
+      expect(hammingDistance.distance).toEqual(2);
     });
   });
   describe('levenshtein', () => {

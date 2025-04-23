@@ -20,25 +20,31 @@ type HammingDistanceResult = {
  * @description Finds the edit distance between two same-sized strings
  * @param {string} string1 - A string to compare
  * @param {string} string2 - A string to compare
- * @param {boolean } shouldSanitize - remove diacritics and lowercase the strings
+ * @param {boolean } [shouldCountCase=true] - Whether casing counts as an edit
+ * @param {boolean } [shouldCountDacritics=false] - Whether casing counts as an edit
  * @returns {HammingDistanceResult} - an object with the distance and percentage of difference
  */
 function getHammingDistance(
   string1: string,
   string2: string,
-  shouldSanitize: boolean = true,
+  shouldCountCase: boolean = true,
+  shouldCountDiacritics: boolean = false,
 ) : HammingDistanceResult {
   if (typeof string1 !== 'string' || typeof string2 !== 'string') {
     throw new Error('Both arguments must be a string.');
   }
 
-  const sanitizedString1 = shouldSanitize
-    ? sanitizeText(string1).trim()
-    : string1.trim();
-  const sanitizedString2 = shouldSanitize
-    ? sanitizeText(string2).trim()
-    : string2.trim();
+  let sanitizedString1 =  sanitizeText(string1, shouldCountCase).trim();
+  let sanitizedString2 =  sanitizeText(string2, shouldCountCase).trim();
 
+  if (shouldCountDiacritics) {
+    sanitizedString1 = shouldCountCase
+      ? sanitizedString1.toLowerCase()
+      : string1;
+    sanitizedString2 = shouldCountCase
+      ? sanitizedString2.toLowerCase()
+      : string2;
+  }
   let distance = 0;
 
   [...sanitizedString1].forEach((char, str1CharIndex) => {
@@ -47,7 +53,7 @@ function getHammingDistance(
     }
   });
 
-  const percentage = (distance / string1.length);
+  const percentage = (distance / sanitizedString1.length);
   const hammingDistance : HammingDistanceResult = {
     distance,
     percentDifferent: percentage,

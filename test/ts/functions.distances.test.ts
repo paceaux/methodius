@@ -127,18 +127,35 @@ describe('distancing', () => {
       const levenshtein2 = getLevenshteinDistance(string2, string1);
       expect(levenshtein1.distance).toEqual(levenshtein2.distance);
     });
-
     it('ignores diacritics by default', () => {
-      const string1 = 'résumé';
-      const string2 = 'resume';
-      const levenshtein = getLevenshteinDistance(string1, string2);
-      expect(levenshtein.distance).toEqual(0);
+      const string1 = 'eleve';
+      const string2 = 'élèves';
+      const levenshteinDistance = getLevenshteinDistance(string1, string2);
+      expect(levenshteinDistance.distance).toEqual(1);
     });
-    it('can recognize diacritics and consider them edits', () => {
-      const string1 = 'résumé';
-      const string2 = 'resume';
-      const levenshtein = getLevenshteinDistance(string1, string2, false);
-      expect(levenshtein.distance).toEqual(2);
+    it('will optionally count casing', () => {
+      const string1 = 'meat';
+      const string2 = 'Meats';
+      const levenshteinDistance = getLevenshteinDistance(string1, string2, false);
+      expect(levenshteinDistance.distance).toEqual(2);
+    });
+    it('will optionally count diacritics', () => {
+      const string1 = 'eleve';
+      const string2 = 'élèves';
+      const levenshteinDistance = getLevenshteinDistance(string1, string2, false, true);
+      expect(levenshteinDistance.distance).toEqual(3);
+    });
+    it('can optionally count casing AND diacritics', () => {
+      const string1 = 'eleve';
+      const string2 = 'Elèves';
+      const levenshteinDistance = getLevenshteinDistance(string1, string2, false, true);
+      expect(levenshteinDistance.distance).toEqual(3);
+    });
+    it('if counting case and diacritics, an uppercased diacritic is not extra', () => {
+      const string1 = 'eleve';
+      const string2 = 'Élève';
+      const levenshteinDistance = getLevenshteinDistance(string1, string2, false, true);
+      expect(levenshteinDistance.distance).toEqual(2);
     });
   });
 });

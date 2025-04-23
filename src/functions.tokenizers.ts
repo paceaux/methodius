@@ -39,16 +39,22 @@ function hasSpace(text: string): boolean {
 /**
  * @description lowercases text and removes diacritics and other characters that would throw off n-gram analysis
  * @param  {string} text - string to sanitize
- * @returns {string} - string that is all lowercase and without Hebrew diacritics
+ * @param  {boolean} [shouldLowerCase=true] - also make the string lowercase
+ * @returns {string} - string that is optionally lowercased and without Hebrew diacritics
  */
-function sanitizeText(text:string): string {
+function sanitizeText(text:string, shouldLowerCase: boolean = true): string {
   const stringWithoutDiacritics = text
     .replace(/\u05BE/g, '-')
     .replace(/[\u0591-\u05C7]/g, '')
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '');
 
-  return stringWithoutDiacritics.toLowerCase();
+
+  const casedString = shouldLowerCase 
+    ? stringWithoutDiacritics.toLowerCase()
+    : stringWithoutDiacritics;
+
+  return casedString;
 }
 
 /**

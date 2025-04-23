@@ -40,6 +40,10 @@ describe('tokenization', () => {
     expect(sanitizeText('Hello World')).toEqual('hello world');
     expect(sanitizeText('Héllö ñ Wòrld')).toEqual('hello n world');
   });
+  it('can normalize and sanitize Latin text and turn off changing the casing', () => {
+    expect(sanitizeText('Hello World', false)).toEqual('Hello World');
+    expect(sanitizeText('Héllö ñ Wòrld', false)).toEqual('Hello n World');
+  });
   it('can get words from a string', () => {
     expect(getWords('hello world')).toEqual(['hello', 'world']);
     expect(getWords('hello,world')).toEqual(['hello', 'world']);

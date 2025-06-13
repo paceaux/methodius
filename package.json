@@ -41,6 +41,7 @@
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^8.4.0",
     "core-js": "^3.38.1",
+    "jaro-winkler-typescript": "^1.0.1",
     "js-levenshtein": "^1.1.6",
     "set.prototype.difference": "^1.1.6",
     "set.prototype.intersection": "^1.1.7",

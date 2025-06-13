@@ -17,9 +17,10 @@ function sortFrequencyMap(unsortedMap: FrequencyMap) : FrequencyMap {
 /**
  * @description converts an array of strings into a map of those strings and number of occurences
  * @param  {NGram[]} ngramArray - array of ngrams
+ * @param {boolean} [sortDescending] - sort the frequency map in descending order
  * @returns {FrequencyMap} - map of ngrams and their frequencies
  */
-function getFrequencyMap(ngramArray: NGram[]) : FrequencyMap {
+function getFrequencyMap(ngramArray: NGram[], sortDescending = true) : FrequencyMap {
   const frequencies = new Map();
   ngramArray.forEach((ngram) => {
     if (frequencies.has(ngram)) {
@@ -28,6 +29,12 @@ function getFrequencyMap(ngramArray: NGram[]) : FrequencyMap {
       frequencies.set(ngram, 1);
     }
   });
+
+  const sortedFrequencies = 
+    sortDescending
+    ? sortFrequencyMap(frequencies)
+    : frequencies;
+
   return frequencies;
 }
 

@@ -8,7 +8,7 @@ import { FrequencyMap } from './functions.analysis';
  */
 function sortFrequencyMap(unsortedMap: FrequencyMap) : FrequencyMap {
   const sortedFrequencyArray = [...unsortedMap].sort(
-    (entry1 , entry2) => entry2[1] - entry1[1],
+    (entry1, entry2) => entry2[1] - entry1[1],
   );
 
   const sortedFrequencyMap = new Map(sortedFrequencyArray);
@@ -20,7 +20,7 @@ function sortFrequencyMap(unsortedMap: FrequencyMap) : FrequencyMap {
  * @param {boolean} [sortDescending] - sort the frequency map in descending order
  * @returns {FrequencyMap} - map of ngrams and their frequencies
  */
-function getFrequencyMap(ngramArray: NGram[], sortDescending = true) : FrequencyMap {
+function getFrequencyMap(ngramArray: NGram[], sortDescending: boolean = true) : FrequencyMap {
   const frequencies = new Map();
   ngramArray.forEach((ngram) => {
     if (frequencies.has(ngram)) {
@@ -30,8 +30,7 @@ function getFrequencyMap(ngramArray: NGram[], sortDescending = true) : Frequency
     }
   });
 
-  const sortedFrequencies = 
-    sortDescending
+  const sortedFrequencies = sortDescending
     ? sortFrequencyMap(frequencies)
     : frequencies;
 

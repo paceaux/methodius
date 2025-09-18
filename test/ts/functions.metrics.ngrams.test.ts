@@ -69,4 +69,4 @@ describe('sortFrequencyMap', () => {
     expect(sortedAsArray[3][0]).toEqual('er');
     expect(sortedAsArray[4][0]).toEqual('rs');
   });
-})
+});

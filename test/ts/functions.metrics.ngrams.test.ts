@@ -3,6 +3,7 @@ import {
   getFrequencyMap,
   getPercentMap,
   getTopGrams,
+  sortFrequencyMap,
 } from '../../src/functions.metrics.ngrams';
 
 describe('getFrequencyMap', () => {
@@ -35,5 +36,37 @@ describe('gettopGrams', () => {
     expect(topGrams.has('ll')).toEqual(true);
     expect(topGrams.has('lo')).toEqual(false);
     expect(topGrams.get('ll')).toEqual(2);
+  });
+});
+describe('sortFrequencyMap', () => {
+  it('takes a map out of order and makes it descending', () => {
+    const map = new Map([
+      ['re', 2],
+      ['er', 2],
+      ['th', 6],
+      ['he', 5],
+    ]);
+    const sorted = sortFrequencyMap(map);
+    const sortedAsArray = [...sorted.entries()];
+    expect(sortedAsArray[0][0]).toEqual('th');
+    expect(sortedAsArray[1][0]).toEqual('he');
+    expect(sortedAsArray[2][0]).toEqual('re');
+    expect(sortedAsArray[3][0]).toEqual('er');
+  });
+  it('takes a map out of order and makes it descending', () => {
+    const map = new Map([
+      ['re', 2],
+      ['er', 2],
+      ['th', 6],
+      ['he', 5],
+      ['rs', 1],
+    ]);
+    const sorted = sortFrequencyMap(map);
+    const sortedAsArray = [...sorted.entries()];
+    expect(sortedAsArray[0][0]).toEqual('th');
+    expect(sortedAsArray[1][0]).toEqual('he');
+    expect(sortedAsArray[2][0]).toEqual('re');
+    expect(sortedAsArray[3][0]).toEqual('er');
+    expect(sortedAsArray[4][0]).toEqual('rs');
   });
 });

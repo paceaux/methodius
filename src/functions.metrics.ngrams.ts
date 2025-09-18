@@ -1,11 +1,26 @@
 import { NGram } from './types';
 import { FrequencyMap } from './functions.analysis';
+
+/**
+ * @description sorts a frequency map in descending order
+ * @param  {FrequencyMap} unsortedMap - A frequency map
+ * @returns {FrequencyMap} - map of ngrams and their frequencies in descending order
+ */
+function sortFrequencyMap(unsortedMap: FrequencyMap) : FrequencyMap {
+  const sortedFrequencyArray = [...unsortedMap].sort(
+    (entry1, entry2) => entry2[1] - entry1[1],
+  );
+
+  const sortedFrequencyMap = new Map(sortedFrequencyArray);
+  return sortedFrequencyMap;
+}
 /**
  * @description converts an array of strings into a map of those strings and number of occurences
  * @param  {NGram[]} ngramArray - array of ngrams
+ * @param {boolean} [sortDescending] - sort the frequency map in descending order
  * @returns {FrequencyMap} - map of ngrams and their frequencies
  */
-function getFrequencyMap(ngramArray: NGram[]) : FrequencyMap {
+function getFrequencyMap(ngramArray: NGram[], sortDescending: boolean = true) : FrequencyMap {
   const frequencies = new Map();
   ngramArray.forEach((ngram) => {
     if (frequencies.has(ngram)) {
@@ -14,7 +29,12 @@ function getFrequencyMap(ngramArray: NGram[]) : FrequencyMap {
       frequencies.set(ngram, 1);
     }
   });
-  return frequencies;
+
+  const sortedFrequencies = sortDescending
+    ? sortFrequencyMap(frequencies)
+    : frequencies;
+
+  return sortedFrequencies;
 }
 
 /**
@@ -50,4 +70,5 @@ export {
   getFrequencyMap,
   getPercentMap,
   getTopGrams,
+  sortFrequencyMap,
 };

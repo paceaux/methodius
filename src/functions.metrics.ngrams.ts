@@ -34,7 +34,7 @@ function getFrequencyMap(ngramArray: NGram[], sortDescending: boolean = true) : 
     ? sortFrequencyMap(frequencies)
     : frequencies;
 
-  return frequencies;
+  return sortedFrequencies;
 }
 
 /**

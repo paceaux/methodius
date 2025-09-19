@@ -32,6 +32,27 @@ describe('distancing', () => {
       const hammingDistance1 = getHammingDistance(string1, string2);
       const hammingDistance2 = getHammingDistance(string2, string1);
       expect(hammingDistance1.distance).toEqual(hammingDistance2.distance);
+      console.log({hammingDistance1});
+    });
+    it('is able to calculate correctly', () => {
+      const string1 = 'feet';
+      const string2 = 'feal';
+      const hammingDistance1 = getHammingDistance(string1, string2);
+      expect(hammingDistance1.distance).toEqual(2);
+      console.log({hammingDistance1});
+    });
+    it('is able to calculate, again', () => {
+      const string1 = 'feet';
+      const string2 = 'foal';
+      const hammingDistance1 = getHammingDistance(string1, string2);
+      expect(hammingDistance1.distance).toEqual(3);
+    });
+    it('is able to calculate totally different words', () => {
+      const string1 = 'feet';
+      const string2 = 'goal';
+      const hammingDistance1 = getHammingDistance(string1, string2);
+      expect(hammingDistance1.distance).toEqual(4);
+      expect(hammingDistance1.percentDifferent).toEqual(1);
     });
     it('ignores diacritics by default', () => {
       const string1 = 'eleve';
